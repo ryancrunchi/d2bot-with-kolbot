@@ -5,375 +5,73 @@
 */
 
 var D2Bot = {
-	handle: 0,
-
-	init: function () {
-		var handle = DataFile.getStats().handle;
-
-		if (handle) {
-			this.handle = handle;
+	printToConsole: function (msg, color) {
+		if (arguments.length < 2) {
+			sendCopyData(null, "D2Bot #", 0, "printToConsole;" + msg);
+		} else {
+			sendCopyData(null, "D2Bot #", 0, "printToConsole;" + msg + ";" + color);
 		}
-
-		return this.handle;
 	},
+	printToItemLog: function (msg, tooltip, code, color1, color2, header, gid) {
+		header = header || "";
+		gid = gid || "";
 
-	sendMessage: function (handle, mode, msg) {
-		sendCopyData(null, handle, mode, msg);
+		sendCopyData(null, "D2Bot #", 0, "printToItemLog;" + msg + "$" + tooltip + "$" + code + "$" + header + "$" + gid + ";" + color1 + ";" + color2 + ";" + header);
 	},
-
-	printToConsole: function (msg, color, tooltip, trigger) {
-		var printObj = {
-				msg: msg,
-				color: color || 0,
-				tooltip: tooltip || "",
-				trigger: trigger || ""
-			},
-
-			obj = {
-				profile: me.profile,
-				func: "printToConsole",
-				args: [JSON.stringify(printObj)]
-			};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
+	saveItem: function (filename, tooltip, code, color1, color2) {
+		sendCopyData(null, "D2Bot #", 0, "saveItem;" + filename + "$" + tooltip + "$" + code + ";" + color1 + ";" + color2);
 	},
-
-	printToItemLog: function (itemObj) {
-		var obj = {
-				profile: me.profile,
-				func: "printToItemLog",
-				args: [JSON.stringify(itemObj)]
-			};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	uploadItem: function (itemObj) {
-		var obj = {
-				profile: me.profile,
-				func: "uploadItem",
-				args: [JSON.stringify(itemObj)]
-			};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	writeToFile: function (filename, msg) {
-		var obj = {
-			profile: me.profile,
-			func: "writeToFile",
-			args: [filename, msg]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	postToIRC: function (ircProfile, recepient, msg) {
-		var obj = {
-			profile: me.profile,
-			func: "postToIRC",
-			args: [ircProfile, recepient, msg]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	ircEvent: function (mode) {
-		var obj = {
-			profile: me.profile,
-			func: "ircEvent",
-			args: [mode ? "true" : "false"]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	notify: function (msg) {
-		var obj = {
-			profile: me.profile,
-			func: "notify",
-			args: [msg]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	saveItem: function (itemObj) {
-		var obj = {
-				profile: me.profile,
-				func: "saveItem",
-				args: [JSON.stringify(itemObj)]
-			};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
 	updateStatus: function (msg) {
-		var obj = {
-			profile: me.profile,
-			func: "updateStatus",
-			args: [msg]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
+		sendCopyData(null, "D2Bot #", 0, "updateStatus;" + msg);
 	},
-
 	updateRuns: function () {
-		var obj = {
-			profile: me.profile,
-			func: "updateRuns",
-			args: []
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
+		sendCopyData(null, "D2Bot #", 0, "updateRuns");
 	},
-
 	updateChickens: function () {
-		var obj = {
-			profile: me.profile,
-			func: "updateChickens",
-			args: []
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
+		sendCopyData(null, "D2Bot #", 0, "updateChickens");
 	},
-
-	updateDeaths: function () {
-		var obj = {
-			profile: me.profile,
-			func: "updateDeaths",
-			args: []
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
 	requestGameInfo: function () {
-		var obj = {
-			profile: me.profile,
-			func: "requestGameInfo",
-			args: []
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
+		sendCopyData(null, "D2Bot #", 0, "requestGameInfo");
+		delay(500);
 	},
-
-	restart: function (keySwap) {
-		var obj = {
-			profile: me.profile,
-			func: "restartProfile",
-			args: arguments.length > 0 ? [me.profile, keySwap] : [me.profile]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	CDKeyInUse: function () {
-		var obj = {
-			profile: me.profile,
-			func: "CDKeyInUse",
-			args: []
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	CDKeyDisabled: function () {
-		var obj = {
-			profile: me.profile,
-			func: "CDKeyDisabled",
-			args: []
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	CDKeyRD: function () {
-		var obj = {
-			profile: me.profile,
-			func: "CDKeyRD",
-			args: []
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	stop: function (profile, release) {
-		if (!profile) {
-			profile = me.profile;
+	restart: function (reset) {
+		if (arguments.length > 0) {
+			sendCopyData(null, "D2Bot #", 0, "restartProfile;" + reset.toString());
+		} else {
+			sendCopyData(null, "D2Bot #", 0, "restartProfile");
 		}
-
-		var obj = {
-			profile: me.profile,
-			func: "stop",
-			args: [profile, release ? "True" : "False"]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
 	},
-
+	CDKeyInUse: function () {
+		sendCopyData(null, "D2Bot #", 0, "CDKeyInUse");
+	},
+	CDKeyDisabled: function () {
+		sendCopyData(null, "D2Bot #", 0, "CDKeyDisabled");
+	},
+	CDKeyRD: function () {
+		sendCopyData(null, "D2Bot #", 0, "CDKeyRD");
+	},
+	joinMe: function (window, gameName, gameCount, gamePass, isUp) {
+		sendCopyData(null, window, 1, gameName + gameCount + "/" + gamePass + "/" + isUp);
+	},
+	requestGame: function (who) {
+		sendCopyData(null, who, 3, me.profile);
+	},
+	stop: function () {
+		sendCopyData(null, "D2Bot #", 0, "stop"); //this stops current window
+	},
 	start: function (profile) {
-		var obj = {
-			profile: me.profile,
-			func: "start",
-			args: [profile]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
+		sendCopyData(null, "D2Bot #", 0, "start;" + profile); //this starts a particular profile.ini
 	},
-
-	startSchedule: function (profile) {
-		var obj = {
-			profile: me.profile,
-			func: "startSchedule",
-			args: [profile]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	stopSchedule: function (profile) {
-		var obj = {
-			profile: me.profile,
-			func: "stopSchedule",
-			args: [profile]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
 	updateCount: function () {
-		var obj = {
-			profile: me.profile,
-			func: "updateCount",
-			args: ["1"]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
+		sendCopyData(null, "D2Bot #", 0, "updateCount;" + getIP());
 	},
-
 	shoutGlobal: function (msg, mode) {
-		var obj = {
-			profile: me.profile,
-			func: "shoutGlobal",
-			args: [msg, mode]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
+		sendCopyData(null, "D2Bot #", 0, "shoutGlobal;" + msg + ";" + mode.toString() + ";");
 	},
-
 	heartBeat: function () {
-		var obj = {
-			profile: me.profile,
-			func: "heartBeat",
-			args: []
-		};
-
-		//print("ÿc1Heart beat " + this.handle);
-		sendCopyData(null, this.handle, 0xbbbb, JSON.stringify(obj));
-	},
-
-	sendWinMsg: function (wparam, lparam) {
-		var obj = {
-			profile: me.profile,
-			func: "winmsg",
-			args: [wparam, lparam]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	ingame: function () {
-		this.sendWinMsg(0x0086, 0x0000);
-		this.sendWinMsg(0x0006, 0x0002);
-		this.sendWinMsg(0x001c, 0x0000);
-	},
-
-	// Profile to profile communication
-	joinMe: function (profile, gameName, gameCount, gamePass, isUp) {
-		var obj = {
-			gameName: gameName + gameCount,
-			gamePass: gamePass,
-			inGame: isUp === "yes"
-		};
-
-		sendCopyData(null, profile, 1, JSON.stringify(obj));
-	},
-
-	requestGame: function (profile) {
-		var obj = {
-			profile: me.profile
-		};
-
-		sendCopyData(null, profile, 3, JSON.stringify(obj));
-	},
-
-	getProfile: function () {
-		var obj = {
-			profile: me.profile,
-			func: "getProfile",
-			args: []
-		};
-
-        sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	setProfile: function (account, password, character, difficulty, realm, infoTag, gamePath) {
-		var obj = {
-			profile: me.profile,
-			func: "setProfile",
-			args: [account, password, character, difficulty, realm, infoTag, gamePath]
-		};
-
-        sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	setTag: function (tag) {
-		var obj = {
-			profile: me.profile,
-			func: "setTag",
-			args: [JSON.stringify(tag)]
-		};
-
-        sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	// Store info in d2bot# cache
-	store: function (info) {
-		this.remove();
-
-		var obj = {
-			profile: me.profile,
-			func: "store",
-			args: [me.profile, info]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	// Get info from d2bot# cache
-	retrieve: function () {
-		var obj = {
-			profile: me.profile,
-			func: "retrieve",
-			args: [me.profile]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
-	},
-
-	// Delete info from d2bot# cache
-	remove: function () {
-		var obj = {
-			profile: me.profile,
-			func: "delete",
-			args: [me.profile]
-		};
-
-		sendCopyData(null, this.handle, 0, JSON.stringify(obj));
+		sendCopyData(null, "D2Bot #", 0, "heartBeat");
 	}
 };
-
 var DataFile = {
 	create: function () {
 		var obj, string;
@@ -384,20 +82,12 @@ var DataFile = {
 			deaths: 0,
 			lastArea: "",
 			gold: 0,
-			level: 0,
-			name: "",
-			gameName: "",
-			ingameTick: 0,
-			handle: 0,
-			nextGame: ""
+			level: 0
 		};
 
 		string = JSON.stringify(obj);
 
-		//FileTools.writeText("data/" + me.profile + ".json", string);
-		Misc.fileAction("data/" + me.profile + ".json", 1, string);
-
-		return obj;
+		FileTools.writeText("data/" + me.profile + ".json", string);
 	},
 
 	getObj: function () {
@@ -407,159 +97,95 @@ var DataFile = {
 			DataFile.create();
 		}
 
-		//string = FileTools.readText("data/" + me.profile + ".json");
-		string = Misc.fileAction("data/" + me.profile + ".json", 0);
-
+		string = FileTools.readText("data/" + me.profile + ".json");
 		try {
 			obj = JSON.parse(string);
-		} catch (e) {
+		}
+		catch (e) {
 			// If we failed, file might be corrupted, so create a new one
-			obj = this.create();
+			this.create();
+			obj = JSON.parse(string);
 		}
 
-		if (obj) {
-			return obj;
-		}
-
-		print("Error reading DataFile. Using null values.");
-
-		return {runs: 0, experience: 0, lastArea: "", gold: 0, level: 0, name: "", gameName: "", ingameTick: 0, handle: 0, nextGame: ""};
+		return obj;
 	},
 
 	getStats: function () {
 		var obj = this.getObj();
 
-		return Misc.clone(obj);
+		return {runs: obj.runs, experience: obj.experience, lastArea: obj.lastArea, gold: obj.gold, level: obj.level};
 	},
 
 	updateStats: function (arg, value) {
-		while (me.ingame && !me.gameReady) {
-			delay(100);
-		}
-
-		var i, obj, string,
-			statArr = [];
-
-		if (typeof arg === "object") {
-			statArr = arg.slice();
-		}
-
-		if (typeof arg === "string") {
-			statArr.push(arg);
-		}
+		var obj, string;
 
 		obj = this.getObj();
 
-		for (i = 0; i < statArr.length; i += 1) {
-			switch (statArr[i]) {
-			case "experience":
-				obj.experience = me.getStat(13);
-				obj.level = me.getStat(12);
+		switch (arg) {
+		case "runs":
+			obj.runs = value;
 
-				break;
-			case "lastArea":
-				if (obj.lastArea === Pather.getAreaName(me.area)) {
-					return;
-				}
+			break;
+		case "experience":
+			obj.experience = me.getStat(13);
+			obj.level = me.getStat(12);
 
-				obj.lastArea = Pather.getAreaName(me.area);
-
-				break;
-			case "gold":
-				if (!me.gameReady) {
-					break;
-				}
-
-				obj.gold = me.getStat(14) + me.getStat(15);
-
-				break;
-			case "name":
-				obj.name = me.name;
-
-				break;
-			case "ingameTick":
-				obj.ingameTick = getTickCount();
-
-				break;
-			case "deaths":
-				obj.deaths = (obj.deaths || 0) + 1;
-
-				break;
-			default:
-				obj[statArr[i]] = value;
-
-				break;
+			break;
+		case "lastArea":
+			if (obj.lastArea === getArea().name) {
+				return;
 			}
+
+			obj.lastArea = getArea().name;
+
+			break;
+		case "gold":
+			obj.gold = me.getStat(14) + me.getStat(15);
+
+			break;
 		}
 
 		string = JSON.stringify(obj);
 
-		//FileTools.writeText("data/" + me.profile + ".json", string);
-		Misc.fileAction("data/" + me.profile + ".json", 1, string);
+		FileTools.writeText("data/" + me.profile + ".json", string);
+	},
+
+	updateDeaths: function () {
+		var obj, string;
+
+		obj = this.getObj();
+		obj.deaths = obj.deaths + 1;
+		string = JSON.stringify(obj);
+
+		FileTools.writeText("data/" + me.profile + ".json", string);
 	}
 };
 
 var ControlAction = {
-	mutedKey: false,
-
-	timeoutDelay: function (text, time, stopfunc, arg) {
-		var currTime = 0,
-			endTime = getTickCount() + time;
-
-		while (getTickCount() < endTime) {
-			if (typeof stopfunc === "function" && stopfunc(arg)) {
-				break;
-			}
-
-			if (currTime !== Math.floor((endTime - getTickCount()) / 1000)) {
-				currTime = Math.floor((endTime - getTickCount()) / 1000);
-
-				D2Bot.updateStatus(text + " (" + Math.max(currTime, 0)  + "s)");
-			}
-
-			delay(10);
-		}
-	},
-
 	click: function (type, x, y, xsize, ysize, targetx, targety) {
 		var control = getControl(type, x, y, xsize, ysize);
 
 		if (!control) {
-			print("control not found " + type + " " + x + " " + y + " location " + getLocation());
-
+			print("control not found " + type + " " + x + " " + y);
 			return false;
 		}
 
+		//delay(clickdelay);
+		delay(200);
 		control.click(targetx, targety);
 
 		return true;
 	},
 
 	setText: function (type, x, y, xsize, ysize, text) {
-		if (!text) {
-			return false;
-		}
-
-		var currText,
-			control = getControl(type, x, y, xsize, ysize);
+		var control = getControl(type, x, y, xsize, ysize);
 
 		if (!control) {
 			return false;
 		}
 
-		currText = control.text;
-
-		if (currText && currText === text) {
-			return true;
-		}
-
-		currText = control.getText();
-
-		if (currText && ((typeof currText === "string" && currText === text) || (typeof currText === "object" && currText.indexOf(text) > -1))) {
-			return true;
-		}
-
-		//delay(200);
+		//delay(textdelay);
+		delay(200);
 		control.setText(text);
 
 		return true;
@@ -573,112 +199,6 @@ var ControlAction = {
 		}
 
 		return control.getText();
-	},
-
-	joinChannel: function (channel) {
-		me.blockMouse = true;
-
-		var i, currChan, tick,
-			rval = false,
-			timeout = 5000;
-
-MainLoop:
-		while (true) {
-			switch (getLocation()) {
-			case 1: // Lobby
-				this.click(6, 27, 480, 120, 20);
-
-				break;
-			case 3: // Chat
-				currChan = this.getText(4, 28, 138, 354, 60); // returns array
-
-				if (currChan) {
-					for (i = 0; i < currChan.length; i += 1) {
-						if (currChan[i].split(" (") && currChan[i].split(" (")[0].toLowerCase() === channel.toLowerCase()) {
-							rval = true;
-
-							break MainLoop;
-						}
-					}
-				}
-
-				if (!tick) {
-					this.click(6, 535, 490, 80, 20);
-
-					tick = getTickCount();
-				}
-
-				break;
-			case 7: // Channel
-				this.setText(1, 432, 162, 155, 20, channel);
-				this.click(6, 671, 433, 96, 32);
-
-				break;
-			}
-
-			if (getTickCount() - tick >= timeout) {
-				break MainLoop;
-			}
-
-			delay(100);
-		}
-
-		me.blockMouse = false;
-
-		return rval;
-	},
-
-	createGame: function (name, pass, diff, delay) {
-		var control;
-
-		ControlAction.setText(1, 432, 162, 158, 20, name);
-		ControlAction.setText(1, 432, 217, 158, 20, pass);
-
-		switch (diff) {
-		case "Normal":
-			ControlAction.click(6, 430, 381, 16, 16);
-
-			break;
-		case "Nightmare":
-			ControlAction.click(6, 555, 381, 16, 16);
-
-			break;
-		case "Highest":
-			control = getControl(6, 698, 381, 16, 16);
-
-			if (control.disabled !== 4) {
-				ControlAction.click(6, 698, 381, 16, 16); // Click Hell
-
-				break;
-			}
-
-			control = getControl(6, 555, 381, 16, 16);
-
-			if (control.disabled !== 4) {
-				ControlAction.click(6, 555, 381, 16, 16); // Click Nightmare
-
-				break;
-			}
-
-			ControlAction.click(6, 430, 381, 16, 16); // Click Normal
-
-			break;
-		default:
-			ControlAction.click(6, 698, 381, 16, 16); // Click Hell
-
-			break;
-		}
-
-		if (delay) {
-			this.timeoutDelay("Make Game Delay", delay);
-		}
-
-		me.blockMouse = true;
-
-		print("Creating Game: " + name);
-		ControlAction.click(6, 594, 433, 172, 32);
-
-		me.blockMouse = false;
 	},
 
 	clickRealm: function (realm) {
@@ -742,21 +262,15 @@ MainLoop:
 	loginAccount: function (info) {
 		me.blockMouse = true;
 
-		var tick, locTick,
-			realms = {
-				"uswest": 0,
-				"useast": 1,
-				"asia": 2,
-				"europe": 3
-			};
+		var realms = {
+			"uswest": 0,
+			"useast": 1,
+			"asia": 2,
+			"europe": 3
+		};
 
-		tick = getTickCount();
-
-MainLoop:
-		while (true) {
+		while (getLocation() !== 12 && getLocation() !== 42) {
 			switch (getLocation()) {
-			case 0:
-				break;
 			case 8: // main menu
 				if (info.realm) {
 					ControlAction.clickRealm(realms[info.realm]);
@@ -771,49 +285,21 @@ MainLoop:
 				this.click(6, 264, 484, 272, 35); // log in
 
 				break;
-			case 11:
-			case 13: // realm down
-				// Unable to connect, let the caller handle it.
+			case 10: // login error - let the starter handle it
+				ControlAction.click(6, 335, 412, 128, 35);
+
 				me.blockMouse = false;
 
 				return false;
-			case 12: // char screen - break
-				break MainLoop;
 			case 18: // splash
 				this.click(2, 0, 599, 800, 600);
 
 				break;
-			case 16: // please wait
-			case 21: // connecting
-			case 23: // char screen connecting
-				break;
-			case 42: // empty char screen
-				// make sure we're not on connecting screen
-				locTick = getTickCount();
-
-				while (getTickCount() - locTick < 3000 && getLocation() === 42) {
-					delay(25);
-				}
-
-				// char screen connecting
-				if (getLocation() === 23) {
-					break;
-				}
-
-				break MainLoop; // break if we're sure we're on empty char screen
 			default:
-				print(getLocation());
-
-				me.blockMouse = false;
-
-				return false;
+				break;
 			}
 
-			if (getTickCount() - tick >= 20000) {
-				return false;
-			}
-
-			delay(100);
+			delay(500);
 		}
 
 		delay(1000);
@@ -848,10 +334,6 @@ MainLoop:
 				this.click(2, 0, 599, 800, 600);
 
 				break;
-			case 29: // Char create
-				this.click(6, 33, 572, 128, 35);
-
-				break;
 			case 31: // ToU
 				this.click(6, 525, 513, 128, 35);
 
@@ -879,7 +361,7 @@ MainLoop:
 				break;
 			}
 
-			delay(100);
+			delay(500);
 		}
 
 		me.blockMouse = false;
@@ -888,17 +370,7 @@ MainLoop:
 	},
 
 	findCharacter: function (info) {
-		var control, text, tick;
-
-		tick = getTickCount();
-
-		while (getLocation() !== 12) {
-			if (getTickCount() - tick >= 5000) {
-				break;
-			}
-
-			delay(25);
-		}
+		var control, text;
 
 		if (getLocation() === 12) {
 			control = getControl(4, 37, 178, 200, 92);
@@ -987,18 +459,12 @@ MainLoop:
 				break;
 			case 42: // empty character select
 				this.click(6, 33, 572, 128, 35);
-
 				break;
-			case 14: // disconnected?
-			case 30: // player not found?
-				me.blockMouse = false;
-
-				return false;
 			default:
 				break;
 			}
 
-			delay(100);
+			delay(500);
 		}
 
 		me.blockMouse = false;
@@ -1013,21 +479,12 @@ MainLoop:
 			info.charClass = "barbarian";
 		}
 
-		var control,
-			clickCoords = [];
+		var clickCoords = [];
 
 		while (getLocation() !== 1) { // cycle until in lobby
 			switch (getLocation()) {
 			case 12: // character select
 			case 42: // empty character select
-				control = getControl(6, 33, 528, 168, 60);
-
-				if (control && control.disabled === 4) { // Create Character greyed out
-					me.blockMouse = false;
-
-					return false;
-				}
-
 				this.click(6, 33, 528, 168, 60);
 
 				break;
@@ -1098,9 +555,8 @@ MainLoop:
 				}
 
 				break;
-			case 30: // char name exists (text box 4, 268, 320, 264, 120)
+			case 30: // char name exists
 				ControlAction.click(6, 351, 337, 96, 32);
-				ControlAction.click(6, 33, 572, 128, 35);
 
 				me.blockMouse = false;
 
@@ -1115,68 +571,34 @@ MainLoop:
 		me.blockMouse = false;
 
 		return true;
-	},
-
-	// Test version - modified core only
-	getGameList: function () {
-		var i, text, gameList;
-
-		text = this.getText(4, 432, 393, 160, 173);
-
-		if (text) {
-			gameList = [];
-
-			for (i = 0; i < text.length; i += 1) {
-				gameList.push({
-					gameName: text[i][0],
-					players: text[i][1]
-				});
-			}
-
-			return gameList;
-		}
-
-		return false;
 	}
 };
 
 var ShitList = {
 	create: function () {
-		var string,
-			obj = {
-				shitlist: []
-			};
+		obj = {
+			shitlist: []
+		};
 
 		string = JSON.stringify(obj);
 
-		//FileTools.writeText("shitlist.json", string);
-		Misc.fileAction("shitlist.json", 1, string);
+		FileTools.writeText("shitlist.json", string);
+	},
+
+	getObj: function () {
+		string = FileTools.readText("shitlist.json");
+		try {
+			obj = JSON.parse(string);
+		}
+		catch (e) {
+			this.create();
+		}
 
 		return obj;
 	},
 
-	getObj: function () {
-		var obj,
-			//string = FileTools.readText("shitlist.json");
-			string = Misc.fileAction("shitlist.json", 0);
-
-		try {
-			obj = JSON.parse(string);
-		} catch (e) {
-			obj = this.create();
-		}
-
-		if (obj) {
-			return obj;
-		}
-
-		print("Failed to read ShitList. Using null values");
-
-		return {shitlist: []};
-	},
-
 	read: function () {
-		var obj;
+		var obj, string;
 
 		if (!FileTools.exists("shitlist.json")) {
 			this.create();
@@ -1196,7 +618,6 @@ var ShitList = {
 
 		string = JSON.stringify(obj);
 
-		//FileTools.writeText("shitlist.json", string);
-		Misc.fileAction("shitlist.json", 1, string);
+		FileTools.writeText("shitlist.json", string);
 	}
 };
