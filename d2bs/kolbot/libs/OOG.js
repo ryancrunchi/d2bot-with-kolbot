@@ -1215,6 +1215,91 @@ MainLoop:
 		}
 
 		return false;
+	},
+
+	// Click a game in the games list, by scrolling automatically if needed.
+	clickGame: function(gameName) {
+		if (!gameName || gameName.length == 0) {
+			return false;
+		}
+		var gameListControl = getControl(4, 432, 393, 160, 173);
+		if (gameListControl) {
+			var text = gameListControl.getText();
+			if (text) {
+				var gamesPerPage = 9;
+				var gameEntryHeight = Math.round(gameListControl.ysize/gamesPerPage);
+				for (var i = 0; i < text.length; i++) {
+					if (text[i][0] == gameName) {
+						var topListY = gameListControl.y - gameListControl.ysize; // top of list
+						var midX = gameListControl.x + Math.round(gameListControl.xsize/2); // mid X list coord
+						if (i >= gameListControl.selectstart && i <= gameListControl.selectstart+gamesPerPage-1) {
+							var indexClick = i-gameListControl.selectstart;
+							var y = Math.round(topListY + indexClick*gameEntryHeight + gameEntryHeight/2);
+							gameListControl.click(midX, y);
+							return true;
+						}
+						else {
+							var scrollX = gameListControl.x + gameListControl.xsize + 5; // scrollbar X coord
+							var topScrollY = topListY+15; // scrollbar top Y coord
+							var bottomScrollY = gameListControl.y-15; // scrollbar bottom Y coord
+							if (i > gameListControl.selectstart+gamesPerPage-1) {
+								// scroll bottom
+								gameListControl.click(scrollX, bottomScrollY);
+								return this.clickGame(gameName);
+							}
+							else {
+								// scroll top
+								gameListControl.click(scrollX, topScrollY);
+								return this.clickGame(gameName);
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
+	},
+
+	// Returns the elapsed time of the game in seconds, by looking at elapsed time info.
+	// Returns -1 if the elapsed time could not be found.
+	// gameName : The game name to look for, if not set, will look at current selected game info.
+	getGameElapsedTime: function(gameName) {
+		var gameInfoControl = getControl(4, 609, 393, 143, 194);
+		if (gameName) {
+			if (this.clickGame(gameName)) {
+				var i = 0;
+				while(!gameInfoControl && i < 30) {
+					delay(100);
+					gameInfoControl = getControl(4, 609, 393, 143, 194);
+					i++;
+				}
+			}
+			else {
+				return -1;
+			}
+		}
+		if (gameInfoControl) {
+			var text = gameInfoControl.getText();
+			var i = 0;
+			while(!text && i < 30) {
+				delay(100);
+				text = gameInfoControl.getText();
+				i++;
+			}
+			if (text) {
+				for (var i = 0; i < text.length; i++) {
+					var timeRegExp = /\d+:\d{2}:\d{2}/i;
+					var match = text[i].match(timeRegExp);
+					if (match) {
+						var values = match[0].split(":");
+						var date = new Date(0, 0, 0, values[0], values[1], values[2], 0);
+						var elapsedSeconds = date.getHours()*3600 + date.getMinutes()*60 + date.getSeconds();
+						return elapsedSeconds;
+					}
+				}
+			}
+		}
+		return -1;
 	}
 };
 
