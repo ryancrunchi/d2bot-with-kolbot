@@ -316,6 +316,9 @@ var Config = {
 
 	// Script specific
 	MFLeader: false,
+	MFHelper: {
+		HealBetweenCommands: false
+	},
 	Mausoleum: {
 		KillBloodRaven: false,
 		ClearCrypt: false

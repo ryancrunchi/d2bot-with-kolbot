@@ -210,6 +210,10 @@ MainLoop:
 
 						if (!me.inTown && !Pather.usePortal(null, player.name)) {
 							Town.goToTown();
+							if (Config.MFHelper.HealBetweenCommands) {
+								Town.heal();
+								Town.move("portalspot");
+							}
 						}
 					} else {
 						print("Failed to use portal.");
@@ -232,6 +236,10 @@ MainLoop:
 
 						if (!Pather.usePortal(null, player.name)) {
 							Town.goToTown();
+							if (Config.MFHelper.HealBetweenCommands) {
+								Town.heal();
+								Town.move("portalspot");
+							}
 						}
 					} else {
 						print("Failed to use portal.");
@@ -266,6 +274,10 @@ MainLoop:
 
 						if (!me.inTown && !Pather.usePortal(null, player.name)) {
 							Town.goToTown();
+							if (Config.MFHelper.HealBetweenCommands) {
+								Town.heal();
+								Town.move("portalspot");
+							}
 						}
 					} else {
 						print("Failed to use portal.");
@@ -290,6 +302,10 @@ MainLoop:
 
 						if (!Pather.usePortal(null, player.name)) {
 							Town.goToTown();
+							if (Config.MFHelper.HealBetweenCommands) {
+								Town.heal();
+								Town.move("portalspot");
+							}
 						}
 					} else {
 						print("Failed to use portal.");
@@ -311,6 +327,10 @@ MainLoop:
 
 						if (!Pather.usePortal(null, player.name)) {
 							Town.goToTown();
+							if (Config.MFHelper.HealBetweenCommands) {
+								Town.heal();
+								Town.move("portalspot");
+							}
 						}
 					} else {
 						print("Failed to use portal.");
