@@ -195,52 +195,38 @@ NTIP.GetTier = function (item) {
 	return tier;
 };
 
+// Returns the check list entry if the item matches a pickit entry without tier property.
+// This is used when autoequip is enabled to avoid loosing item that should be kept from another pickit entry.
+// e.g. Bot should autoequip mara 20 with tier 50, then find mara 30 with tier 55.
+// It will auto equip mara 30 and throw away mara 20, unless it is in another pickit entry without tier (thanks to this function).
 NTIP.ExistsWithoutTier = function(item) {
-	var i,
-		tier = 0;
-	var keep = false;
-	var withTier = 0;
-	var withoutTier = 0;
 	var withoutTierItem, info;
 
-	// Go through ALL lines that describe the item
-	for (i = 0; i < NTIP_CheckList.length; i += 1) {
+	for (var i = 0; i < NTIP_CheckList.length; i ++) {
 		try {
 			if (NTIP_CheckList[i][0] && NTIP_CheckList[i][0].length > 0) {
 				if (eval(NTIP_CheckList[i][0])) {
 					if (NTIP_CheckList[i][1] && NTIP_CheckList[i][1].length > 0) {
 						if (eval(NTIP_CheckList[i][1])) {
-							if (NTIP_CheckList[i][2] && NTIP_CheckList[i][2].hasOwnProperty("Tier") && NTIP_CheckList[i][2].Tier != 0) {
-								withTier++;
-							}
-							else {
+							if (!NTIP_CheckList[i][2] || !NTIP_CheckList[i][2].hasOwnProperty("Tier") || NTIP_CheckList[i][2].Tier == 0) {
 								withoutTierItem = NTIP_CheckList[i];
 								info = stringArray[i].file + " #" + stringArray[i].line;
-								withoutTier++;
 								break;
 							}
 						}
 					} else {
-						if (NTIP_CheckList[i][2] && NTIP_CheckList[i][2].hasOwnProperty("Tier") && NTIP_CheckList[i][2].Tier != 0) {
-							withTier++;
-						}
-						else {
+						if (!NTIP_CheckList[i][2] || !NTIP_CheckList[i][2].hasOwnProperty("Tier") || NTIP_CheckList[i][2].Tier == 0) {
 							withoutTierItem = NTIP_CheckList[i];
 							info = stringArray[i].file + " #" + stringArray[i].line;
-							withoutTier++;
 							break;
 						}
 					}
 				}
 			} else if (NTIP_CheckList[i][1] && NTIP_CheckList[i][1].length > 0) {
 				if (eval(NTIP_CheckList[i][1])) {
-					if (NTIP_CheckList[i][2] && NTIP_CheckList[i][2].hasOwnProperty("Tier") && NTIP_CheckList[i][2].Tier != 0) {
-						withTier++;
-					}
-					else {
+					if (!NTIP_CheckList[i][2] || !NTIP_CheckList[i][2].hasOwnProperty("Tier") || NTIP_CheckList[i][2].Tier == 0) {
 						withoutTierItem = NTIP_CheckList[i];
 						info = stringArray[i].file + " #" + stringArray[i].line;
-						withoutTier++;
 						break;
 					}
 				}
@@ -254,17 +240,15 @@ NTIP.ExistsWithoutTier = function(item) {
 	if (withoutTierItem) {
 		print("Exists without tier at "+info);
 	}
-	// rval.line = stringArray[i].file + " #" + stringArray[i].line;
 
 	return withoutTierItem;
 };
 
 NTIP.GetMercTier = function(item) {
-	var i,
-		tier = 0;
+	var tier = 0;
 
 	// Go through ALL lines that describe the item
-	for (i = 0; i < NTIP_CheckList.length; i += 1) {
+	for (var i = 0; i < NTIP_CheckList.length; i += 1) {
 		if (NTIP_CheckList[i].length === 3 && NTIP_CheckList[i][2].hasOwnProperty("Tier") && !isNaN(NTIP_CheckList[i][2].Tier)) {
 			try {
 				if (NTIP_CheckList[i][0].length > 0) {

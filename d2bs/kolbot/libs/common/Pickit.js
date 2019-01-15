@@ -64,6 +64,8 @@ var Pickit = {
 			};
 		}
 
+		// Pickit entry may keep a unid high tier item (>= 100)
+		// We need to check if item is id
 		if (Item.autoEquipCheck(unit) && unit.getFlag(0x10)) {
 			return {
 				result: 7,
@@ -71,6 +73,8 @@ var Pickit = {
 			};
 		}
 
+		// Pickit entry may keep a unid high merc tier item (<= -100)
+		// We need to check if item is id
 		if (Item.autoEquipMercCheck(unit) && unit.getFlag(0x10)) {
 			return {
 				result: 8,
@@ -79,8 +83,9 @@ var Pickit = {
 		}
 
 		if (Item.hasTier(unit)) {
-			// item has tier, but not high enough, check to see if it should be kept anyway
+			// item has tier, but not high enough
 			if (unit.getFlag(0x10)) {
+				// If item is id, check to see if it should be kept without tier
 				var existingWithoutTier = NTIP.ExistsWithoutTier(unit);
 				if (existingWithoutTier) {
 					return NTIP.CheckItem(unit, [existingWithoutTier], true);
@@ -88,9 +93,9 @@ var Pickit = {
 				else {
 					rval.result = 0;
 				}
-				rval.result = NTIP.ExistsWithoutTier(unit) ? 1 : 0;
 			}
 			else {
+				// need id
 				rval.result = -1;
 			}
 		}
@@ -155,7 +160,7 @@ var Pickit = {
 				// Check if the item should be picked
 				status = this.checkItem(pickList[0]);
 
-				if (this.canPick(pickList[0]) && status.result) {
+				if (status.result && this.canPick(pickList[0])) {
 					// Override canFit for scrolls, potions and gold
 					canFit = Storage.Inventory.CanFit(pickList[0]) || [4, 22, 76, 77, 78].indexOf(pickList[0].itemType) > -1;
 
@@ -375,13 +380,56 @@ MainLoop:
 				// 7 - Auto equip wants
 				// 8 - Auto equip merc wants
 			case 1:
-				print("ÿc7Picked up " + stats.color + stats.name + " ÿc0(ilvl " + stats.ilvl + (keptLine ? ") (" + keptLine + ")" : ")"));
-
-				if (this.ignoreLog.indexOf(stats.type) === -1) {
-					Misc.itemLogger("Kept", item);
-					Misc.logItem("Kept", item, keptLine);
+			case 7:
+			case 8:
+				var printString = "ÿc7Picked up " + stats.color + stats.name + " ÿc0(ilvl " + stats.ilvl + (keptLine ? ") (" + keptLine + ")" : ")");
+				var log = "Kept";
+				if (status == 7) {
+					printString += " (auto equip tier "+stats.tier+")";
+					log += " (auto equip tier "+stats.tier+")";
 				}
+				if (status == 8) {
+					printString += " (auto equip merc tier "+stats.mercTier+")";
+					log += " (auto equip merc tier "+stats.tier+")";
+				}
+				print(printString);
 
+				if (this.forceLog.indexOf(stats.classid) !== -1) {
+					Misc.itemLogger(log, item);
+					Misc.logItem(log, item, keptLine);
+				}
+				else if (this.ignoreLog.indexOf(stats.type) === -1) {
+					Misc.itemLogger(log, item);
+
+					if (["pk1", "pk2", "pk3"].indexOf(item.code) > -1 && !TorchSystem.LogKeys) {
+						break;
+					}
+
+					if (["dhn", "bey", "mbr"].indexOf(item.code) > -1 && !TorchSystem.LogOrgans) {
+						break;
+					}
+
+					if (["r01", "r02", "r03", "r04", "r05", "r06", "r07", "r08", "r09", "r10", "r11", "r12", "r13", "r14"].indexOf(item.code) > -1 && !Config.ShowLowRunes) {
+						break;
+					}
+
+					if (["r15", "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23"].indexOf(item.code) > -1 && !Config.ShowMiddleRunes) {
+						break;
+					}
+
+					if (["r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31", "r32", "r33"].indexOf(item.code) > -1 && !Config.ShowHighRunes) {
+						break;
+					}
+
+					if (["gcv", "gcy", "gcb", "gcg", "gcr", "gcw", "skc", "gfv", "gfy", "gfb", "gfg", "gfr", "gfw", "skf", "gsv", "gsy", "gsb", "gsg", "gsr", "gsw", "sku"].indexOf(item.code) > -1 && !Config.ShowLowGems) {
+						break;
+					}
+
+					if (["glv", "gly", "glb", "glg", "glr", "glw", "skl", "gpv", "gpy", "gpb", "gpg", "gpr", "gpw", "skz"].indexOf(item.code) > -1 && !Config.ShowHighGems) {
+						break;
+					}
+					Misc.logItem(log, item, keptLine);
+				}
 				break;
 
 			case 2:

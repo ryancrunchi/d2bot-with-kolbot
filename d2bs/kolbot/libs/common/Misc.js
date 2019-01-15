@@ -605,8 +605,6 @@ var Item = {
 
 				if (item.bodylocation === bodyLoc) {
 					if (getCursorType() === 3) {
-						//Misc.click(0, 0, me);
-
 						cursorItem = getUnit(100);
 						if (cursorItem) {
 							var shouldKeep = Pickit.checkItem(cursorItem).result > 0 && (NTIP.GetTier(cursorItem) == 0 || NTIP.GetTier(cursorItem) > 99 || NTIP.GetMercTier(cursorItem) < -99);
@@ -614,7 +612,7 @@ var Item = {
 								if (!Storage.Inventory.CanFit(cursorItem) || !Storage.Inventory.MoveTo(cursorItem)) {
 									if (!Storage.Stash.CanFit(cursorItem) || !Storage.Stash.MoveTo(cursorItem)) {
 										cursorItem.drop();
-										delay(me.ping*2+500);
+										delay(me.ping*2);
 										Pickit.pickItems();
 									}
 								}
@@ -643,9 +641,6 @@ var Item = {
 			return true;
 		}
 
-		print("item.bodylocation "+item.bodylocation);
-		print("item.mode "+item.mode);
-
 		var i, cursorItem;
 
 		for (i = 0; i < 3; i += 1) {
@@ -656,8 +651,6 @@ var Item = {
 
 				if (item.bodylocation === bodyLoc) {
 					if (getCursorType() === 3) {
-						//Misc.click(0, 0, me);
-
 						cursorItem = getUnit(100);
 						if (cursorItem) {
 							var shouldKeep = Pickit.checkItem(cursorItem).result > 0 && (NTIP.GetMercTier(cursorItem) == 0 || NTIP.GetMercTier(cursorItem) < -99); // -100 tier for merc
@@ -718,7 +711,7 @@ var Item = {
 		return {
 			classid: -1,
 			tier: -1,
-			name: "none",
+			name: "",
 			str: 0,
 			dex: 0
 		};
@@ -748,7 +741,7 @@ var Item = {
 		return {
 			classid: -1,
 			tier: 0,
-			name: "none",
+			name: "",
 			str: 0,
 			dex: 0
 		};
@@ -847,16 +840,14 @@ var Item = {
 
 		// keep high tier
 		if (tier >= 100) {
-			//print(item.name+" is good to equip (tier "+tier+")");
 			return true;
 		}
 
 		if (tier > 0 && bodyLoc) {
 			for (i = 0; i < bodyLoc.length; i += 1) {
-				// Low tier items shouldn't be kept if they can't be equipped
 				var currentTier = this.getEquippedItem(bodyLoc[i]).tier;
 				if (tier > currentTier && this.canEquip(item)) {
-					print(item.name+" (tier "+tier+")  >  equipped (tier "+currentTier+")");
+					// found better tier to equip
 					return true;
 				}
 			}
@@ -886,12 +877,9 @@ var Item = {
 
 		if (tier < 0 && bodyLoc) {
 			for (i = 0; i < bodyLoc.length; i++) {
-				// Low tier items shouldn't be kept if they can't be equipped
 				var currentTier = this.getMercEquippedItem(bodyLoc[i]).tier;
-				//print("merc tier "+currentTier+" for bodylocation "+bodyLoc[i]);
-				var canEquip = this.mercCanEquip(item);
-				if (tier < currentTier && (canEquip || !item.getFlag(0x10))) {
-					print(item.name+" is better to equip merc (tier "+tier+", current "+currentTier+")");
+				if (tier < currentTier && this.mercCanEquip(item)) {
+					// found better tier to equip merc
 					return true;
 				}
 			}
@@ -901,10 +889,8 @@ var Item = {
 	},
 
 	// returns true if the item should be kept+logged, false if not
-	autoEquip: function (force = false) {
-		//this.autoEquipMerc(force);
-		
-		if (!Config.AutoEquip && !force) {
+	autoEquip: function() {
+		if (!Config.AutoEquip) {
 			return true;
 		}
 
@@ -961,8 +947,6 @@ var Item = {
 
 						gid = items[0].gid;
 
-						print(items[0].fname);
-
 						if (this.equip(items[0], bodyLoc[j])) {
 							Misc.logItem("Equipped", items[0]);
 						}
@@ -979,8 +963,8 @@ var Item = {
 	},
 
 	// returns true if the item should be kept+logged, false if not
-	autoEquipMerc: function (force = false) {
-		if (!Config.AutoEquip && !force) {
+	autoEquipMerc: function() {
+		if (!Config.AutoEquip) {
 			return true;
 		}
 
@@ -1045,19 +1029,17 @@ var Item = {
 
 						gid = item.gid;
 
-						print(item.name);
-
 						if (this.equipMerc(item, bodyLoc[j])) {
 							Misc.logItem("Merc Equipped", copyUnit(item));
 						}
 						else {
-							//print("Unable to equip merc with "+item.name);
+							// Unable to equip merc
 						}
 
 						break;
 					}
 					else {
-						//print("Merc has a better item at body location : "+bodyLoc+" with tier : "+tier)
+						// Merc has a better item at body location
 					}
 				}
 			}
@@ -1612,6 +1594,7 @@ var Misc = {
 			dateString = "[" + new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0,-5).replace(/-/g, '/').replace('T', ' ') + "]";
 
 
+		// Use regex for action to match autoequip and autoequip merc logs
 		var rawAction = action;
 		let keptPattern = /^Kept/i;
 		if (keptPattern.test(rawAction)) {

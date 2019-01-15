@@ -976,11 +976,11 @@ IngredientLoop:
 							var log = "Cubing Kept";
 							if (result.result == 7) {
 								let tier = NTIP.GetTier(items[j]);
-								log = "Cubing Kept (auto equip tier "+tier+")";
+								log += " (auto equip tier "+tier+")";
 							}
 							if (result.result == 8) {
 								let mercTier = NTIP.GetMercTier(items[j]);
-								log = "Cubing Kept (auto equip merc tier "+mercTier+")";
+								log += " (auto equip merc tier "+mercTier+")";
 							}
 							Misc.itemLogger(log, items[j]);
 							if (Config.ShowCubingInfo) {
