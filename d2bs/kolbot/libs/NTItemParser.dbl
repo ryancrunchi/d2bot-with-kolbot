@@ -187,7 +187,7 @@ NTIP.GetTier = function (item) {
 					}
 				}
 			} catch (e) {
-
+				print(e);
 			}
 		}
 	}
@@ -195,6 +195,95 @@ NTIP.GetTier = function (item) {
 	return tier;
 };
 
+// Returns the check list entry if the item matches a pickit entry without tier property.
+// This is used when autoequip is enabled to avoid loosing item that should be kept from another pickit entry.
+// e.g. Bot should autoequip mara 20 with tier 50, then find mara 30 with tier 55.
+// It will auto equip mara 30 and throw away mara 20, unless it is in another pickit entry without tier (thanks to this function).
+NTIP.ExistsWithoutTier = function(item) {
+	var withoutTierItem, info;
+
+	for (var i = 0; i < NTIP_CheckList.length; i ++) {
+		try {
+			if (NTIP_CheckList[i][0] && NTIP_CheckList[i][0].length > 0) {
+				if (eval(NTIP_CheckList[i][0])) {
+					if (NTIP_CheckList[i][1] && NTIP_CheckList[i][1].length > 0) {
+						if (eval(NTIP_CheckList[i][1])) {
+							if (!NTIP_CheckList[i][2] || !NTIP_CheckList[i][2].hasOwnProperty("Tier") || NTIP_CheckList[i][2].Tier == 0) {
+								withoutTierItem = NTIP_CheckList[i];
+								info = stringArray[i].file + " #" + stringArray[i].line;
+								break;
+							}
+						}
+					} else {
+						if (!NTIP_CheckList[i][2] || !NTIP_CheckList[i][2].hasOwnProperty("Tier") || NTIP_CheckList[i][2].Tier == 0) {
+							withoutTierItem = NTIP_CheckList[i];
+							info = stringArray[i].file + " #" + stringArray[i].line;
+							break;
+						}
+					}
+				}
+			} else if (NTIP_CheckList[i][1] && NTIP_CheckList[i][1].length > 0) {
+				if (eval(NTIP_CheckList[i][1])) {
+					if (!NTIP_CheckList[i][2] || !NTIP_CheckList[i][2].hasOwnProperty("Tier") || NTIP_CheckList[i][2].Tier == 0) {
+						withoutTierItem = NTIP_CheckList[i];
+						info = stringArray[i].file + " #" + stringArray[i].line;
+						break;
+					}
+				}
+			}
+		}
+		catch (e) {
+			print(e);
+		}
+	}
+
+	if (withoutTierItem) {
+		print("Exists without tier at "+info);
+	}
+
+	return withoutTierItem;
+};
+
+NTIP.GetMercTier = function(item) {
+	var tier = 0;
+
+	// Go through ALL lines that describe the item
+	for (var i = 0; i < NTIP_CheckList.length; i += 1) {
+		if (NTIP_CheckList[i].length === 3 && NTIP_CheckList[i][2].hasOwnProperty("Tier") && !isNaN(NTIP_CheckList[i][2].Tier)) {
+			try {
+				if (NTIP_CheckList[i][0].length > 0) {
+					if (eval(NTIP_CheckList[i][0])) {
+						if (NTIP_CheckList[i][1].length > 0) {
+							if (eval(NTIP_CheckList[i][1])) {
+								if (NTIP_CheckList[i][2].Tier < tier) {
+									tier = NTIP_CheckList[i][2].Tier;
+								}
+							}
+						} else {
+							if (NTIP_CheckList[i][2].Tier < tier) {
+								tier = NTIP_CheckList[i][2].Tier;
+							}
+						}
+					}
+				} else if (NTIP_CheckList[i][1].length > 0) {
+					if (eval(NTIP_CheckList[i][1])) {
+						if (NTIP_CheckList[i][2].Tier < tier) {
+							tier = NTIP_CheckList[i][2].Tier;
+						}
+					}
+				}
+			} catch (e) {
+				print(e);
+			}
+		}
+	}
+
+	return tier;
+};
+
+// result 1 = keep
+// result -1 = need id
+// result 0 = not need
 NTIP.CheckItem = function (item, entryList, verbose) {
 	var i, list, identified, num,
 		rval = {},
@@ -567,7 +656,8 @@ NTIP.ParseLineInt = function (input, info) {
 
 				break;
 			case "tier":
-				value = Number(p_section[i].split("==")[1].match(/\d+/g));
+				//value = Number(p_section[i].split("==")[1].match(/\d+/g));
+				value = Number(p_section[i].split("==")[1].match(/-?\d*\.?\d+$/g));
 
 				if (!isNaN(value)) {
 					p_result[2].Tier = value;

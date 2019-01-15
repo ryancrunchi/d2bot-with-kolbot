@@ -970,8 +970,21 @@ IngredientLoop:
 
 							break;
 						case 1:
-							Misc.itemLogger("Cubing Kept", items[j]);
-							Misc.logItem("Cubing Kept", items[j], result.line);
+						case 7:
+						case 8:
+							var log = "Cubing Kept";
+							if (result.result == 7) {
+								let tier = NTIP.GetTier(items[j]);
+								log += " (auto equip tier "+tier+")";
+							}
+							if (result.result == 8) {
+								let mercTier = NTIP.GetMercTier(items[j]);
+								log += " (auto equip merc tier "+mercTier+")";
+							}
+							Misc.itemLogger(log, items[j]);
+							if (Config.ShowCubingInfo) {
+								Misc.logItem(log, items[j], result.line);
+							}
 
 							break;
 						case 5: // Crafting System
