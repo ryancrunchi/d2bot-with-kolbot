@@ -21,7 +21,7 @@ function Pit() {
 		throw new Error("Failed to move to Pit level 2");
 	}
 
-	Attack.clearLevel();
+	Attack.clearLevel(Config.ClearType);
 
 	return true;
 }
