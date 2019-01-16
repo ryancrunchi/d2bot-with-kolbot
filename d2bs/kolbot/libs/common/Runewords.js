@@ -131,7 +131,7 @@ var Runewords = {
 					if (NTIPAliasClassID.hasOwnProperty(Config.Runewords[i][1].replace(/\s+/g, "").toLowerCase())) {
 						Config.Runewords[i][1] = NTIPAliasClassID[Config.Runewords[i][1].replace(/\s+/g, "").toLowerCase()];
 					} else {
-						Misc.errorReport("ÿc1Invalid runewords entry:ÿc0 " + Config.Runewords[i][1]);
+						Misc.errorReport(ColorCodes.RED + "Invalid runewords entry: " + ColorCodes.WHITE + Config.Runewords[i][1]);
 						Config.Runewords.splice(i, 1);
 
 						i -= 1;
@@ -387,8 +387,8 @@ RuneLoop:
 				this.socketItem(items[0], items[i]);
 			}
 
-			print("ÿc4Runewords: ÿc0Made runeword: " + items[0].fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, ""));
-			D2Bot.printToConsole("Made runeword: " + items[0].fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, ""), 5);
+			print(ColorCodes.DARK_GOLD + "Runewords: " + ColorCodes.WHITE + "Made runeword: " + items[0].fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, ""));
+			D2Bot.printToConsole("Made runeword: " + items[0].fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, ""), ColorCodes.D2Bot.GREEN);
 
 			if (NTIP.CheckItem(items[0], this.pickitEntries)) {
 				Misc.itemLogger("Runeword Kept", items[0]);
@@ -432,8 +432,8 @@ RuneLoop:
 					return false;
 				}
 
-				print("ÿc4Runewords: ÿc0Rerolling runeword: " + base.fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, ""));
-				D2Bot.printToConsole("Rerolling runeword: " + base.fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, ""), 5);
+				print(ColorCodes.DARK_GOLD + "Runewords: " + ColorCodes.WHITE + "Rerolling runeword: " + base.fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, ""));
+				D2Bot.printToConsole("Rerolling runeword: " + base.fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, ""), ColorCodes.D2Bot.GREEN);
 				transmute();
 				delay(500);
 

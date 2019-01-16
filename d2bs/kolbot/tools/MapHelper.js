@@ -18,10 +18,9 @@ include("common/Prototypes.js");
 include("common/Runewords.js");
 include("common/Storage.js");
 include("common/Town.js");
+include("common/Enums.js");
 
 function main() {
-	include("json2.js");
-
 	var obj, action,
 		mapThread = getScript("tools/mapthread.js");
 

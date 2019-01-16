@@ -1,3 +1,9 @@
+
+include("json2.js");
+include("common/attack.js");
+include("common/pather.js");
+include("common/Enums.js");
+
 var Hooks = {
 	monsters: {
 		hooks: [],
@@ -693,11 +699,8 @@ var Hooks = {
 };
 
 function main() {
-	include("json2.js");
-	include("common/attack.js");
-	include("common/pather.js");
 	load("tools/maphelper.js");
-	print("ÿc9Map Thread Loaded");
+	print(ColorCodes.YELLOW + "Map Thread Loaded");
 
 	this.revealArea = function (area) {
 		if (!this.revealedAreas) {

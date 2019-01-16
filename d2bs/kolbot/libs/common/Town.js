@@ -890,7 +890,7 @@ CursorLoop:
 			return false;
 		}
 
-		print("ÿc4MiniShopBotÿc0: Scanning " + npc.itemcount + " items.");
+		print(ColorCodes.DARK_GOLD + "MiniShopBot:" + ColorCodes.WHITE + " Scanning " + npc.itemcount + " items.");
 
 		do {
 			if (this.ignoredItemTypes.indexOf(item.itemType) === -1) {
@@ -936,7 +936,7 @@ CursorLoop:
 					if (NTIPAliasClassID.hasOwnProperty(Config.GambleItems[i].replace(/\s+/g, "").toLowerCase())) {
 						this.gambleIds.push(NTIPAliasClassID[Config.GambleItems[i].replace(/\s+/g, "").toLowerCase()]);
 					} else {
-						Misc.errorReport("ÿc1Invalid gamble entry:ÿc0 " + Config.GambleItems[i]);
+						Misc.errorReport(ColorCodes.RED + "Invalid gamble entry: " + ColorCodes.WHITE + Config.GambleItems[i]);
 					}
 				} else {
 					this.gambleIds.push(Config.GambleItems[i]);
@@ -1238,7 +1238,7 @@ CursorLoop:
 
 						if (cubeItems[0].bodylocation === bodyLoc) {
 							print(cubeItems[0].fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, "").trim() + " successfully repaired and equipped.");
-							D2Bot.printToConsole(cubeItems[0].fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, "").trim() + " successfully repaired and equipped.", 5);
+							D2Bot.printToConsole(cubeItems[0].fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, "").trim() + " successfully repaired and equipped.", ColorCodes.D2Bot.GREEN);
 
 							return true;
 						}
@@ -1357,7 +1357,7 @@ CursorLoop:
 				repairAction.push("repair");
 			}
 		} else {
-			print("ÿc4Town: ÿc1Can't afford repairs.");
+			print(ColorCodes.DARK_GOLD + "Town: " + ColorCodes.RED + "Can't afford repairs.");
 		}
 
 		return repairAction;
@@ -1669,7 +1669,7 @@ MainLoop:
 			}
 
 			if (getTickCount() - timer > 30000) {
-				D2Bot.printToConsole("Failed to get corpse, stopping.", 9);
+				D2Bot.printToConsole("Failed to get corpse, stopping.", ColorCodes.D2Bot.RED);
 				D2Bot.stop();
 			}
 

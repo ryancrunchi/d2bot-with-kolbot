@@ -1856,7 +1856,7 @@ MainLoop:
 			filemsg = dateString + " <" + me.profile + "> " + error.replace(/ÿc[0-9!"+<:;.*]/gi, "") + "\n";
 		} else {
 			source = error.fileName.substring(error.fileName.lastIndexOf("\\") + 1, error.fileName.length);
-			msg = "ÿc1Error in ÿc0" + script + " ÿc1(" + source + " line ÿc1" + error.lineNumber + "): ÿc1" + error.message;
+			msg = ColorCodes.RED + "Error in " + ColorCodes.WHITE + script + " " + ColorCodes.RED + "(" + source + " line " + ColorCodes.RED + "" + error.lineNumber + "): " + ColorCodes.RED + error.message;
 			oogmsg = " Error in " + script + " (" + source + " #" + error.lineNumber + ") " + error.message + " (Area: " + me.area + ", Ping:" + me.ping + ", Game: " + me.gamename + ")";
 			filemsg = dateString + " <" + me.profile + "> " + msg.replace(/ÿc[0-9!"+<:;.*]/gi, "") + "\n";
 
@@ -1888,7 +1888,7 @@ MainLoop:
 		}
 
 		if (this.errorConsolePrint) {
-			D2Bot.printToConsole(oogmsg, 10);
+			D2Bot.printToConsole(oogmsg, ColorCodes.D2Bot.GRAY);
 		}
 
 		showConsole();
@@ -2153,10 +2153,10 @@ var Experience = {
 		string = "[Game: " + me.gamename + (me.gamepassword ? "//" + me.gamepassword : "") + getGameTime + "] [Level: " + me.getStat(12) + " (" + progress + "%)] [XP: " + gain + "] [Games ETA: " + runsToLevel + "]";
 
 		if (gain) {
-			D2Bot.printToConsole(string, 4);
+			D2Bot.printToConsole(string, ColorCodes.D2Bot.BLUE);
 
 			if (me.getStat(12) > DataFile.getStats().level) {
-				D2Bot.printToConsole("Congrats! You gained a level. Current level:" + me.getStat(12), 5);
+				D2Bot.printToConsole("Congrats! You gained a level. Current level:" + me.getStat(12), ColorCodes.D2Bot.GREEN);
 			}
 		}
 	}
@@ -2578,7 +2578,7 @@ var LocalChat = new function () {
 		}
 
 		Config.LocalChat.Mode = (Config.LocalChat.Mode + cycle) % 3;
-		print("ÿc2LocalChat enabled. Mode: " + Config.LocalChat.Mode);
+		print(ColorCodes.NEON_GREEN + "LocalChat enabled. Mode: " + Config.LocalChat.Mode);
 
 		switch (Config.LocalChat.Mode) {
 		case 2:

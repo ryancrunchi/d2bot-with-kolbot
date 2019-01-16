@@ -132,7 +132,7 @@ var Pickit = {
 					if (!canFit) {
 						// Check if any of the current inventory items can be stashed or need to be identified and eventually sold to make room
 						if (this.canMakeRoom()) {
-							print("ÿc7Trying to make room for " + this.itemColor(pickList[0]) + pickList[0].name);
+							print(ColorCodes.LIGHT_GOLD + "Trying to make room for " + this.itemColor(pickList[0]) + pickList[0].name);
 
 							// Go to town and do town chores
 							if (Town.visitTown()) {
@@ -143,14 +143,14 @@ var Pickit = {
 							}
 
 							// Town visit failed - abort
-							print("ÿc7Not enough room for " + this.itemColor(pickList[0]) + pickList[0].name);
+							print(ColorCodes.LIGHT_GOLD + "Not enough room for " + this.itemColor(pickList[0]) + pickList[0].name);
 
 							return false;
 						}
 
 						// Can't make room - trigger automule
 						Misc.itemLogger("No room for", pickList[0]);
-						print("ÿc7Not enough room for " + this.itemColor(pickList[0]) + pickList[0].name);
+						print(ColorCodes.LIGHT_GOLD + "Not enough room for " + this.itemColor(pickList[0]) + pickList[0].name);
 
 						needMule = true;
 					}
@@ -288,7 +288,7 @@ MainLoop:
 
 				if (stats.classid === 523) {
 					if (!item.getStat(14) || item.getStat(14) < stats.gold) {
-						print("ÿc7Picked up " + stats.color + (item.getStat(14) ? (item.getStat(14) - stats.gold) : stats.gold) + " " + stats.name);
+						print(ColorCodes.LIGHT_GOLD + "Picked up " + stats.color + (item.getStat(14) ? (item.getStat(14) - stats.gold) : stats.gold) + " " + stats.name);
 
 						return true;
 					}
@@ -297,12 +297,12 @@ MainLoop:
 				if (item.mode !== 3 && item.mode !== 5) {
 					switch (stats.classid) {
 					case 543: // Key
-						print("ÿc7Picked up " + stats.color + stats.name + " ÿc7(" + Town.checkKeys() + "/12)");
+						print(ColorCodes.LIGHT_GOLD + "Picked up " + stats.color + stats.name + ColorCodes.LIGHT_GOLD + " (" + Town.checkKeys() + "/12)");
 
 						return true;
 					case 529: // Scroll of Town Portal
 					case 530: // Scroll of Identify
-						print("ÿc7Picked up " + stats.color + stats.name + " ÿc7(" + Town.checkScrolls(stats.classid === 529 ? "tbk" : "ibk") + "/20)");
+						print(ColorCodes.LIGHT_GOLD + "Picked up " + stats.color + stats.name + ColorCodes.LIGHT_GOLD + " (" + Town.checkScrolls(stats.classid === 529 ? "tbk" : "ibk") + "/20)");
 
 						return true;
 					}
@@ -326,7 +326,7 @@ MainLoop:
 
 			switch (status) {
 			case 1:
-				print("ÿc7Picked up " + stats.color + stats.name + " ÿc0(ilvl " + stats.ilvl + (keptLine ? ") (" + keptLine + ")" : ")"));
+				print(ColorCodes.LIGHT_GOLD + "Picked up " + stats.color + stats.name + ColorCodes.WHITE + " (ilvl " + stats.ilvl + (keptLine ? ") (" + keptLine + ")" : ")"));
 
 				if (this.ignoreLog.indexOf(stats.type) === -1) {
 					Misc.itemLogger("Kept", item);
@@ -335,24 +335,26 @@ MainLoop:
 
 				break;
 			case 2:
-				print("ÿc7Picked up " + stats.color + stats.name + " ÿc0(ilvl " + stats.ilvl + ")" + " (Cubing)");
+				print(ColorCodes.LIGHT_GOLD + "Picked up " + stats.color + stats.name + ColorCodes.WHITE + " (ilvl " + stats.ilvl + ")" + " (Cubing)");
 				Misc.itemLogger("Kept", item, "Cubing " + me.findItems(item.classid).length);
 				Cubing.update();
 
 				break;
+
 			case 3:
-				print("ÿc7Picked up " + stats.color + stats.name + " ÿc0(ilvl " + stats.ilvl + ")" + " (Runewords)");
+				print(ColorCodes.LIGHT_GOLD + "Picked up " + stats.color + stats.name + ColorCodes.WHITE + " (ilvl " + stats.ilvl + ")" + " (Runewords)");
 				Misc.itemLogger("Kept", item, "Runewords");
 				Runewords.update(stats.classid, gid);
 
 				break;
+
 			case 5: // Crafting System
-				print("ÿc7Picked up " + stats.color + stats.name + " ÿc0(ilvl " + stats.ilvl + ")" + " (Crafting System)");
+				print(ColorCodes.LIGHT_GOLD + "Picked up " + stats.color + stats.name + ColorCodes.WHITE + " (ilvl " + stats.ilvl + ")" + " (Crafting System)");
 				CraftingSystem.update(item);
 
 				break;
 			default:
-				print("ÿc7Picked up " + stats.color + stats.name + " ÿc0(ilvl " + stats.ilvl + (keptLine ? ") (" + keptLine + ")" : ")"));
+				print(ColorCodes.LIGHT_GOLD + "Picked up " + stats.color + stats.name + ColorCodes.WHITE + " (ilvl " + stats.ilvl + (keptLine ? ") (" + keptLine + ")" : ")"));
 
 				break;
 			}
@@ -375,32 +377,32 @@ MainLoop:
 		if (type) {
 			switch (unit.itemType) {
 			case 4: // gold
-				return "ÿc4";
+				return ColorCodes.DARK_GOLD;
 			case 74: // runes
-				return "ÿc8";
+				return ColorCodes.ORANGE;
 			case 76: // healing potions
-				return "ÿc1";
+				return ColorCodes.RED;
 			case 77: // mana potions
-				return "ÿc3";
+				return ColorCodes.BLUE;
 			case 78: // juvs
-				return "ÿc;";
+				return ColorCodes.PURPLE;
 			}
 		}
 
 		switch (unit.quality) {
 		case 4: // magic
-			return "ÿc3";
+			return ColorCodes.BLUE;
 		case 5: // set
-			return "ÿc2";
+			return ColorCodes.NEON_GREEN;
 		case 6: // rare
-			return "ÿc9";
+			return ColorCodes.YELLOW;
 		case 7: // unique
-			return "ÿc4";
+			return ColorCodes.DARK_GOLD;
 		case 8: // crafted
-			return "ÿc8";
+			return ColorCodes.ORANGE;
 		}
 
-		return "ÿc0";
+		return ColorCodes.WHITE;
 	},
 
 	canPick: function (unit) {

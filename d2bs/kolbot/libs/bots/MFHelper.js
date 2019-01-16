@@ -180,7 +180,7 @@ MainLoop:
 				oldCommand = command;
 
 				if (command.indexOf("kill") > -1) {
-					print("ÿc4MFHelperÿc0: Kill");
+					print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Kill");
 
 					split = command.split("kill ")[1];
 
@@ -215,7 +215,7 @@ MainLoop:
 						print("Failed to use portal.");
 					}
 				} else if (command.indexOf("clearlevel") > -1) {
-					print("ÿc4MFHelperÿc0: Clear Level");
+					print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Clear Level");
 
 					for (i = 0; i < 5; i += 1) {
 						if (Pather.usePortal(player.area, player.name)) {
@@ -237,7 +237,7 @@ MainLoop:
 						print("Failed to use portal.");
 					}
 				} else if (command.indexOf("clear") > -1) {
-					print("ÿc4MFHelperÿc0: Clear");
+					print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Clear");
 
 					split = command.split("clear ")[1];
 
@@ -273,7 +273,7 @@ MainLoop:
 				} else if (command.indexOf("quit") > -1) {
 					break MainLoop;
 				} else if (command.indexOf("cows") > -1) {
-					print("ÿc4MFHelperÿc0: Clear Cows");
+					print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Clear Cows");
 
 					for (i = 0; i < 5; i += 1) {
 						if (Town.goToTown(1) && Pather.usePortal(39)) {
@@ -295,7 +295,8 @@ MainLoop:
 						print("Failed to use portal.");
 					}
 				} else if (command.indexOf("council") > -1) {
-					print("ÿc4MFHelperÿc0: Kill Council");
+					print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Kill Council");
+
 
 					for (i = 0; i < 5; i += 1) {
 						if (Pather.usePortal(player.area, player.name)) {

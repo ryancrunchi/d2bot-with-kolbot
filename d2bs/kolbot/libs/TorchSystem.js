@@ -91,8 +91,8 @@ var TorchSystem = {
 
 		for (i = 0; i < farmers.length; i += 1) {
 			if (farmers[i].FarmGame.length > 0 && me.gamename.toLowerCase().match(farmers[i].FarmGame.toLowerCase())) {
-				print("ÿc4Torch Systemÿc0: In Farm game.");
-				D2Bot.printToConsole("Torch System: In Farm game.", 7);
+				print(ColorCodes.DARK_GOLD + "Torch System:" + ColorCodes.WHITE + " In Farm game.");
+				D2Bot.printToConsole("Torch System: In Farm game.", ColorCodes.D2Bot.DARK_GOLD);
 				Town.goToTown(1);
 
 				if (!Town.openStash()) {
@@ -146,8 +146,8 @@ var TorchSystem = {
 
 		for (i = 0; i < farmers.length; i += 1) {
 			if (farmers[i].FarmGame.length > 0 && me.gamename.toLowerCase().match(farmers[i].FarmGame.toLowerCase())) {
-				print("ÿc4Torch Systemÿc0: In Farm game.");
-				D2Bot.printToConsole("Torch System: Transfering keys.", 7);
+				print(ColorCodes.DARK_GOLD + "Torch System:" + ColorCodes.WHITE + " In Farm game.");
+				D2Bot.printToConsole("Torch System: Transfering keys.", ColorCodes.D2Bot.DARK_GOLD);
 				D2Bot.updateStatus("Torch System: In game.");
 				Town.goToTown(1);
 
@@ -313,7 +313,7 @@ var TorchSystem = {
 		removeEventListener('copydata', CheckEvent);
 
 		if (game) {
-			//D2Bot.printToConsole("Joining key drop game.", 7);
+			//D2Bot.printToConsole("Joining key drop game.", ColorCodes.D2Bot.DARK_GOLD);
 			delay(2000);
 
 			this.inGame = true;

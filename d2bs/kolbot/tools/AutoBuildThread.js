@@ -17,6 +17,7 @@ if (!isIncluded("common/Cubing.js")) { include("common/Cubing.js"); };
 if (!isIncluded("common/Prototypes.js")) { include("common/Prototypes.js"); };
 if (!isIncluded("common/Runewords.js")) { include("common/Runewords.js"); };
 if (!isIncluded("common/Town.js")) { include("common/Town.js"); };
+include("common/Enums.js");
 
 Config.init(); // includes libs/common/AutoBuild.js
 

@@ -23,6 +23,7 @@ include("common/Prototypes.js");
 include("common/Runewords.js");
 include("common/Storage.js");
 include("common/Town.js");
+include("common/Enums.js");
 
 function main() {
 	D2Bot.init(); // Get D2Bot# handle
@@ -144,9 +145,9 @@ function main() {
 	stats = DataFile.getStats();
 
 	// Check for experience decrease -> log death. Skip report if life chicken is disabled.
-	if (stats.name === me.name && me.getStat(13) < stats.experience && Config.LifeChicken > 0) {
-		D2Bot.printToConsole("You died in last game", 9);
-		D2Bot.printToConsole("Experience decreased by " + (stats.experience - me.getStat(13)), 9);
+	if (stats.name === me.name && me.getStat(Stats.LEVEL) > 1 && me.getStat(Stats.EXPERIENCE) < stats.experience && Config.LifeChicken > 0) {
+		D2Bot.printToConsole("You died in last game", ColorCodes.D2Bot.RED);
+		D2Bot.printToConsole("Experience decreased by " + (stats.experience - me.getStat(Stats.EXPERIENCE)), ColorCodes.D2Bot.RED);
 		DataFile.updateStats("deaths");
 		D2Bot.updateDeaths();
 	}
@@ -169,7 +170,7 @@ function main() {
 	}
 
 	if (Config.FastPick) {
-		print("ÿc2Fast pickit active.");
+		print(ColorCodes.NEON_GREEN + "Fast pickit active.");
 		addEventListener("itemaction", this.itemEvent);
 	}
 
@@ -195,6 +196,15 @@ function main() {
 
 	if (Config.AutoStat.Enabled && include("common/AutoStat.js")) {
 		AutoStat.init(Config.AutoStat.Build, Config.AutoStat.Save, Config.AutoStat.BlockChance, Config.AutoStat.UseBulk);
+	}
+
+	try {
+		if (Config.AutoBuild.Enabled === true && !isIncluded("common/AutoBuild.js") && include("common/AutoBuild.js")) {
+			AutoBuild.initialize();
+		}
+	} catch (e3) {
+		print(ColorCodes.ORANGE + "Error in libs/common/AutoBuild.js (AutoBuild system is not active!)");
+		print(e3.toSource());
 	}
 
 	// Go
@@ -253,7 +263,7 @@ function main() {
 	}
 
 	// Anni handler. Mule Anni if it's in unlocked space and profile is set to mule torch/anni.
-	anni = me.findItem(603, 0, -1, 7);
+	anni = me.findItem(ItemClassIds.SMALL_CHARM, ItemModes.ITEM_IN_INVENTORY_STASH_CUBE_OR_STORE, ItemLocation.ANY, ItemQuality.UNIQUE);
 
 	if (anni && !Storage.Inventory.IsLocked(anni, Config.Inventory) && AutoMule.getInfo() && AutoMule.getInfo().hasOwnProperty("torchMuleInfo")) {
 		scriptBroadcast("muleAnni");

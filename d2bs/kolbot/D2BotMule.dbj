@@ -151,7 +151,7 @@ function pickItems() {
 
 				// Torch handling
 				if (muleMode > 0 && item.classid === 604 && item.quality === 7 && !Pickit.canPick(item)) {
-					D2Bot.printToConsole("Mule already has a Torch.", 7);
+					D2Bot.printToConsole("Mule already has a Torch.", ColorCodes.D2Bot.DARK_GOLD);
 
 					rval = "next";
 				}
@@ -402,6 +402,7 @@ include("common/misc.js");
 include("common/config.js");
 include("common/prototypes.js");
 include("common/collmap.js");
+include("common/Enums.js");
 
 addEventListener("copydata", ReceiveCopyData);
 
@@ -502,7 +503,7 @@ function main() {
 				//print("Delay: " + (getTickCount() - tick));
 
 				if (status !== "begin") {
-					D2Bot.printToConsole("Nobody joined - stopping.", 9);
+					D2Bot.printToConsole("Nobody joined - stopping.", ColorCodes.D2Bot.RED);
 					D2Bot.stop(me.profile, true);
 				}
 
@@ -520,7 +521,7 @@ function main() {
 					}
 
 					MuleData.write(obj);
-					D2Bot.printToConsole("Done muling.", 7);
+					D2Bot.printToConsole("Done muling.", ColorCodes.D2Bot.DARK_GOLD);
 					sendCopyData(null, master, 10, JSON.stringify({status: "quit"}));
 					//delay(500);
 					D2Bot.stop(me.profile, true);
@@ -670,7 +671,7 @@ MainSwitch:
 		if (makeAcc) {
 			ControlAction.makeAccount(info);
 			//FileTools.writeText("mules/" + info.account + ".txt", "");
-			D2Bot.printToConsole("Made account: " + info.account, 7);
+			D2Bot.printToConsole("Made account: " + info.account, ColorCodes.D2Bot.DARK_GOLD);
 
 			makeAcc = false;
 
@@ -709,7 +710,7 @@ MainSwitch:
 			case getLocaleString(5202): // cd key intended for another product
 			case getLocaleString(10915): // lod key intended for another product
 				D2Bot.updateStatus("Invalid CDKey");
-				D2Bot.printToConsole("Invalid CDKey: " + gameInfo.mpq, 6);
+				D2Bot.printToConsole("Invalid CDKey: " + gameInfo.mpq, ColorCodes.D2Bot.GOLD);
 				D2Bot.CDKeyDisabled();
 
 				if (gameInfo.switchKeys) {
@@ -722,7 +723,7 @@ MainSwitch:
 				break;
 			case getLocaleString(5199):
 				D2Bot.updateStatus("Disabled CDKey");
-				D2Bot.printToConsole("Disabled CDKey: " + gameInfo.mpq, 6);
+				D2Bot.printToConsole("Disabled CDKey: " + gameInfo.mpq, ColorCodes.D2Bot.GOLD);
 				D2Bot.CDKeyDisabled();
 
 				if (gameInfo.switchKeys) {
@@ -735,7 +736,7 @@ MainSwitch:
 				break;
 			case getLocaleString(10913):
 				D2Bot.updateStatus("Disabled LoD CDKey");
-				D2Bot.printToConsole("Disabled LoD CDKey: " + gameInfo.mpq, 6);
+				D2Bot.printToConsole("Disabled LoD CDKey: " + gameInfo.mpq, ColorCodes.D2Bot.GOLD);
 				D2Bot.CDKeyDisabled();
 
 				if (gameInfo.switchKeys) {
@@ -839,7 +840,7 @@ MainSwitch:
 
 			if (string === getLocaleString(11161)) { // CDKey disabled from realm play
 				D2Bot.updateStatus("Realm Disabled CDKey");
-				D2Bot.printToConsole("Realm Disabled CDKey: " + gameInfo.mpq, 6);
+				D2Bot.printToConsole("Realm Disabled CDKey: " + gameInfo.mpq, ColorCodes.D2Bot.GOLD);
 				D2Bot.CDKeyDisabled();
 
 				if (gameInfo.switchKeys) {
@@ -933,7 +934,7 @@ MainSwitch:
 				break;
 			}
 
-			D2Bot.printToConsole("Made character: " + info.charName, 7);
+			D2Bot.printToConsole("Made character: " + info.charName, ColorCodes.D2Bot.DARK_GOLD);
 		}
 
 		break;
@@ -949,7 +950,7 @@ MainSwitch:
 
 		break;
 	case 19: // Login - Cdkey In Use
-		D2Bot.printToConsole(gameInfo.mpq + " is in use by " + ControlAction.getText(4, 158, 310, 485, 40), 6);
+		D2Bot.printToConsole(gameInfo.mpq + " is in use by " + ControlAction.getText(4, 158, 310, 485, 40), ColorCodes.D2Bot.GOLD);
 		D2Bot.CDKeyInUse();
 
 		if (gameInfo.switchKeys) {
@@ -985,7 +986,7 @@ MainSwitch:
 
 		switch (string) {
 		case getLocaleString(10914):
-			D2Bot.printToConsole(gameInfo.mpq + " LoD key in use by " + ControlAction.getText(4, 158, 310, 485, 40), 6);
+			D2Bot.printToConsole(gameInfo.mpq + " LoD key in use by " + ControlAction.getText(4, 158, 310, 485, 40), ColorCodes.D2Bot.GOLD);
 			D2Bot.CDKeyInUse();
 
 			if (gameInfo.switchKeys) {

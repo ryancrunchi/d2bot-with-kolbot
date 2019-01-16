@@ -24,6 +24,7 @@ include("common/Prototypes.js");
 include("common/Runewords.js");
 include("common/Storage.js");
 include("common/Town.js");
+include("common/Enums.js");
 
 function main() {
 	// Variables and functions
@@ -41,7 +42,7 @@ function main() {
 
 			break;
 		case "mugshot": // Take a screenshot and log the kill
-			D2Bot.printToConsole(msg.split(" ")[1] + " has been neutralized.", 4);
+			D2Bot.printToConsole(msg.split(" ")[1] + " has been neutralized.", ColorCodes.D2Bot.BLUE);
 			hideConsole();
 			delay(500);
 			takeScreenshot();
@@ -57,7 +58,7 @@ function main() {
 		if (party) {
 			do {
 				if (party.name !== me.name && getPlayerFlag(me.gid, party.gid, 8) && hostiles.indexOf(party.name) === -1) {
-					D2Bot.printToConsole(party.name + " (Level " + party.level + " " + charClass[party.classid] + ")" + " has declared hostility.", 8);
+					D2Bot.printToConsole(party.name + " (Level " + party.level + " " + charClass[party.classid] + ")" + " has declared hostility.", ColorCodes.D2Bot.ORANGE);
 					hostiles.push(party.name);
 				}
 			} while (party.getNext());
@@ -71,7 +72,7 @@ function main() {
 		var script = getScript("default.dbj");
 
 		if (script && script.running) {
-			print("ÿc1Pausing.");
+			print(ColorCodes.RED + "Pausing.");
 			script.pause();
 		}
 	};
@@ -81,7 +82,7 @@ function main() {
 		var script = getScript("default.dbj");
 
 		if (script && !script.running) {
-			print("ÿc2Resuming.");
+			print(ColorCodes.NEON_GREEN + "Resuming.");
 			script.resume();
 		}
 	};
@@ -184,7 +185,7 @@ function main() {
 	};
 
 	addEventListener("scriptmsg", this.scriptEvent);
-	print("ÿc2Anti-Hostile thread loaded.");
+	print(ColorCodes.NEON_GREEN + "Anti-Hostile thread loaded.");
 
 	// Main Loop
 	while (true) {

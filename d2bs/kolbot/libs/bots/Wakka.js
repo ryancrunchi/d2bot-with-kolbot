@@ -34,7 +34,7 @@ function Wakka() {
 						return false;
 					}
 
-					print("ÿc4Wakka: ÿc0Autodetected " + leader);
+					print(ColorCodes.DARK_GOLD + "Wakka: " + ColorCodes.WHITE + "Autodetected " + leader);
 
 					return true;
 				}

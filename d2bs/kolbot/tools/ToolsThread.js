@@ -27,6 +27,7 @@ include("common/Prototypes.js");
 include("common/Runewords.js");
 include("common/Storage.js");
 include("common/Town.js");
+include("common/Enums.js");
 
 function main() {
 	var i, mercHP, ironGolem, tick, merc,
@@ -37,7 +38,7 @@ function main() {
 		canQuit = true,
 		timerLastDrink = [];
 
-	print("ÿc3Start ToolsThread script");
+	print(ColorCodes.BLUE + "Start ToolsThread script");
 	D2Bot.init();
 	Config.init(false);
 	Pickit.init(false);
@@ -75,7 +76,7 @@ function main() {
 
 					if (getTickCount() - pingTimer[i] >= Config.PingQuit[i].Duration * 1000) {
 						if (print) {
-							D2Bot.printToConsole("High ping (" + me.ping + "/" + Config.PingQuit[i].Ping + ") - leaving game.", 9);
+							D2Bot.printToConsole("High ping (" + me.ping + "/" + Config.PingQuit[i].Ping + ") - leaving game.", ColorCodes.D2Bot.RED);
 						}
 
 						scriptBroadcast("pingquit");
@@ -127,7 +128,7 @@ function main() {
 
 		for (i = 0; i < items.length; i += 1) {
 			if (type < 3 && items[i].mode === 0 && items[i].location === 3 && items[i].itemType === pottype) {
-				print("ÿc2Drinking potion from inventory.");
+				print(ColorCodes.NEON_GREEN + "Drinking potion from inventory.");
 
 				return copyUnit(items[i]);
 			}
@@ -150,7 +151,7 @@ function main() {
 			if (script) {
 				if (script.running) {
 					if (i === 0) { // default.dbj
-						print("ÿc1Pausing.");
+						print(ColorCodes.RED + "Pausing.");
 					}
 
 					// don't pause townchicken during clone walk
@@ -159,7 +160,7 @@ function main() {
 					}
 				} else {
 					if (i === 0) { // default.dbj
-						print("ÿc2Resuming.");
+						print(ColorCodes.NEON_GREEN + "Resuming.");
 					}
 
 					script.resume();
@@ -366,23 +367,23 @@ function main() {
 			var realFBR = me.getStat(102) - Config.FBR;
 			var realFHR = me.getStat(99) - Config.FHR;
 
-			print("ÿc4MF: ÿc0" + me.getStat(80) + " ÿc4GF: ÿc0" + me.getStat(79) + " ÿc1FR: ÿc0" + me.getStat(39) +
-				" ÿc3CR: ÿc0" + me.getStat(43) + " ÿc9LR: ÿc0" + me.getStat(41) + " ÿc2PR: ÿc0" + me.getStat(45) +
+			print(ColorCodes.DARK_GOLD + "MF: " + ColorCodes.WHITE + me.getStat(80) + ColorCodes.DARK_GOLD + " GF: " + ColorCodes.WHITE + me.getStat(79) + ColorCodes.RED + " FR: " + ColorCodes.WHITE + me.getStat(39) +
+				ColorCodes.BLUE + " CR: " + ColorCodes.WHITE + me.getStat(43) + ColorCodes.YELLOW + " LR: " + ColorCodes.WHITE + me.getStat(41) + ColorCodes.NEON_GREEN + " PR: " + ColorCodes.WHITE + me.getStat(45) + 
+				"\n" + 
+				"FCR: " + realFCR + " IAS: " + realIAS + " FBR: " + realFBR + 
+				" FHR: " + realFHR + " FRW: " + me.getStat(96) + 
 				"\n" +
-				"FCR: " + realFCR + " IAS: " + realIAS + " FBR: " + realFBR +
-				" FHR: " + realFHR + " FRW: " + me.getStat(96) +
-				"\n" +
-				"CB: " + me.getStat(136) + " DS: " + me.getStat(141) + " OW: " + me.getStat(135) +
-				" ÿc1LL: ÿc0" + me.getStat(60) + " ÿc3ML: ÿc0" + me.getStat(62) +
-				" DR: " + me.getStat(36) + "% + " + me.getStat(34) + " MDR: " + me.getStat(37) + "% + " + me.getStat(35) +
-				"\n" +
-				(me.getStat(153) > 0 ? "ÿc3Cannot be Frozenÿc1" : "" ));
+				"CB: " + me.getStat(136) + " DS: " + me.getStat(141) + " OW: " + me.getStat(135) + 
+				ColorCodes.RED + " LL: " + ColorCodes.WHITE + me.getStat(60) + ColorCodes.BLUE + " ML: " + ColorCodes.WHITE + me.getStat(62) + 
+				" DR: " + me.getStat(36) + "% + " + me.getStat(34) + " MDR: " + me.getStat(37) + "% + " + me.getStat(35) + 
+				"\n" + 
+				(me.getStat(153) > 0 ? ColorCodes.BLUE + "Cannot be Frozen" + ColorCodes.RED : "" ));
 
 			break;
 		case 101: // numpad 5
 			if (AutoMule.getInfo() && AutoMule.getInfo().hasOwnProperty("muleInfo")) {
 				if (AutoMule.getMuleItems().length > 0) {
-					print("ÿc2Mule triggered");
+					print(ColorCodes.NEON_GREEN + "Mule triggered");
 					scriptBroadcast("mule");
 					this.exit();
 				} else {
@@ -393,6 +394,7 @@ function main() {
 			}
 
 			break;
+
 		case 102: // Numpad 6
 			MuleLogger.logChar();
 			me.overhead("Logged char: " + me.name);
@@ -456,7 +458,7 @@ function main() {
 			}
 
 			if (Config.SoJWaitTime && me.gametype === 1) { // only do this in expansion
-				D2Bot.printToConsole(param1 + " Stones of Jordan Sold to Merchants on IP " + me.gameserverip.split(".")[3], 7);
+				D2Bot.printToConsole(param1 + " Stones of Jordan Sold to Merchants on IP " + me.gameserverip.split(".")[3], ColorCodes.D2Bot.DARK_GOLD);
 				Messaging.sendToScript("default.dbj", "soj");
 			}
 
@@ -471,14 +473,14 @@ function main() {
 			}
 
 			if (Config.StopOnDClone && me.gametype === 1) { // only do this in expansion
-				D2Bot.printToConsole("Diablo Walks the Earth", 7);
+				D2Bot.printToConsole("Diablo Walks the Earth", ColorCodes.D2Bot.DARK_GOLD);
 
 				cloneWalked = true;
 
 				this.togglePause();
 				Town.goToTown();
 				showConsole();
-				print("ÿc4Diablo Walks the Earth");
+				print(ColorCodes.DARK_GOLD + "Diablo Walks the Earth");
 
 				me.maxgametime = 0;
 
@@ -559,7 +561,7 @@ function main() {
 				}
 
 				if (Config.LifeChicken > 0 && me.hp <= Math.floor(me.hpmax * Config.LifeChicken / 100)) {
-					D2Bot.printToConsole("Life Chicken (" + me.hp + "/" + me.hpmax + ")" + this.getNearestMonster() + " in " + Pather.getAreaName(me.area) + ". Ping: " + me.ping, 9);
+					D2Bot.printToConsole("Life Chicken (" + me.hp + "/" + me.hpmax + ")" + this.getNearestMonster() + " in " + Pather.getAreaName(me.area) + ". Ping: " + me.ping, ColorCodes.D2Bot.RED);
 					D2Bot.updateChickens();
 					this.exit();
 
@@ -575,7 +577,7 @@ function main() {
 				}
 
 				if (Config.ManaChicken > 0 && me.mp <= Math.floor(me.mpmax * Config.ManaChicken / 100)) {
-					D2Bot.printToConsole("Mana Chicken: (" + me.mp + "/" + me.mpmax + ") in " + Pather.getAreaName(me.area), 9);
+					D2Bot.printToConsole("Mana Chicken: (" + me.mp + "/" + me.mpmax + ") in " + Pather.getAreaName(me.area), ColorCodes.D2Bot.RED);
 					D2Bot.updateChickens();
 					this.exit();
 
@@ -589,7 +591,7 @@ function main() {
 
 					if (ironGolem) {
 						if (ironGolem.hp <= Math.floor(128 * Config.IronGolemChicken / 100)) { // ironGolem.hpmax is bugged with BO
-							D2Bot.printToConsole("Irom Golem Chicken in " + Pather.getAreaName(me.area), 9);
+							D2Bot.printToConsole("Irom Golem Chicken in " + Pather.getAreaName(me.area), ColorCodes.D2Bot.RED);
 							D2Bot.updateChickens();
 							this.exit();
 
@@ -604,7 +606,7 @@ function main() {
 
 					if (mercHP > 0 && merc && merc.mode !== 12) {
 						if (mercHP < Config.MercChicken) {
-							D2Bot.printToConsole("Merc Chicken in " + Pather.getAreaName(me.area), 9);
+							D2Bot.printToConsole("Merc Chicken in " + Pather.getAreaName(me.area), ColorCodes.D2Bot.RED);
 							D2Bot.updateChickens();
 							this.exit();
 
@@ -623,7 +625,7 @@ function main() {
 
 				if (Config.ViperCheck && getTickCount() - tick >= 250) {
 					if (this.checkVipers()) {
-						D2Bot.printToConsole("Revived Tomb Vipers found. Leaving game.", 9);
+						D2Bot.printToConsole("Revived Tomb Vipers found. Leaving game.", ColorCodes.D2Bot.RED);
 
 						quitFlag = true;
 					}
@@ -642,7 +644,7 @@ function main() {
 		}
 
 		if (quitFlag && canQuit) {
-			print("ÿc8Run duration ÿc2" + ((getTickCount() - me.gamestarttime) / 1000));
+			print(ColorCodes.ORANGE + "Run duration " + ColorCodes.NEON_GREEN + ((getTickCount() - me.gamestarttime) / 1000));
 
 			if (Config.LogExperience) {
 				Experience.log();

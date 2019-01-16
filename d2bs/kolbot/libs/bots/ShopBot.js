@@ -18,14 +18,14 @@ function ShopBot() {
 			filename = filepath.substring(filepath.lastIndexOf("/") + 1, filepath.length);
 
 		if (!FileTools.exists(filepath)) {
-			Misc.errorReport("ÿc1NIP file doesn't exist: ÿc0" + filepath);
+			Misc.errorReport(ColorCodes.RED + "NIP file doesn't exist: " + ColorCodes.WHITE + filepath);
 			return false;
 		}
 
 		try {
 			nipfile = File.open(filepath, 0);
 		} catch (fileError) {
-			Misc.errorReport("ÿc1Failed to load NIP: ÿc0" + filename);
+			Misc.errorReport(ColorCodes.RED + "Failed to load NIP: " + ColorCodes.WHITE + filename);
 		}
 
 		if (!nipfile) {
@@ -147,7 +147,7 @@ function ShopBot() {
 					NTIP.CheckItem(items[i], this.pickEntries)
 					) {
 				beep();
-				D2Bot.printToConsole("Match found!", 7);
+				D2Bot.printToConsole("Match found!", ColorCodes.D2Bot.DARK_GOLD);
 				delay(1000);
 
 				if (npc.startTrade(menuId)) {
@@ -249,7 +249,7 @@ function ShopBot() {
 			if (NTIPAliasClassID.hasOwnProperty(Config.ShopBot.ScanIDs[i].replace(/\s+/g, "").toLowerCase())) {
 				Config.ShopBot.ScanIDs[i] = NTIPAliasClassID[Config.ShopBot.ScanIDs[i].replace(/\s+/g, "").toLowerCase()];
 			} else {
-				Misc.errorReport("ÿc1Invalid ShopBot entry:ÿc0 " + Config.ShopBot.ScanIDs[i]);
+				Misc.errorReport(ColorCodes.RED + "Invalid ShopBot entry: " + ColorCodes.WHITE + Config.ShopBot.ScanIDs[i]);
 				Config.ShopBot.ScanIDs.splice(i, 1);
 				i -= 1;
 			}

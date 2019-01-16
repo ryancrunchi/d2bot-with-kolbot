@@ -21,6 +21,7 @@ include("OOG.js");
 include("MuleLogger.js");
 include("gambling.js");
 include("common/misc.js");
+include("common/Enums.js");
 
 if (!FileTools.exists("data/" + me.profile + ".json")) {
 	DataFile.create();
@@ -135,7 +136,7 @@ function main() {
 		if (!!DataFile.getStats().debugInfo) {
 			gameInfo.crashInfo = DataFile.getStats().debugInfo;
 
-			D2Bot.printToConsole("Crash Info: Script: " + JSON.parse(gameInfo.crashInfo).currScript + " Area: " + JSON.parse(gameInfo.crashInfo).area, 10);
+			D2Bot.printToConsole("Crash Info: Script: " + JSON.parse(gameInfo.crashInfo).currScript + " Area: " + JSON.parse(gameInfo.crashInfo).area, ColorCodes.D2Bot.GRAY);
 		}
 
 		ControlAction.timeoutDelay("Crash Delay", StarterConfig.CrashDelay * 1e3);
@@ -299,7 +300,7 @@ MainSwitch:
 		charList = chars[0];
 		obj.currAcc = currAcc[0];
 
-		print("ÿc4Mule Loggerÿc2: Login account: " + currAcc[0]);
+		print(ColorCodes.DARK_GOLD + "Mule Logger" + ColorCodes.NEON_GREEN + ": Login account: " + currAcc[0]);
 		FileTools.writeText("logs/MuleLog.json", JSON.stringify(obj));
 		MuleLogger.save(md5(currAcc[2].toLowerCase() + currAcc[0].toLowerCase()), currAcc[1]);
 		ControlAction.loginAccount({account: currAcc[0], password: currAcc[1], realm: currAcc[2]});
@@ -332,7 +333,7 @@ MainSwitch:
 			case getLocaleString(5202): // cd key intended for another product
 			case getLocaleString(10915): // lod key intended for another product
 				D2Bot.updateStatus("Invalid CDKey");
-				D2Bot.printToConsole("Invalid CDKey: " + gameInfo.mpq, 6);
+				D2Bot.printToConsole("Invalid CDKey: " + gameInfo.mpq, ColorCodes.D2Bot.GOLD);
 				D2Bot.CDKeyDisabled();
 
 				if (gameInfo.switchKeys) {
@@ -345,7 +346,7 @@ MainSwitch:
 				break;
 			case getLocaleString(5199):
 				D2Bot.updateStatus("Disabled CDKey");
-				D2Bot.printToConsole("Disabled CDKey: " + gameInfo.mpq, 6);
+				D2Bot.printToConsole("Disabled CDKey: " + gameInfo.mpq, ColorCodes.D2Bot.GOLD);
 				D2Bot.CDKeyDisabled();
 
 				if (gameInfo.switchKeys) {
@@ -358,7 +359,7 @@ MainSwitch:
 				break;
 			case getLocaleString(10913):
 				D2Bot.updateStatus("Disabled LoD CDKey");
-				D2Bot.printToConsole("Disabled LoD CDKey: " + gameInfo.mpq, 6);
+				D2Bot.printToConsole("Disabled LoD CDKey: " + gameInfo.mpq, ColorCodes.D2Bot.GOLD);
 				D2Bot.CDKeyDisabled();
 
 				if (gameInfo.switchKeys) {
@@ -455,7 +456,7 @@ MainSwitch:
 		currChar = charList.shift();
 		obj.currChar = currChar;
 
-		print("ÿc4Mule Loggerÿc2: Login character: " + currChar);
+		print(ColorCodes.DARK_GOLD + "Mule Logger" + ColorCodes.NEON_GREEN + ": Login character: " + currChar);
 		FileTools.writeText("logs/MuleLog.json", JSON.stringify(obj));
 		ControlAction.loginCharacter({charName: currChar});
 
@@ -498,7 +499,7 @@ MainSwitch:
 		ControlAction.click(6, 351, 337, 96, 32);
 		break;
 	case 19: // Login - Cdkey In Use
-		D2Bot.printToConsole(gameInfo.mpq + " is in use by " + ControlAction.getText(4, 158, 310, 485, 40), 6);
+		D2Bot.printToConsole(gameInfo.mpq + " is in use by " + ControlAction.getText(4, 158, 310, 485, 40), ColorCodes.D2Bot.GOLD);
 		D2Bot.CDKeyInUse();
 
 		if (gameInfo.switchKeys) {
@@ -534,7 +535,7 @@ MainSwitch:
 
 		switch (string) {
 		case getLocaleString(10914):
-			D2Bot.printToConsole(gameInfo.mpq + " LoD key in use by " + ControlAction.getText(4, 158, 310, 485, 40), 6);
+			D2Bot.printToConsole(gameInfo.mpq + " LoD key in use by " + ControlAction.getText(4, 158, 310, 485, 40), ColorCodes.D2Bot.GOLD);
 			D2Bot.CDKeyInUse();
 
 			if (gameInfo.switchKeys) {
@@ -611,7 +612,7 @@ MainSwitch:
 
 			if (string === getLocaleString(11161)) { // CDKey disabled from realm play
 				D2Bot.updateStatus("Realm Disabled CDKey");
-				D2Bot.printToConsole("Realm Disabled CDKey: " + gameInfo.mpq, 6);
+				D2Bot.printToConsole("Realm Disabled CDKey: " + gameInfo.mpq, ColorCodes.D2Bot.GOLD);
 				D2Bot.CDKeyDisabled();
 
 				if (gameInfo.switchKeys) {
