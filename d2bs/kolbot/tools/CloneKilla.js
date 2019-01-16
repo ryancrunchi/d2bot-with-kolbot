@@ -26,6 +26,7 @@ include("common/Prototypes.js");
 include("common/Runewords.js");
 include("common/Storage.js");
 include("common/Town.js");
+include("common/Enums.js");
 
 function main() {
 	D2Bot.init();

@@ -27,6 +27,7 @@ include("common/Prototypes.js");
 include("common/Runewords.js");
 include("common/Storage.js");
 include("common/Town.js");
+include("common/Enums.js");
 
 function main() {
 	var i, mercHP, ironGolem, tick, merc,
@@ -200,6 +201,12 @@ function main() {
 		case 2:
 		case 4:
 			if (timerLastDrink[type] && (tNow - timerLastDrink[type] < 300)) { // small delay for juvs just to prevent using more at once
+				return false;
+			}
+
+			break;
+		case 4:
+			if (timerLastDrink[type] && (tNow - timerLastDrink[type] < 2000)) { // larger delay for juvs just to prevent using more at once, considering merc update rate
 				return false;
 			}
 
@@ -384,6 +391,10 @@ function main() {
 				(me.getStat(153) > 0 ? "\xFFc3Cannot be Frozen\xFFc1" : "" ));
 
 			break;
+
+		case 100: // Numpad 4
+			this.toggleDebugPosition();
+		break;
 			
 		case 101: // numpad 5
 			if (AutoMule.getInfo() && AutoMule.getInfo().hasOwnProperty("muleInfo")) {
@@ -399,6 +410,7 @@ function main() {
 			}
 
 			break;
+
 		case 102: // Numpad 6
 			MuleLogger.logChar();
 			me.overhead("Logged char: " + me.name);

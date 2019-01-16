@@ -4,10 +4,12 @@
 *	@desc		Keep a link with d2bot#. If it's lost, the d2 window is killed
 */
 
+include("oog.js");
+include("json2.js");
+include("common/misc.js");
+include("common/Enums.js");
+
 function main() {
-	include("oog.js");
-	include("json2.js");
-	include("common/misc.js");
 	D2Bot.init();
 	print("Heartbeat loaded");
 

@@ -56,9 +56,7 @@ var ExcludeFilter = [
 	["rush"],
 	["quest"],
 	["for q"],
-	["for quest"],
-	["kill"],
-	["for kill"]
+	["kill"]
 ];
 
 // If game elapsed time is more than this value, bot won't join.
@@ -125,6 +123,7 @@ include("gambling.js");
 include("craftingsystem.js");
 include("torchsystem.js");
 include("common/misc.js");
+include("common/Enums.js");
 
 if (!FileTools.exists("data/" + me.profile + ".json")) {
 	DataFile.create();
@@ -491,7 +490,6 @@ MainSwitch:
 				if (doneGames.indexOf(gameList[i].gameName) === -1 && includeCheck(gameList[i].gameName) && excludeCheck(gameList[i].gameName)) {
 					if (maxElapsedTime > 0) {
 						var elapsedTime = ControlAction.getGameElapsedTime(gameList[i].gameName);
-						print(gameList[i].gameName+" "+elapsedTime);
 						if (elapsedTime > -1 && elapsedTime < maxElapsedTime) {
 							print(ColorCodes.LIGHT_GOLD + "Game: " + gameList[i].gameName + ", Players: " + gameList[i].players + ", Elapsed Time: " + elapsedTime);
 							gameToJoin = gameList[i].gameName;

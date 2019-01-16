@@ -1,3 +1,9 @@
+
+include("json2.js");
+include("common/attack.js");
+include("common/pather.js");
+include("common/Enums.js");
+
 var Hooks = {
 	monsters: {
 		hooks: [],
@@ -680,9 +686,6 @@ var Hooks = {
 };
 
 function main() {
-	include("json2.js");
-	include("common/attack.js");
-	include("common/pather.js");
 	load("tools/maphelper.js");
 	print("\xFFc9Map Thread Loaded");
 

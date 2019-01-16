@@ -4,16 +4,17 @@
 *	@desc		handle party procedure ingame
 */
 
-function main() {
-	include("OOG.js");
-	include("json2.js");
-	include("common/Config.js");
-	include("common/Cubing.js");
-	include("common/Runewords.js");
-	include("common/Misc.js");
-	include("common/Prototypes.js");
-	include("common/Town.js");
+include("OOG.js");
+include("json2.js");
+include("common/Config.js");
+include("common/Cubing.js");
+include("common/Runewords.js");
+include("common/Misc.js");
+include("common/Prototypes.js");
+include("common/Town.js");
+include("common/Enums.js");
 
+function main() {
 	Config.init();
 
 	var i, otherParty, shitList, currScript, scriptList,
