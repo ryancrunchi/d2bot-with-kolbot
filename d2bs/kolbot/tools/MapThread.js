@@ -687,7 +687,7 @@ var Hooks = {
 
 function main() {
 	load("tools/maphelper.js");
-	print("\xFFc9Map Thread Loaded");
+	print(ColorCodes.YELLOW + "Map Thread Loaded");
 
 	this.revealArea = function (area) {
 		if (!this.revealedAreas) {

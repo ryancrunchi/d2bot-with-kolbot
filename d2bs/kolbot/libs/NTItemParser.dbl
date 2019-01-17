@@ -27,7 +27,7 @@ var NTIP = {},
 NTIP.OpenFile = function (filepath, notify) {
 	if (!FileTools.exists(filepath)) {
 		if (notify) {
-			Misc.errorReport("\xFFc1NIP file doesn't exist: \xFFc0" + filepath);
+			Misc.errorReport(ColorCodes.RED + "NIP file doesn't exist: " + ColorCodes.WHITE + filepath);
 		}
 
 		return false;
@@ -42,7 +42,7 @@ NTIP.OpenFile = function (filepath, notify) {
 		nipfile = File.open(filepath, 0);
 	} catch (fileError) {
 		if (notify) {
-			Misc.errorReport("\xFFc1Failed to load NIP: \xFFc0" + filename);
+			Misc.errorReport(ColorCodes.RED + "Failed to load NIP: " + ColorCodes.WHITE + filename);
 		}
 	}
 
@@ -72,7 +72,7 @@ NTIP.OpenFile = function (filepath, notify) {
 	}
 
 	if (notify) {
-		print("\xFFc4Loaded NIP: \xFFc2" + filename + "\xFFc4. Lines: \xFFc2" + lines.length + "\xFFc4. Valid entries: \xFFc2" + entries + ". \xFFc4Time: \xFFc2" + (getTickCount() - tick) + " ms");
+		print(ColorCodes.DARK_GOLD + "Loaded NIP: " + ColorCodes.NEON_GREEN + filename + ColorCodes.DARK_GOLD + ". Lines: " + ColorCodes.NEON_GREEN + lines.length + ColorCodes.DARK_GOLD + ". Valid entries: " + ColorCodes.NEON_GREEN + entries + ". " + ColorCodes.DARK_GOLD + "Time: " + ColorCodes.NEON_GREEN + (getTickCount() - tick) + " ms");
 	}
 
 	return true;
@@ -384,11 +384,11 @@ NTIP.CheckItem = function (item, entryList, verbose) {
 			showConsole();
 
 			if (!entryList) {
-				Misc.errorReport("\xFFc1Pickit error! Line # \xFFc2" + stringArray[i].line + " \xFFc1Entry: \xFFc0" + stringArray[i].string + " (" + stringArray[i].file + ") Error message: " + pickError.message + " Trigger item: " + item.fname.split("\n").reverse().join(" "));
+				Misc.errorReport(ColorCodes.RED + "Pickit error! Line # " + ColorCodes.NEON_GREEN + stringArray[i].line + ColorCodes.RED + " Entry: " + ColorCodes.WHITE + stringArray[i].string + " (" + stringArray[i].file + ") Error message: " + pickError.message + " Trigger item: " + item.fname.split("\n").reverse().join(" "));
 
 				NTIP_CheckList[i] = ["", "", ""]; // make the bad entry blank
 			} else {
-				Misc.errorReport("\xFFc1Pickit error in runeword config!");
+				Misc.errorReport(ColorCodes.RED + "Pickit error in runeword config!");
 			}
 
 			result = 0;

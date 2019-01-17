@@ -72,7 +72,7 @@ function main() {
 		var script = getScript("default.dbj");
 
 		if (script && script.running) {
-			print("\xFFc1Pausing.");
+			print(ColorCodes.RED + "Pausing.");
 			script.pause();
 		}
 	};
@@ -82,7 +82,7 @@ function main() {
 		var script = getScript("default.dbj");
 
 		if (script && !script.running) {
-			print("\xFFc2Resuming.");
+			print(ColorCodes.NEON_GREEN + "Resuming.");
 			script.resume();
 		}
 	};
@@ -185,7 +185,7 @@ function main() {
 	};
 
 	addEventListener("scriptmsg", this.scriptEvent);
-	print("\xFFc2Anti-Hostile thread loaded.");
+	print(ColorCodes.NEON_GREEN + "Anti-Hostile thread loaded.");
 
 	// Main Loop
 	while (true) {

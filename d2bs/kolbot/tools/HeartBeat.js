@@ -20,10 +20,10 @@ function main() {
 			do {
 				if (script.name.indexOf(".dbj") > -1) {
 					if (script.running) {
-						print("\xFFc1Pausing \xFFc0" + script.name);
+						print(ColorCodes.RED + "Pausing " + ColorCodes.WHITE + script.name);
 						script.pause();
 					} else {
-						print("\xFFc2Resuming \xFFc0" + script.name);
+						print(ColorCodes.NEON_GREEN + "Resuming " + ColorCodes.WHITE + script.name);
 						script.resume();
 					}
 				}

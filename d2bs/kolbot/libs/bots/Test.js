@@ -1,5 +1,5 @@
 function Test() {
-	print("ÿc8TESTING");
+	print(ColorCodes.ORANGE + "TESTING");
 
 	var c;
 

@@ -496,7 +496,7 @@ MainSwitch:
 							break;
 						}
 						else {
-							delay(rand(500,1000));
+							delay(rand(200,1000));
 						}
 					}
 					else {

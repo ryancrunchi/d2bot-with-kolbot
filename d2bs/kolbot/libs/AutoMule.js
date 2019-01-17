@@ -351,15 +351,15 @@ MainLoop:
 		sendCopyData(null, muleObj.muleProfile, 11, "begin");
 
 		if (this.torchAnniCheck === 2) {
-			print("ÿc4AutoMuleÿc0: In anni mule game.");
+			print(ColorCodes.DARK_GOLD + "AutoMule" + ColorCodes.WHITE + ": In anni mule game.");
 			D2Bot.updateStatus("AutoMule: In game.");
 			this.dropCharm(true);
 		} else if (this.torchAnniCheck === 1) {
-			print("ÿc4AutoMuleÿc0: In torch mule game.");
+			print(ColorCodes.DARK_GOLD + "AutoMule" + ColorCodes.WHITE + ": In torch mule game.");
 			D2Bot.updateStatus("AutoMule: In game.");
 			this.dropCharm(false);
 		} else {
-			print("ÿc4AutoMuleÿc0: In mule game.");
+			print(ColorCodes.DARK_GOLD + "AutoMule" + ColorCodes.WHITE + ": In mule game.");
 			D2Bot.updateStatus("AutoMule: In game.");
 			this.dropStuff();
 		}

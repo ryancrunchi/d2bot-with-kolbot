@@ -1881,11 +1881,11 @@ function AutoSmurf() {
 					delay(me.ping * 2 + 500);
 				} else {
 					if (Pickit.canMakeRoom()) {
-						print("ÿc7Trying to make room for " + Pickit.itemColor(item) + item.name);
+						print(ColorCodes.LIGHT_GOLD + "Trying to make room for " + Pickit.itemColor(item) + item.name);
 
 						Town.visitTown(); // Go to Town and do chores. Will throw an error if it fails to return from Town.
 					} else {
-						print("ÿc7Not enough room for " + Pickit.itemColor(item) + item.name);
+						print(ColorCodes.LIGHT_GOLD + "Not enough room for " + Pickit.itemColor(item) + item.name);
 
 						return false;
 					}
@@ -6246,7 +6246,7 @@ var OnOff = {
                 return true;
             }
         }
-        print("\xFFc;ConfigChanger \xFFc0:: Couldn't find config file.");
+        print(ColorCodes.PURPLE + "ConfigChanger " + ColorCodes.WHITE + ":: Couldn't find config file.");
         return false;
     },
      
@@ -6267,7 +6267,7 @@ var OnOff = {
         for (var i = 0; i < lines.length; i++) {
             if (lines[i].match(line + " = ")) {
                 lines[i] = lines[i].replace(/true/gi, "false");
-                print("\xFFc;ConfigChanger \xFFc0:: Disabled: " + line);
+                print(ColorCodes.PURPLE + "ConfigChanger " + ColorCodes.WHITE + ":: Disabled: " + line);
                 Misc.fileAction(this.file, 1, lines.join("\n"));
                 return true;
             }
@@ -6295,7 +6295,7 @@ var OnOff = {
         for (var i = 0; i < lines.length; i++) {
             if (lines[i].match(line + " = ")) {
                 lines[i] = lines[i].replace(/false/gi, "true");
-                print("\xFFc;ConfigChanger \xFFc0:: Enabled: " + line);
+                print(ColorCodes.PURPLE + "ConfigChanger " + ColorCodes.WHITE + ":: Enabled: " + line);
                 Misc.fileAction(this.file, 1, lines.join("\n"));
                 return true;
             }

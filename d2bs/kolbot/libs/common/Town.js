@@ -918,7 +918,7 @@ CursorLoop:
 			return false;
 		}
 
-		print("ÿc4MiniShopBotÿc0: Scanning " + npc.itemcount + " items.");
+		print(ColorCodes.DARK_GOLD + "MiniShopBot:" + ColorCodes.WHITE + " Scanning " + npc.itemcount + " items.");
 
 		do {
 			if (this.ignoredItemTypes.indexOf(item.itemType) === -1) {
@@ -973,7 +973,7 @@ CursorLoop:
 					if (NTIPAliasClassID.hasOwnProperty(Config.GambleItems[i].replace(/\s+/g, "").toLowerCase())) {
 						this.gambleIds.push(NTIPAliasClassID[Config.GambleItems[i].replace(/\s+/g, "").toLowerCase()]);
 					} else {
-						Misc.errorReport("ÿc1Invalid gamble entry:ÿc0 " + Config.GambleItems[i]);
+						Misc.errorReport(ColorCodes.RED + "Invalid gamble entry: " + ColorCodes.WHITE + Config.GambleItems[i]);
 					}
 				} else {
 					this.gambleIds.push(Config.GambleItems[i]);
@@ -1401,7 +1401,7 @@ CursorLoop:
 				repairAction.push("repair");
 			}
 		} else {
-			print("ÿc4Town: ÿc1Can't afford repairs.");
+			print(ColorCodes.DARK_GOLD + "Town: " + ColorCodes.RED + "Can't afford repairs.");
 		}
 
 		return repairAction;

@@ -105,7 +105,7 @@ var Loader = {
 			script = this.scriptList[this.scriptIndex];
 
 			if (this.fileList.indexOf(script) < 0) {
-				Misc.errorReport("ÿc1Script " + script + " doesn't exist.");
+				Misc.errorReport(ColorCodes.RED + "Script " + script + " doesn't exist.");
 				continue;
 			}
 
@@ -121,21 +121,21 @@ var Loader = {
 					}
 
 					if (this.skipTown.indexOf(script) > -1 || Town.goToTown()) {
-						print("ÿc2Starting script: ÿc9" + script);
+						print(ColorCodes.NEON_GREEN + "Starting script: " + ColorCodes.YELLOW + script);
 						//scriptBroadcast(JSON.stringify({currScript: script}));
 						Messaging.sendToScript("tools/toolsthread.js", JSON.stringify({currScript: script}));
 
 						reconfiguration = typeof Scripts[script] === 'object';
 
 						if (reconfiguration) {
-							print("ÿc2Copying Config properties from " + script + " object.");
+							print(ColorCodes.NEON_GREEN + "Copying Config properties from " + script + " object.");
 							this.copy(Scripts[script], Config);
 						}
 
 						global[script]();
 
 						if (reconfiguration) {
-							print("ÿc2Reverting back unmodified config properties.");
+							print(ColorCodes.NEON_GREEN + "Reverting back unmodified config properties.");
 							this.copy(unmodifiedConfig, Config);
 						}
 					}

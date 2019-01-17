@@ -39,14 +39,14 @@ function main() {
 			if (script) {
 				if (script.running) {
 					if (i === 0) { // default.dbj
-						print("\xFFc1Pausing.");
+						print(ColorCodes.RED + "Pausing.");
 					}
 
 					script.pause();
 				} else {
 					if (i === 0) { // default.dbj
 						if (!getScript("tools/clonekilla.js")) { // resume only if clonekilla isn't running
-							print("\xFFc2Resuming.");
+							print(ColorCodes.NEON_GREEN + "Resuming.");
 							script.resume();
 						}
 					} else {

@@ -113,7 +113,7 @@ var Cubing = {
 				if (NTIPAliasClassID.hasOwnProperty(Config.Recipes[i][1].replace(/\s+/g, "").toLowerCase())) {
 					Config.Recipes[i][1] = NTIPAliasClassID[Config.Recipes[i][1].replace(/\s+/g, "").toLowerCase()];
 				} else {
-					Misc.errorReport("ÿc1Invalid cubing entry:ÿc0 " + Config.Recipes[i][1]);
+					Misc.errorReport(ColorCodes.RED + "Invalid cubing entry: " + ColorCodes.WHITE + Config.Recipes[i][1]);
 					Config.Recipes.splice(i, 1);
 
 					i -= 1;
@@ -949,8 +949,7 @@ IngredientLoop:
 
 				transmute();
 				delay(700 + me.ping);
-				print("ÿc4Cubing: " + string);
-
+				print(ColorCodes.DARK_GOLD + "Cubing: " + string);
 				if (Config.ShowCubingInfo) {
 					D2Bot.printToConsole(string, 5);
 				}

@@ -1403,7 +1403,7 @@ var ColorCodes = {
 	PURPLE: "ÿc;",
 	GREEN: "ÿc<",
 
-	Console: {
+	D2Bot: {
 		BLACK: 0,
 		RED: 9
 	}

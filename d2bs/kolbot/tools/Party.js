@@ -111,7 +111,7 @@ function main() {
 	});
 
 	let mode = Config.PublicMode
-	print("ÿc2Party thread loaded. Mode: " + (Config.PublicMode === 2 ? "Accept" : "Invite"));
+	print(ColorCodes.NEON_GREEN + "Party thread loaded. Mode: " + (Config.PublicMode === 2 ? "Accept" : "Invite"));
 
 	if (Config.ShitList || Config.UnpartyShitlisted) {
 		shitList = ShitList.read();
@@ -363,5 +363,6 @@ function main() {
 
 		delay(500);
 	}
-	print("ÿc1Party thread done.");
+
+	print(ColorCodes.RED + "Party thread done.");
 }

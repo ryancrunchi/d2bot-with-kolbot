@@ -75,11 +75,13 @@ var MuleLogger = {
 
 	inGameCheck: function () {
 		if (getScript("D2BotMuleLog.dbj") && this.LogGame[0] && me.gamename.match(this.LogGame[0], "i")) {
-			print("\xFFc4MuleLogger\xFFc0: Logging items on " + me.name + ".");
-			D2Bot.printToConsole("MuleLogger: Logging items on " + me.name + ".", 7);
+			print(ColorCodes.DARK_GOLD + "MuleLogger" + ColorCodes.WHITE + ": Logging items on " + me.account + " - " + me.name + ".");
+			D2Bot.printToConsole("MuleLogger: Logging items on " + me.account + " - " + me.name + ".", 7);
 			this.logChar();
 
 			while ((getTickCount() - me.gamestarttime) < this.IngameTime * 1000) {
+				me.overhead(ColorCodes.NEON_GREEN + "Log items done. " + ColorCodes.DARK_GOLD + "Stay in " + ColorCodes.DARK_GOLD + "game more: " + ColorCodes.WHITE + Math.floor(this.IngameTime - (getTickCount() - me.gamestarttime) / 1000) + " sec");
+
 				delay(1000);
 			}
 

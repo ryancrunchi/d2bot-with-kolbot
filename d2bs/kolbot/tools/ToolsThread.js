@@ -38,7 +38,7 @@ function main() {
 		canQuit = true,
 		timerLastDrink = [];
 
-	print("\xFFc3Start ToolsThread script");
+	print(ColorCodes.BLUE + "Start ToolsThread script");
 	D2Bot.init();
 	Config.init(false);
 	Pickit.init(false);
@@ -128,7 +128,7 @@ function main() {
 
 		for (i = 0; i < items.length; i += 1) {
 			if (type < 3 && items[i].mode === 0 && items[i].location === 3 && items[i].itemType === pottype) {
-				print("\xFFc2Drinking potion from inventory.");
+				print(ColorCodes.NEON_GREEN + "Drinking potion from inventory.");
 
 				return copyUnit(items[i]);
 			}
@@ -151,7 +151,7 @@ function main() {
 			if (script) {
 				if (script.running) {
 					if (i === 0) { // default.dbj
-						print("\xFFc1Pausing.");
+						print(ColorCodes.RED + "Pausing.");
 					}
 
 					// don't pause townchicken during clone walk
@@ -160,7 +160,7 @@ function main() {
 					}
 				} else {
 					if (i === 0) { // default.dbj
-						print("\xFFc2Resuming.");
+						print(ColorCodes.NEON_GREEN + "Resuming.");
 					}
 
 					script.resume();
@@ -378,17 +378,17 @@ function main() {
 			var realFBR = me.getStat(102) - Config.FBR;
 			var realFHR = me.getStat(99) - Config.FHR;	
 
-			print("\xFFc4MF: \xFFc0" + me.getStat(80) + " \xFFc4GF: \xFFc0" + me.getStat(79) + " \xFFc1FR: \xFFc0" + me.getStat(39) +
-				" \xFFc3CR: \xFFc0" + me.getStat(43) + " \xFFc9LR: \xFFc0" + me.getStat(41) + " \xFFc2PR: \xFFc0" + me.getStat(45) + 
+			print(ColorCodes.DARK_GOLD + "MF: " + ColorCodes.WHITE + me.getStat(80) + ColorCodes.DARK_GOLD + " GF: " + ColorCodes.WHITE + me.getStat(79) + ColorCodes.RED + " FR: " + ColorCodes.WHITE + me.getStat(39) +
+				ColorCodes.BLUE + " CR: " + ColorCodes.WHITE + me.getStat(43) + ColorCodes.YELLOW + " LR: " + ColorCodes.WHITE + me.getStat(41) + ColorCodes.NEON_GREEN + " PR: " + ColorCodes.WHITE + me.getStat(45) + 
 				"\n" + 
 				"FCR: " + realFCR + " IAS: " + realIAS + " FBR: " + realFBR + 
 				" FHR: " + realFHR + " FRW: " + me.getStat(96) + 
 				"\n" +
 				"CB: " + me.getStat(136) + " DS: " + me.getStat(141) + " OW: " + me.getStat(135) + 
-				" \xFFc1LL: \xFFc0" + me.getStat(60) + " \xFFc3ML: \xFFc0" + me.getStat(62) + 
+				ColorCodes.RED + " LL: " + ColorCodes.WHITE + me.getStat(60) + ColorCodes.BLUE + " ML: " + ColorCodes.WHITE + me.getStat(62) + 
 				" DR: " + me.getStat(36) + "% + " + me.getStat(34) + " MDR: " + me.getStat(37) + "% + " + me.getStat(35) + 
 				"\n" + 
-				(me.getStat(153) > 0 ? "\xFFc3Cannot be Frozen\xFFc1" : "" ));
+				(me.getStat(153) > 0 ? ColorCodes.BLUE + "Cannot be Frozen" + ColorCodes.RED : "" ));
 
 			break;
 
@@ -399,7 +399,7 @@ function main() {
 		case 101: // numpad 5
 			if (AutoMule.getInfo() && AutoMule.getInfo().hasOwnProperty("muleInfo")) {
 				if (AutoMule.getMuleItems().length > 0) {
-					print("\xFFc2Mule triggered");
+					print(ColorCodes.NEON_GREEN + "Mule triggered");
 					scriptBroadcast("mule");
 					this.exit();
 				} else {
@@ -515,7 +515,7 @@ function main() {
 				this.togglePause();
 				Town.goToTown();
 				showConsole();
-				print("\xFFc4Diablo Walks the Earth");
+				print(ColorCodes.DARK_GOLD + "Diablo Walks the Earth");
 
 				me.maxgametime = 0;
 
@@ -682,7 +682,7 @@ function main() {
 		}
 
 		if (quitFlag && canQuit) {
-			print("\xFFc8Run duration \xFFc2" + ((getTickCount() - me.gamestarttime) / 1000));
+			print(ColorCodes.ORANGE + "Run duration " + ColorCodes.NEON_GREEN + ((getTickCount() - me.gamestarttime) / 1000));
 
 			if (Config.LogExperience) {
 				Experience.log();

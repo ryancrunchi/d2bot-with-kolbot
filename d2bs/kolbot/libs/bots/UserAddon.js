@@ -31,7 +31,7 @@ function UserAddon() {
 
 	if (!FileTools.exists("libs/config/" + classes[me.classid] + "." + me.name + ".js")) {
 		showConsole();
-		print("\xFFc4UserAddon\xFFc0: Press HOME and then press SPACE if you want to create character config.");
+		print(ColorCodes.DARK_GOLD + "UserAddon" + ColorCodes.WHITE + ": Press HOME and then press SPACE if you want to create character config.");
 		addEventListener("keyup", this.keyEvent);
 	}
 
@@ -97,7 +97,7 @@ function UnitInfo() {
 		var i, items, string,
 			frameXsize = 0,
 			frameYsize = 20,
-			quality = ["\xFFc0", "\xFFc0", "\xFFc0", "\xFFc0", "\xFFc3", "\xFFc2", "\xFFc9", "\xFFc4", "\xFFc8"];
+			quality = [ColorCodes.WHITE, ColorCodes.WHITE, ColorCodes.WHITE, ColorCodes.WHITE, ColorCodes.BLUE, ColorCodes.NEON_GREEN, ColorCodes.YELLOW, ColorCodes.DARK_GOLD, ColorCodes.ORANGE];
 
 		if (!this.currentGid) {
 			this.currentGid = unit.gid;
@@ -112,7 +112,7 @@ function UnitInfo() {
 			this.currentGid = unit.gid;
 		}
 
-		this.hooks.push(new Text("Classid: \xFFc0" + unit.classid, this.x, this.y, 4, 13, 2));
+		this.hooks.push(new Text("Classid: " + ColorCodes.WHITE + unit.classid, this.x, this.y, 4, 13, 2));
 
 		items = unit.getItems();
 
@@ -122,9 +122,9 @@ function UnitInfo() {
 
 			for (i = 0; i < items.length; i += 1) {
 				if (items[i].getFlag(0x4000000)) {
-					string = items[i].fname.split("\n")[1] + "\xFFc0 " + items[i].fname.split("\n")[0];
+					string = items[i].fname.split("\n")[1] + ColorCodes.WHITE + " " + items[i].fname.split("\n")[0];
 				} else {
-					string = quality[items[i].quality] + (items[i].quality > 4 && items[i].getFlag(0x10) ? items[i].fname.split("\n").reverse()[0].replace("\xFFc4", "") : items[i].name);
+					string = quality[items[i].quality] + (items[i].quality > 4 && items[i].getFlag(0x10) ? items[i].fname.split("\n").reverse()[0].replace(ColorCodes.DARK_GOLD, "") : items[i].name);
 				}
 
 				this.hooks.push(new Text(string, this.x, this.y + (i + 2) * 15, 0, 13, 2));
@@ -161,14 +161,14 @@ function UnitInfo() {
 			this.currentGid = unit.gid;
 		}
 
-		this.hooks.push(new Text("Classid: \xFFc0" + unit.classid, this.x, this.y, 4, 13, 2));
-		this.hooks.push(new Text("HP percent: \xFFc0" + Math.round(unit.hp * 100 / 128), this.x, this.y + 15, 4, 13, 2));
-		this.hooks.push(new Text("Fire resist: \xFFc0" + unit.getStat(39), this.x, this.y + 30, 4, 13, 2));
-		this.hooks.push(new Text("Cold resist: \xFFc0" + unit.getStat(43), this.x, this.y + 45, 4, 13, 2));
-		this.hooks.push(new Text("Lightning resist: \xFFc0" + unit.getStat(41), this.x, this.y + 60, 4, 13, 2));
-		this.hooks.push(new Text("Poison resist: \xFFc0" + unit.getStat(45), this.x, this.y + 75, 4, 13, 2));
-		this.hooks.push(new Text("Physical resist: \xFFc0" + unit.getStat(36), this.x, this.y + 90, 4, 13, 2));
-		this.hooks.push(new Text("Magic resist: \xFFc0" + unit.getStat(37), this.x, this.y + 105, 4, 13, 2));
+		this.hooks.push(new Text("Classid: " + ColorCodes.WHITE + unit.classid, this.x, this.y, 4, 13, 2));
+		this.hooks.push(new Text("HP percent: " + ColorCodes.WHITE + Math.round(unit.hp * 100 / 128), this.x, this.y + 15, 4, 13, 2));
+		this.hooks.push(new Text("Fire resist: " + ColorCodes.WHITE + unit.getStat(39), this.x, this.y + 30, 4, 13, 2));
+		this.hooks.push(new Text("Cold resist: " + ColorCodes.WHITE + unit.getStat(43), this.x, this.y + 45, 4, 13, 2));
+		this.hooks.push(new Text("Lightning resist: " + ColorCodes.WHITE + unit.getStat(41), this.x, this.y + 60, 4, 13, 2));
+		this.hooks.push(new Text("Poison resist: " + ColorCodes.WHITE + unit.getStat(45), this.x, this.y + 75, 4, 13, 2));
+		this.hooks.push(new Text("Physical resist: " + ColorCodes.WHITE + unit.getStat(36), this.x, this.y + 90, 4, 13, 2));
+		this.hooks.push(new Text("Magic resist: " + ColorCodes.WHITE + unit.getStat(37), this.x, this.y + 105, 4, 13, 2));
 
 		this.cleared = false;
 
@@ -195,9 +195,9 @@ function UnitInfo() {
 			this.currentGid = unit.gid;
 		}
 
-		this.hooks.push(new Text("Classid: \xFFc0" + unit.classid, this.x, this.y, 4, 13, 2));
-		this.hooks.push(new Text("Code: \xFFc0" + unit.code, this.x, this.y + 15, 4, 13, 2));
-		this.hooks.push(new Text("Item level: \xFFc0" + unit.ilvl, this.x, this.y + 30, 4, 13, 2));
+		this.hooks.push(new Text("Classid: " + ColorCodes.WHITE + unit.classid, this.x, this.y, 4, 13, 2));
+		this.hooks.push(new Text("Code: " + ColorCodes.WHITE + unit.code, this.x, this.y + 15, 4, 13, 2));
+		this.hooks.push(new Text("Item level: " + ColorCodes.WHITE + unit.ilvl, this.x, this.y + 30, 4, 13, 2));
 
 		this.cleared = false;
 		this.socketedItems = unit.getItems();
@@ -214,8 +214,8 @@ function UnitInfo() {
 		}
 
 		if (unit.quality === 4 && unit.getFlag(0x10)) {
-			this.hooks.push(new Text("Prefix: \xFFc0" + unit.prefixnum, this.x, this.y + frameYsize - 5, 4, 13, 2));
-			this.hooks.push(new Text("Suffix: \xFFc0" + unit.suffixnum, this.x, this.y + frameYsize + 10, 4, 13, 2));
+			this.hooks.push(new Text("Prefix: " + ColorCodes.WHITE + unit.prefixnum, this.x, this.y + frameYsize - 5, 4, 13, 2));
+			this.hooks.push(new Text("Suffix: " + ColorCodes.WHITE + unit.suffixnum, this.x, this.y + frameYsize + 10, 4, 13, 2));
 
 			frameYsize += 30;
 		}

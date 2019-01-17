@@ -147,8 +147,8 @@ function main() {
 
 	// Check for experience decrease -> log death. Skip report if life chicken is disabled.
 	if (stats.name === me.name && me.getStat(Stats.LEVEL) > 1 && me.getStat(Stats.EXPERIENCE) < stats.experience && Config.LifeChicken > 0) {
-		D2Bot.printToConsole("You died in last game", ColorCodes.Console.RED);
-		D2Bot.printToConsole("Experience decreased by " + (stats.experience - me.getStat(Stats.EXPERIENCE)), ColorCodes.Console.RED);
+		D2Bot.printToConsole("You died in last game", ColorCodes.D2Bot.RED);
+		D2Bot.printToConsole("Experience decreased by " + (stats.experience - me.getStat(Stats.EXPERIENCE)), ColorCodes.D2Bot.RED);
 		DataFile.updateStats("deaths");
 		D2Bot.updateDeaths();
 	}
@@ -167,7 +167,7 @@ function main() {
 	}
 
 	if (Config.FastPick) {
-		print("ÿc2Fast pickit active.");
+		print(ColorCodes.NEON_GREEN + "Fast pickit active.");
 		addEventListener("itemaction", this.itemEvent);
 	}
 
@@ -193,6 +193,15 @@ function main() {
 
 	if (Config.AutoStat.Enabled && include("common/AutoStat.js")) {
 		AutoStat.init(Config.AutoStat.Build, Config.AutoStat.Save, Config.AutoStat.BlockChance, Config.AutoStat.UseBulk);
+	}
+
+	try {
+		if (Config.AutoBuild.Enabled === true && !isIncluded("common/AutoBuild.js") && include("common/AutoBuild.js")) {
+			AutoBuild.initialize();
+		}
+	} catch (e3) {
+		print(ColorCodes.ORANGE + "Error in libs/common/AutoBuild.js (AutoBuild system is not active!)");
+		print(e3.toSource());
 	}
 
 	// Go
