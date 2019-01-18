@@ -900,7 +900,7 @@ var Attack = {
 			}
 
 			rooms.sort(RoomSort);
-			room = rooms.shift();
+			room = rooms.shift(); 
 
 			result = Pather.getNearestWalkable(room[0], room[1], 18, 3);
 
