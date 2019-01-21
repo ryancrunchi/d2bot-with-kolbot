@@ -29,7 +29,9 @@ var StarterConfig = {
 */
 
 var JoinSettings = {
-	"Leader": ["Leecher"]
+	"ManualLeader": ["PalaFollow"],
+	"DiaBaalRun": ["PalaFollow"],
+	"MF-Sorc": ["MF-Pala"]
 };
 
 // Advanced config - you don't have to edit this unless you need some of the features provided
@@ -58,6 +60,7 @@ include("gambling.js");
 include("craftingsystem.js");
 include("torchsystem.js");
 include("common/misc.js");
+include("common/Enums.js");
 
 var i, j, gameInfo, joinInfo, gameStart, ingame, handle,
 	firstLogin, chatActionsDone, lastGameTick, connectFail,

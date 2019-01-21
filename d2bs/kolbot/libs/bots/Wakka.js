@@ -8,9 +8,9 @@ var stopLvl = 99;
 
 function Wakka() {
 	var i, safeTP, portal, vizClear, seisClear, infClear, tick, diablo,
-		timeout = 1, // minutes
-		minDist = 50,
-		maxDist = 80,
+		timeout = 30, // seconds
+		minDist = 40,
+		maxDist = 60,
 		leaderUnit = null,
 		leaderPartyUnit = null,
 		leader = "";
@@ -46,7 +46,7 @@ function Wakka() {
 
 			delay(500);
 
-			if (getTickCount() - me.gamestarttime >= timeout * 6e4) {
+			if (getTickCount() - me.gamestarttime >= timeout * 1000) {
 				throw new Error("No leader found");
 			}
 		} while (!leader); // repeat until leader is found (or until game is empty)
@@ -233,7 +233,6 @@ function Wakka() {
 
 	// start
 	Town.goToTown(4);
-	Town.move("portalspot");
 
 	if (Config.Leader) {
 		leader = Config.Leader;
@@ -254,6 +253,54 @@ function Wakka() {
 	autoLeaderDetect(108);
 	Town.doChores();
 
+	Town.move("portalspot");
+
+	/*var _leaderFound = false;
+
+	if (Config.Wakka.SkipIfBaal) {
+AreaInfoLoop:
+		while (true) {
+			//me.overhead("Getting party area info");
+
+			if (Misc.getPlayerCount() <= 1) {
+				throw new Error("Empty game"); // Alone in game
+			}
+
+			party = getParty();
+
+			if (party) {
+				do {
+					if (party.name === Config.Leader) {
+						_leaderFound = true;
+					}
+					if (_leaderFound && party.name !== me.name && party.area) {
+						break AreaInfoLoop; // Can read player area
+					}
+				} while (party.getNext());
+
+				if (!_leaderFound) {
+					throw new Error("Leader not found");
+				}
+			}
+
+			delay(1000);
+		}
+
+		if (!_leaderFound) {
+			throw new Error("Leader not found");
+		}
+
+		party = getParty();
+
+		if (party) {
+			do {
+				if (party.area === 131 || party.area === 132) { // Player is in Throne of Destruction or Worldstone Chamber
+					return false; // End script
+				}
+			} while (party.getNext());
+		}
+	}*/
+
 	if (leader) {
 		while (Misc.inMyParty(leader)) {
 			if (me.getStat(12) >= stopLvl) {
@@ -267,7 +314,7 @@ function Wakka() {
 
 				if (portal) {
 					if (!safeTP) {
-						delay(5000);
+						delay(2000);
 					}
 
 					//Pather.usePortal(108, leader);
@@ -292,6 +339,7 @@ function Wakka() {
 				}
 
 				if (!vizClear) {
+					me.overhead("going to vizier");
 					if (!this.followPath(this.vizCoords)) {
 						break;
 					}
@@ -315,6 +363,7 @@ function Wakka() {
 				}
 
 				if (!seisClear) {
+					me.overhead("going to deseis");
 					if (!this.followPath(this.seisCoords)) {
 						break;
 					}
@@ -338,6 +387,7 @@ function Wakka() {
 				}
 
 				if (!infClear) {
+					me.overhead("going to infector");
 					if (!this.followPath(this.infCoords)) {
 						break;
 					}
@@ -360,12 +410,16 @@ function Wakka() {
 					break;
 				}
 
+				me.overhead("going to star for diablo");
 				Pather.moveTo(7767, 5263);
 
 				diablo = getUnit(1, 243);
 
 				if (diablo && (diablo.mode === 0 || diablo.mode === 12)) {
 					return true;
+				}
+				else {
+					me.overhead("scanning for diablo");
 				}
 
 				break;

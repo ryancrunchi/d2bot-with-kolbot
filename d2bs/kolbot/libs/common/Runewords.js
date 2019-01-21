@@ -388,11 +388,14 @@ RuneLoop:
 			}
 
 			print("ÿc4Runewords: ÿc0Made runeword: " + items[0].fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, ""));
-			D2Bot.printToConsole("Made runeword: " + items[0].fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, ""), 5);
+			//D2Bot.printToConsole("Made runeword: " + items[0].fname.split("\n").reverse().join(" ").replace(/\xFFc[0-9!"+<;.*]/, ""), 5);
 
 			if (NTIP.CheckItem(items[0], this.pickitEntries)) {
 				Misc.itemLogger("Runeword Kept", items[0]);
 				Misc.logItem("Runeword Kept", items[0]);
+			}
+			else {
+				Misc.logItem("Made runeword (not keeping)", items[0]);
 			}
 		}
 
@@ -433,7 +436,8 @@ RuneLoop:
 				}
 
 				print("ÿc4Runewords: ÿc0Rerolling runeword: " + base.fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, ""));
-				D2Bot.printToConsole("Rerolling runeword: " + base.fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, ""), 5);
+				//D2Bot.printToConsole("Rerolling runeword: " + base.fname.split("\n").reverse().join(" ").replace(/\xFFc[0-9!"+<;.*]/, ""), 5);
+				Misc.logItem("Rerolling runeword", base);
 				transmute();
 				delay(500);
 

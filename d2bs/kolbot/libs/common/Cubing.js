@@ -147,7 +147,7 @@ var Cubing = {
 
 	getCube: function () {
 		// Don't activate from townchicken
-		if (getScript(true).name === "tools\\townchicken.js") {
+		if (getScript(true).name === "tools/townchicken.js") {
 			return false;
 		}
 
@@ -966,12 +966,26 @@ IngredientLoop:
 						switch (result.result) {
 						case 0:
 							Misc.itemLogger("Dropped", items[j], "doCubing");
+							Misc.logItem("------ Dropped", items[j]);
 							items[j].drop();
 
 							break;
 						case 1:
-							Misc.itemLogger("Cubing Kept", items[j]);
-							Misc.logItem("Cubing Kept", items[j], result.line);
+						case 7:
+						case 8:
+							var log = "Cubing Kept";
+							if (result.result == 7) {
+								let tier = NTIP.GetTier(items[j]);
+								log = "Cubing Kept (auto equip tier "+tier+")";
+							}
+							if (result.result == 8) {
+								let mercTier = NTIP.GetMercTier(items[j]);
+								log = "Cubing Kept (auto equip merc tier "+mercTier+")";
+							}
+							Misc.itemLogger(log, items[j]);
+							if (Config.ShowCubingInfo) {
+								Misc.logItem(log, items[j], result.line);
+							}
 
 							break;
 						case 5: // Crafting System

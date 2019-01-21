@@ -233,57 +233,57 @@ var Precast = new function () {
 			}
 
 			switch (Config.SummonAnimal) {
-			case 1:
-			case "Spirit Wolf":
-				buffSummons = this.summon(227) || buffSummons; // Summon Spirit Wolf
+				case 1:
+				case "Spirit Wolf":
+					buffSummons = this.summon(227) || buffSummons; // Summon Spirit Wolf
 
-				break;
-			case 2:
-			case "Dire Wolf":
-				buffSummons = this.summon(237) || buffSummons; // Summon Dire Wolf
+					break;
+				case 2:
+				case "Dire Wolf":
+					buffSummons = this.summon(237) || buffSummons; // Summon Dire Wolf
 
-				break;
-			case 3:
-			case "Grizzly":
-				buffSummons = this.summon(247) || buffSummons; // Summon Grizzly
+					break;
+				case 3:
+				case "Grizzly":
+					buffSummons = this.summon(247) || buffSummons; // Summon Grizzly
 
-				break;
-			}
+					break;
+				}
 
-			switch (Config.SummonVine) {
-			case 1:
-			case "Poison Creeper":
-				buffSummons = this.summon(222) || buffSummons; // Poison Creeper
+				switch (Config.SummonVine) {
+				case 1:
+				case "Poison Creeper":
+					buffSummons = this.summon(222) || buffSummons; // Poison Creeper
 
-				break;
-			case 2:
-			case "Carrion Vine":
-				buffSummons = this.summon(231) || buffSummons; // Carrion Vine
+					break;
+				case 2:
+				case "Carrion Vine":
+					buffSummons = this.summon(231) || buffSummons; // Carrion Vine
 
-				break;
-			case 3:
-			case "Solar Creeper":
-				buffSummons = this.summon(241) || buffSummons; // Solar Creeper
+					break;
+				case 3:
+				case "Solar Creeper":
+					buffSummons = this.summon(241) || buffSummons; // Solar Creeper
 
-				break;
+					break;
 			}
 
 			switch (Config.SummonSpirit) {
-			case 1:
-			case "Oak Sage":
-				buffSummons = this.summon(226) || buffSummons; // Oak Sage
+				case 1:
+				case "Oak Sage":
+					buffSummons = this.summon(226) || buffSummons; // Oak Sage
 
-				break;
-			case 2:
-			case "Heart of Wolverine":
-				buffSummons = this.summon(236) || buffSummons; // Heart of Wolverine
+					break;
+				case 2:
+				case "Heart of Wolverine":
+					buffSummons = this.summon(236) || buffSummons; // Heart of Wolverine
 
-				break;
-			case 3:
-			case "Spirit of Barbs":
-				buffSummons = this.summon(246) || buffSummons; // Spirit of Barbs
+					break;
+				case 3:
+				case "Spirit of Barbs":
+					buffSummons = this.summon(246) || buffSummons; // Spirit of Barbs
 
-				break;
+					break;
 			}
 
 			if (me.getSkill(250, 0) && (!me.getState(144) || force)) {
@@ -429,14 +429,92 @@ var Precast = new function () {
 			break;
 		}
 
-		while (me.getMinionCount(minion) < count) {
+		var isDruid = me.classid == 5;
+		var minions = me.getMinionCount(minion);
+
+		while (minions < count) {
 			rv = true;
 
 			Skill.cast(skillId, 0);
 			delay(200);
+
+			if (isDruid && me.getMinionCount(minion) == minions) {
+				print("Druid precast stuck");
+				var spiral = this.spiralPositions(3, 3);
+				print(JSON.stringify(spiral));
+				for (var i=0; i<spiral.length && me.getMinionCount(minion) == minions; i++) {
+					Skill.cast(skillId, 0, spiral[i].x, spiral[i].y);
+					delay(200);
+				}
+			}
+
+			minions = me.getMinionCount(minion);
 		}
 
 		return !!rv;
+	};
+
+	this.spiralPositions = function(x, y) {
+		var positions = [];
+		var maxX = me.x+x;
+		var maxY = me.y+y;
+		for (var row=me.y-y; row<=maxY; row++) {
+			var line = [];
+			for (var col=me.x-x; col<=maxX; col++) {
+				line.push({x: col, y: row});
+			}
+			positions.push(line);
+		}
+
+		// D2Bot.printToConsole(JSON.stringify(positions));
+
+		var i, r, c = 0;
+
+		var maxCol = 2*x;
+		var maxRow = 2*y;
+ 
+	    /*  r - starting row index
+	        maxRow - ending row index
+	        c - starting column index
+	        maxCol - ending column index
+	        i - iterator
+	    */
+
+	    var spiral = [];
+ 
+	    while (r < maxRow && c < maxCol) {
+	        /* Print the first row from the remaining rows */
+	        for (i = c; i < maxCol; i++) {
+	            spiral.push(positions[r][i]);
+	        }
+	        r++;
+	 
+	        /* Print the last column from the remaining columns */
+	        for (i = r; i < maxRow; ++i) {
+	            spiral.push(positions[i][maxCol-1]);
+	        }
+	        maxCol--;
+	 
+	        /* Print the last row from the remaining rows */
+	        if ( r < maxRow) {
+	            for (i = maxCol-1; i >= c; --i) {
+	                spiral.push(positions[maxRow-1][i]);
+	            }
+	            maxRow--;
+	        }
+	 
+	        /* Print the first column from the remaining columns */
+	        if (c < maxCol) {
+	            for (i = maxRow-1; i >= r; --i) {
+	                spiral.push(positions[i][c]);
+	            }
+	            c++;    
+	        }        
+	    }
+
+		// D2Bot.printToConsole(JSON.stringify(spiral));
+
+	    return spiral;
 	};
 
 	this.enchant = function () {

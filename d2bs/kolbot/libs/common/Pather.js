@@ -259,6 +259,11 @@ var Pather = {
 						}
 					}
 
+					if(fail > 0){
+						sendPacket(1, 0x4b, 4, me.type, 4, me.gid);
+						delay(me.ping*2+100);
+					}
+
 					// Reduce node distance in new path
 					path = getPath(me.area, x, y, me.x, me.y, useTeleport ? 1 : 0, useTeleport ? rand(25, 35) : rand(10, 15));
 					fail += 1;
@@ -354,11 +359,11 @@ MainLoop:
 
 		// Stamina handler and Charge
 		if (!me.inTown && !me.dead) {
-			if (me.runwalk === 1 && me.stamina / me.staminamax * 100 <= 20) {
+			if (me.runwalk === 1 && me.stamina / me.staminamax * 100 <= 10) {
 				me.runwalk = 0;
 			}
 
-			if (me.runwalk === 0 && me.stamina / me.staminamax * 100 >= 50) {
+			if (me.runwalk === 0 && me.stamina / me.staminamax * 100 >= 90) {
 				me.runwalk = 1;
 			}
 
@@ -412,8 +417,8 @@ ModeLoop:
 					for (i = 0; i < angles.length; i += 1) {
 						// TODO: might need rework into getnearestwalkable
 						whereToClick = {
-							x: Math.round(Math.cos(angle + angles[i]) * 5 + me.x),
-							y: Math.round(Math.sin(angle + angles[i]) * 5 + me.y)
+							x: Math.round(Math.cos(angle + angles[i]) * 8 + me.x),
+							y: Math.round(Math.sin(angle + angles[i]) * 8 + me.y)
 						};
 
 						if (Attack.validSpot(whereToClick.x, whereToClick.y)) {
@@ -579,7 +584,7 @@ ModeLoop:
 		use - enter target area or last area in the array
 		clearPath - kill monsters while moving
 	*/
-	moveToExit: function (targetArea, use, clearPath) {
+	moveToExit: function (targetArea, use, clearPath, retry) {
 		var i, j, area, exits, targetRoom, dest, currExit,
 			areas = [];
 
@@ -587,6 +592,10 @@ ModeLoop:
 			areas = targetArea;
 		} else {
 			areas.push(targetArea);
+		}
+
+		if (!retry) {
+			retry = 6;
 		}
 
 		for (i = 0; i < areas.length; i += 1) {
@@ -618,7 +627,7 @@ ModeLoop:
 						return false;
 					}
 
-					if (!this.moveTo(dest[0], dest[1], 3, clearPath)) {
+					if (!this.moveTo(dest[0], dest[1], retry, clearPath)) {
 						return false;
 					}
 
@@ -631,7 +640,7 @@ ModeLoop:
 							targetRoom = this.getNearestRoom(areas[i]);
 
 							if (targetRoom) {
-								this.moveTo(targetRoom[0], targetRoom[1]);
+								this.moveTo(targetRoom[0], targetRoom[1], retry);
 							} else {
 								// might need adjustments
 								return false;
@@ -948,9 +957,12 @@ ModeLoop:
 
 							if (!getWaypoint(this.wpAreas.indexOf(targetArea))) {
 								me.cancel();
+								var previousteleport = this.teleport;
+								this.teleport = true;
 								me.overhead("Trying to get the waypoint");
 
 								if (this.getWP(targetArea)) {
+									this.teleport = previousteleport;
 									return true;
 								}
 
@@ -1023,21 +1035,29 @@ ModeLoop:
 			return true;
 		}
 
-		var i, portal, oldPortal, oldGid, tick, tpTome;
+		var i, portal, oldPortal, oldGid, tick, tpTome, scroll;
 
 		for (i = 0; i < 5; i += 1) {
 			if (me.dead) {
 				break;
 			}
 
-			tpTome = me.findItem("tbk", 0, 3);
+			scroll = me.findItem(529, 0, 3);
 
-			if (!tpTome) {
-				throw new Error("makePortal: No TP tomes.");
-			}
+			if (!scroll) {
+				tpTome = me.findItem("tbk", 0, 3);
 
-			if (!tpTome.getStat(70)) {
-				throw new Error("makePortal: No scrolls.");
+				if (!tpTome) {
+					// no tp scrolls in inv, no tp tome
+					return false;
+					//throw new Error("makePortal: No TP tomes.");
+				}
+
+				if (!tpTome.getStat(70)) {
+					// no tp scrolls at all
+					return false;
+					//throw new Error("makePortal: No scrolls.");
+				}
 			}
 
 			oldPortal = getUnit(2, "portal");
@@ -1052,7 +1072,12 @@ ModeLoop:
 				} while (oldPortal.getNext());
 			}
 
-			tpTome.interact();
+			if (scroll) {
+				scroll.interact();
+			}
+			else {
+				tpTome.interact();
+			}
 
 			tick = getTickCount();
 
@@ -1155,6 +1180,7 @@ MainLoop:
 					Packet.flash(me.gid);
 				}
 			} else {
+				print("portal to "+targetArea+" not found");
 				Packet.flash(me.gid);
 			}
 

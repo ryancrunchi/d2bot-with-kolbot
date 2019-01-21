@@ -14,7 +14,7 @@ function LoadConfig() {
 	 */
 
 	// User addon script. Read the description in libs/bots/UserAddon.js
-	Scripts.UserAddon = true; // !!!YOU MUST SET THIS TO FALSE IF YOU WANT TO RUN BOSS/AREA SCRIPTS!!!
+	Scripts.UserAddon = false; // !!!YOU MUST SET THIS TO FALSE IF YOU WANT TO RUN BOSS/AREA SCRIPTS!!!
 
 	// Battle orders script - Use this for 2+ characters (for example BO barb + sorc)
 	Scripts.BattleOrders = false;
@@ -24,6 +24,20 @@ function LoadConfig() {
 
 	// Team MF system
 	Config.MFLeader = false; // Set to true if you have one or more MFHelpers. Opens TP and gives commands when doing normal MF runs.
+
+	// Auto
+	Scripts.AutoSmurf = false; 
+		Config.AutoSmurf.TeamSize = 1; //- length of your ingame team
+		Config.AutoSmurf.TeleportingSorc = []; // ingame character(s) name(s) - ex: ["SorcTeleportA", "SorcTeleportB", ""];
+			//- search brain - teleport to diablo/baal - if you have less than 3 sorc, use this - 3 characters max
+		Config.AutoSmurf.QuestingSorcA = []; // ingame character(s) name(s) - ex: ["SorcFireBall", "", ""];
+			//- search eye / rescue barbs - 3 characters max
+		Config.AutoSmurf.QuestingSorcB = []; // ingame character(s) name(s) - ex: ["SorcBlizzard", "", ""];
+			//- search heart / shenk - 3 characters max
+		Config.AutoSmurf.NonSorcChar = [];  // ingame character(s) name(s) - ex: ["", "", ""]; 
+			//- hammer, druid, whatever... but not the bo barb! - 3 characters max
+		Config.AutoSmurf.BoBarb = ""; // ingame character name - ex: "BarbBo";
+        	//- name of your bo barb, if you have one - 1 character max : no brackets!
 
 	// Boss/area scripts
 
@@ -38,7 +52,6 @@ function LoadConfig() {
 	Scripts.UndergroundPassage = false;
 	Scripts.Coldcrow = false;
 	Scripts.Tristram = false;
-		Config.Tristram.WalkClear = false; // Disable teleport while clearing to protect leechers
 		Config.Tristram.PortalLeech = false; // Set to true to open a portal for leechers.
 	Scripts.Pit = false;
 		Config.Pit.ClearPit1 = true;
@@ -82,7 +95,6 @@ function LoadConfig() {
 	Scripts.Vizier = false; // Intended for classic sorc, kills Vizier only.
 	Scripts.FastDiablo = false;
 	Scripts.Diablo = false;
-		Config.Diablo.WalkClear = false; // Disable teleport while clearing to protect leechers
 		Config.Diablo.Entrance = true; // Start from entrance
 		Config.Diablo.SealWarning = "Leave the seals alone!";
 		Config.Diablo.EntranceTP = "Entrance TP up";
@@ -133,6 +145,7 @@ function LoadConfig() {
 	Scripts.TravincalLeech = false; // Enters portal at back of Travincal.
 		Config.TravincalLeech.Helper = true; // If set to true the character will teleport to the stairs and help attack.
 	Scripts.MFHelper = false; // Run the same MF run as the MFLeader. Leader must have Config.MFLeader = true
+		Config.MFHelper.HealBetweenCommands = false; // If set to true, the helper will heal (if needed based on Config.HealHP and Config.HealMP) to NPC between leader's commands.
 	Scripts.Wakka = false; // Walking chaos leecher with auto leader assignment, stays at safe distance from the leader
 	Scripts.SealLeecher = false; // Enter safe portals to Chaos. Leader should run SealLeader.
 	Scripts.DiabloHelper = false; // Chaos helper, kills monsters and doesn't open seals on its own.
@@ -188,9 +201,9 @@ function LoadConfig() {
 		Config.IPHunter.GameLength = 3; // Number of minutes to stay in game if ip wasn't found
 	Scripts.KillDclone = false; // Kill Diablo Clone by using Arcane Sanctuary waypoint. Diablo needs to walk the Earth in the game.
 	Scripts.ShopBot = false; // Shopbot script. Automatically uses shopbot.nip and ignores other pickits.
-		// Supported NPCs: Akara, Charsi, Gheed, Elzix, Fara, Drognan, Ormus, Asheara, Hratli, Jamella, Halbu, Anya. Multiple NPCs are also supported, example: [NPC.Elzix, NPC.Fara]
+		// Supported NPCs: Akara, Charsi, Gheed, Elzix, Fara, Drognan, Ormus, Asheara, Hratli, Jamella, Halbu, Anya. Multiple NPCs are also supported, example: ["Elzix", "Fara"]
 		// Use common sense when combining NPCs. Shopping in different acts will probably lead to bugs.
-		Config.ShopBot.ShopNPC = NPC.Anya;
+		Config.ShopBot.ShopNPC = "Anya";
 		// Put item classid numbers or names to scan (remember to put quotes around names). Leave blank to scan ALL items. See libs/config/templates/ShopBot.txt
 		Config.ShopBot.ScanIDs = [];
 		Config.ShopBot.CycleDelay = 0; // Delay between shopping cycles in milliseconds, might help with crashes.
@@ -218,7 +231,7 @@ function LoadConfig() {
 		Config.BaalAssistant.WaitForSafeTP = false; // Set to true to wait for a safe TP message (defined in SafeTPMessage)
 		Config.BaalAssistant.DollQuit = false; // Quit on dolls. (Hardcore players?)
 		Config.BaalAssistant.SoulQuit = false; // Quit on Souls. (Hardcore players?)
-		Config.BaalAssistant.KillBaal = true; // Set to true to kill baal, if you set to false you MUST configure Config.QuitList or Config.BaalAssistant.NextGameMessage or the bot will wait indefinitely.
+		Config.BaalAssistant.KillBaal = true; // Set to true to kill baal, if you set to false you MUST configure Config.QuitList or Config.BaalAssistant.NextGameMessage or the bot will wait indefinitely. 
 		Config.BaalAssistant.HotTPMessage = ["Hot"]; // Configure safe TP messages.
 		Config.BaalAssistant.SafeTPMessage = ["Safe", "Clear"]; // Configure safe TP messages.
 		Config.BaalAssistant.BaalMessage = ["Baal"]; // Configure baal messages, this is a precautionary measure.
@@ -232,20 +245,20 @@ function LoadConfig() {
 	Config.MercWatch = false; // Instant merc revive during battle.
 
 	// Potion settings
-	Config.UseHP = 75; // Drink a healing potion if life is under designated percent.
-	Config.UseRejuvHP = 40;  // Drink a rejuvenation potion if life is under designated percent.
-	Config.UseMP = 30; // Drink a mana potion if mana is under designated percent.
-	Config.UseRejuvMP = 0; // Drink a rejuvenation potion if mana is under designated percent.
-	Config.UseMercHP = 75; // Give a healing potion to your merc if his/her life is under designated percent.
-	Config.UseMercRejuv = 0; // Give a rejuvenation potion to your merc if his/her life is under designated percent.
+	Config.UseHP = 40; // Drink a healing potion if life is under designated percent.
+	Config.UseRejuvHP = 20;  // Drink a rejuvenation potion if life is under designated percent.
+	Config.UseMP = 15; // Drink a mana potion if mana is under designated percent.
+	Config.UseRejuvMP = -1; // Drink a rejuvenation potion if mana is under designated percent.
+	Config.UseMercHP = -1; // Give a healing potion to your merc if his/her life is under designated percent.
+	Config.UseMercRejuv = -1; // Give a rejuvenation potion to your merc if his/her life is under designated percent.
 	Config.HPBuffer = 0; // Number of healing potions to keep in inventory.
 	Config.MPBuffer = 0; // Number of mana potions to keep in inventory.
 	Config.RejuvBuffer = 0; // Number of rejuvenation potions to keep in inventory.
 
 	// Chicken settings
-	Config.LifeChicken = 30; // Exit game if life is less or equal to designated percent.
-	Config.ManaChicken = 0; // Exit game if mana is less or equal to designated percent.
-	Config.MercChicken = 0; // Exit game if merc's life is less or equal to designated percent.
+	Config.LifeChicken = -1; // Exit game if life is less or equal to designated percent.
+	Config.ManaChicken = -1; // Exit game if mana is less or equal to designated percent.
+	Config.MercChicken = -1; // Exit game if merc's life is less or equal to designated percent.
 	Config.TownHP = 0; // Go to town if life is under designated percent.
 	Config.TownMP = 0; // Go to town if mana is under designated percent.
 
@@ -280,28 +293,29 @@ function LoadConfig() {
 	Config.MinColumn[3] = 0;
 
 	// Pickit config. Default folder is kolbot/pickit.
-	Config.PickitFiles.push("kolton.nip");
-	Config.PickitFiles.push("LLD.nip");
+	// Config.PickitFiles.push("kolton.nip");
+	// Config.PickitFiles.push("LLD.nip");
+
+	Config.PickitFiles.push("ladder_reset/normal.nip");
+	Config.PickitFiles.push("ladder_reset/magic_rare.nip");
+	Config.PickitFiles.push("ladder_reset/set.nip");
+	Config.PickitFiles.push("ladder_reset/unique.nip");
+	Config.PickitFiles.push("ladder_reset/craft.nip");
+	Config.PickitFiles.push("ladder_reset/runewords.nip");
+
+	// Config.PickitFiles.push("autoequip/sorceress.blizzard.nip");
+	// Config.PickitFiles.push("autoequip/base.nip");
+
+	// Config.PickitFiles.push("advance/normal.nip");
+	// Config.PickitFiles.push("advance/magic_rare.nip");
+	// Config.PickitFiles.push("advance/set.nip");
+	// Config.PickitFiles.push("advance/unique.nip");
+	// Config.PickitFiles.push("advance/craft.nip");
+	// Config.PickitFiles.push("advance/runewords.nip");
+	// Config.PickitFiles.push("advance/spirit_packs.nip");
+	
 	Config.PickRange = 40; // Pick radius
 	Config.FastPick = false; // Check and pick items between attacks
-
-	/* Advanced automule settings
-	 * Trigger - Having an item that is on the list will initiate muling. Useful if you want to mule something immediately upon finding.
-	 * Force - Items listed here will be muled even if they are ingredients for cubing.
-	 * Exclude - Items listed here will be ignored and will not be muled. Items on Trigger or Force lists are prioritized over this list.
-	 *
-	 * List can either be set as string in pickit format and/or as number referring to item classids. Each entries are separated by commas.
-	 * Example :
-	 *  Config.AutoMule.Trigger = [639, 640, "[type] == ring && [quality] == unique # [maxmana] == 20"];
-	 *  	This will initiate muling when your character finds Ber, Jah, or SOJ.
-	 *  Config.AutoMule.Force = [561, 566, 571, 576, 581, 586, 601];
-	 *  	This will mule perfect gems/skull during muling.
-	 *  Config.AutoMule.Exclude = ["[name] >= talrune && [name] <= solrune", "[name] >= 654 && [name] <= 657"];
-	 *  	This will exclude muling of runes from tal through sol, and any essences.
-	 */
-	Config.AutoMule.Trigger = [];
-	Config.AutoMule.Force = [];
-	Config.AutoMule.Exclude = [];
 
 	// Additional item info log settings. All info goes to \logs\ItemLog.txt
 	Config.ItemInfo = false; // Log stashed, skipped (due to no space) or sold items.
@@ -400,19 +414,13 @@ function LoadConfig() {
 
 	//Config.KeepRunewords.push("[type] == polearm # [meditationaura] == 17");
 
-	//Config.Runewords.push([Runeword.Spirit, "Monarch", Roll.NonEth]); // Make Spirit Monarch
-	//Config.Runewords.push([Runeword.Spirit, "Sacred Targe", Roll.NonEth]); // Make Spirit Sacred Targe
+	//Config.Runewords.push([Runeword.Spirit, "Monarch"]); // Make Spirit Monarch
+	//Config.Runewords.push([Runeword.Spirit, "Sacred Targe"]); // Make Spirit Sacred Targe
 
 	//Config.KeepRunewords.push("[type] == shield || [type] == auricshields # [fcr] == 35");
 
 	// Public game options
 
-	// If LocalChat is enabled, chat can be sent via 'sendCopyData' instead of BNET
-	// To allow 'say' to use BNET, use 'say("msg", true)', the 2nd parameter will force BNET
-	// LocalChat messages will only be visible on clients running on the same PC
-	Config.LocalChat.Enabled = false; // enable the LocalChat system
-	Config.LocalChat.Toggle = false; // optional, set to KEY value to toggle through modes 0, 1, 2
-	Config.LocalChat.Mode = 0; // 0 = disabled, 1 = chat from 'say' (recommended), 2 = all chat (for manual play)
 	// If Config.Leader is set, the bot will only accept invites from leader. If Config.PublicMode is not 0, Baal and Diablo script will open Town Portals.
 	Config.PublicMode = 0; // 1 = invite and accept, 2 = accept only, 3 = invite only, 0 = disable
 	// Party message settings. Each setting represents an array of messages that will be randomly chosen.
@@ -447,10 +455,10 @@ function LoadConfig() {
 	Config.PrimarySlot = -1; // Set to use specific weapon slot as primary weapon slot: -1 = disabled, 0 = slot I, 1 = slot II
 
 	// Fastmod config
-	Config.FCR = 0; // 0 - disable, 1 to 255 - set value of faster cast rate
-	Config.FHR = 0; // 0 - disable, 1 to 255 - set value of faster hit recovery
-	Config.FBR = 0; // 0 - disable, 1 to 255 - set value of faster block recovery
-	Config.IAS = 0; // 0 - disable, 1 to 255 - set value of increased attack speed
+	Config.FCR = 0; // 0 - disable, 1 to 255 - set value of faster cast rate 
+	Config.FHR = 0; // 0 - disable, 1 to 255 - set value of faster hit recovery 
+	Config.FBR = 0; // 0 - disable, 1 to 255 - set value of faster block recovery 
+	Config.IAS = 200; // 0 - disable, 1 to 255 - set value of increased attack speed 
 	Config.PacketCasting = 0; // 0 = disable, 1 = packet teleport, 2 = full packet casting.
 	Config.WaypointMenu = true;
 
@@ -549,11 +557,11 @@ function LoadConfig() {
 	// AutoBuild System ( See /d2bs/kolbot/libs/config/Builds/README.txt for instructions )
 	Config.AutoBuild.Enabled = false;			//	This will enable or disable the AutoBuild system
 
-	Config.AutoBuild.Template = "BuildName";	//	The name of the build associated with an existing
+	Config.AutoBuild.Template = "BuildName";	//	The name of the build associated with an existing 
 												//	template filename located in libs/config/Builds/
 
 	Config.AutoBuild.Verbose = true;			//	Allows script to print messages in console
-	Config.AutoBuild.DebugMode = true;			//	Debug mode prints a little more information to console and
+	Config.AutoBuild.DebugMode = true;			//	Debug mode prints a little more information to console and 
 												//	logs activity to /logs/AutoBuild.CharacterName._MM_DD_YYYY.log
 												//	It automatically enables Config.AutoBuild.Verbose
 }

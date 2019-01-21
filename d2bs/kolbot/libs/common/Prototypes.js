@@ -839,9 +839,19 @@ Unit.prototype.getColor = function () {
 		return -1;
 	}
 
+	let isRuneword = this.getFlag(0x4000000);
+
 	// check quality
-	if ([4, 5, 6, 7].indexOf(this.quality) === -1) {
+	if ([4, 5, 6, 7].indexOf(this.quality) === -1 && !isRuneword) {
 		return -1;
+	}
+	if (isRuneword) {
+		return Color.darkgold;
+	}
+
+	let isRuneword = this.getFlag(0x4000000);
+	if (isRuneword) {
+		return Color.darkgold;
 	}
 
 	if (this.quality === 4 || this.quality === 6) {
@@ -1024,15 +1034,19 @@ Unit.prototype.getColor = function () {
 		}
 	}
 
-	for (i = 0; i < this.suffixes.length; i += 1) {
-		if (colors.hasOwnProperty(this.suffixes[i])) {
-			return colors[this.suffixes[i]];
+	if (this.suffixes) {
+		for (i = 0; i < this.suffixes.length; i += 1) {
+			if (colors.hasOwnProperty(this.suffixes[i])) {
+				return colors[this.suffixes[i]];
+			}
 		}
 	}
 
-	for (i = 0; i < this.prefixes.length; i += 1) {
-		if (colors.hasOwnProperty(this.prefixes[i])) {
-			return colors[this.prefixes[i]];
+	if (this.prefixes) {
+		for (i = 0; i < this.prefixes.length; i += 1) {
+			if (colors.hasOwnProperty(this.prefixes[i])) {
+				return colors[this.prefixes[i]];
+			}
 		}
 	}
 

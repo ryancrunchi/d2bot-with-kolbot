@@ -222,10 +222,13 @@ function Cows() {
 	Town.goToTown(1);
 	Town.doChores();
 
-	leg = this.getLeg();
-	tome = this.getTome();
-
-	this.openPortal(leg, tome);
+	Town.move("stash");
+	if (!Pather.usePortal(39)) {
+		leg = this.getLeg();
+		tome = this.getTome();
+		this.openPortal(leg, tome);
+	}
+	
 	Pather.usePortal(39);
 	Precast.doPrecast(false);
 	this.clearCowLevel();

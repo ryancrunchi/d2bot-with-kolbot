@@ -1,0 +1,19 @@
+// ##### Keys ##########################
+[Name] == KeyOfTerror
+[Name] == KeyOfHate
+[Name] == KeyOfDestruction
+
+// ##### Organs ########################
+[Name] == mephisto'sbrain
+[Name] == baal'seye
+[Name] == diablo'shorn
+
+// ##### Essences ######################
+[Name] == TwistedEssenceOfSuffering
+[Name] == ChargedEssenceOfHatred
+[Name] == BurningEssenceOfTerror
+[Name] == FesteringEssenceOfDestruction
+[Name] == TokenOfAbsolution
+
+// ##### Torch ######################
+[Name] == LargeCharm && [Quality] == unique

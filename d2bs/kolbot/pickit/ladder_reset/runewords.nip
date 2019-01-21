@@ -1,0 +1,70 @@
+//##### Helms #########################
+[Type] == Helm && [Quality] <= superior && [Flag] == runeword # [itemallskills] == 2 && [vitality] == 10 && [itemmagicbonus] == 25								// Delirium
+[Type] == Helm && [Quality] <= superior && [Flag] == runeword # [fhr] >= 20 && [enhanceddefense] >= 30 && [vitality] == 10 && [itemmaxhppercent] == 5						// Dream
+
+
+//##### Armor #########################
+[Type] == Armor && [Quality] <= superior && [Flag] == runeword # [fhr] == 50 && [itemmaxmanapercent] == 5 && [manarecovery] == 15	// Bramble
+[Type] == Armor && [Quality] <= superior && [Flag] == runeword # [itemallskills] == 2 && [itemdemondamagepercent]+[itemundeaddamagepercent] == 300 && [strength] == 20 && [fireresist] == 65	// Chains of Honor
+[Type] == Armor && [Quality] <= superior && [Flag] == runeword # [itemallskills] == 2 && [skillteleport] == 1											// Enigma
+[Type] == Armor && [Quality] <= superior && [Flag] == runeword # [skillholyfire] == 14 && [armorclassvsmissile] == 230 && [statpts] >= 3 && [statpts] <= 5					// Dragon
+[Type] == Armor && [Quality] <= superior && [Flag] == runeword # [fcr] == 25 && [enhanceddefense]+[enhanceddamage] == 500 && [itemhpperlevel] > 0						// Fortitude
+
+
+//##### Shields #######################
+[Type] == Shield && [Quality] <= superior && [Flag] == runeword # [fhr] == 20 && [fbr] == 20 && [armorclassvsmissile] == 250 && [dexterity] == 20						// Sanctuary
+[Type] == Shield && [Quality] <= superior && [Flag] == runeword # [skillholyfire] == 14 && [armorclassvsmissile] == 230 && [statpts] >= 3 && [statpts] <= 5					// Dragon
+[Type] == Shield && [Quality] <= superior && [Flag] == runeword # [fhr] >= 20 && [enhanceddefense] >= 30 && [vitality] == 10 && [itemmaxhppercent] == 5						// Dream
+[Type] == Shield && [Quality] <= superior && [Flag] == runeword # [skillredemption] >= 10 && [PassiveFirePierce] == 28										// Phoenix
+[Type] == Shield && [Quality] <= superior && [Flag] == runeword # [itemallskills] == 2 && [fcr] >= 25 && [fhr] == 55 && [vitality] == 22								// Spirit
+
+
+//##### Paladin Shields ###############
+[Type] == AuricShields && [Quality] <= superior && [Flag] == runeword # [skilldefiance] >= 13 && [itemaddoffensiveaurasskilltab] == 2								// Exile
+
+
+//##### Axes ##########################
+[Type] == Axe && [Quality] <= superior && [Flag] == runeword # [skillfanaticism] == 9 && [ias] == 40 && [skilllycanthropy] == 3									// Beast
+[Type] == Axe && [Quality] <= superior && [Flag] == runeword # [skillholyfreeze] == 12 && [itemallskills] == 2 && [ias] == 45									// Doom
+[Type] == Axe && [Quality] <= superior && [Flag] == runeword # [ias] >= 30 && [itemignoretargetac] > 0 && [itemdamagedemonperlevel] > 0								// Grief
+[Type] == Axe && [Quality] <= superior && [Flag] == runeword # [skillmight] == 17 && [itemignoretargetac] > 0 && [itemrestinpeace] > 0 && [itemfindmagicperlevel] > 0				// Last Wish
+[Type] == Axe && [Quality] <= superior && [Flag] == runeword # [ias] == 60 && [statpts] == 30 && [manaleech] == 7 && [lifeleech] >= 12								// Breath of the Dying
+[Type] == Axe && [Quality] <= superior && [Flag] == runeword # [skillholyfire] == 16 && [ias] == 33 && [lifeleech] == 7										// Hand of Justice
+
+
+//##### Bows ##########################
+[Type] == Bow && [Quality] <= superior && [Flag] == runeword # [itemallskills] >= 1 && [skillfanaticism] >= 12 && [itemtohitpercent] == 300							// Faith
+[Type] == Bow && [Quality] <= superior && [Flag] == runeword # [skillholyfreeze] == 18 && [ias] == 20 && [lifeleech] == 7									// Ice
+[Type] == Bow && [Quality] <= superior && [Flag] == runeword # [ias] == 60 && [statpts] == 30 && [manaleech] == 7 && [lifeleech] >= 12								// Breath of the Dying
+[Type] == Bow && [Quality] <= superior && [Flag] == runeword # [skillholyfire] == 16 && [ias] == 33 && [lifeleech] == 7										// Hand of Justice
+
+
+//##### Polearms ######################
+[Type] == Polearm && [Quality] <= superior && [Flag] == runeword # [skillconviction] == 12 && [frw] == 35 && [itemmagicbonus] == 30								// Infinity
+[Type] == Polearm && [Quality] <= superior && [Flag] == runeword # [skillmeditation] >= 12 && [fcr] == 35 && [itemmagicbonus] == 23 && [statpts] == 5						// Insight
+[Type] == Polearm && [Quality] <= superior && [Flag] == runeword # [ias] == 60 && [statpts] == 30 && [manaleech] == 7 && [lifeleech] >= 12							// Breath of the Dying
+[Type] == Polearm && [Quality] <= superior && [Flag] == runeword # [skillholyfire] == 16 && [ias] == 33 && [lifeleech] == 7									// Hand of Justice
+
+
+//##### Swords ########################
+[Type] == Sword && [Quality] <= superior && [Flag] == runeword # [ias] >= 30 && [itemignoretargetac] > 0 && [itemdamagedemonperlevel] > 0							// Grief
+[Type] == Sword && [Quality] <= superior && [Flag] == runeword # [skillmight] == 17 && [itemignoretargetac] > 0 && [itemrestinpeace] > 0 && [itemfindmagicperlevel] > 0				// Last Wish
+[Type] == Sword && [Quality] <= superior && [Flag] == runeword # [itemallskills] == 2 && [fcr] >= 25 && [fhr] == 55 && [vitality] == 22								// Spirit
+[Type] == Sword && [Quality] <= superior && [Flag] == runeword # [ias] == 60 && [statpts] == 30 && [manaleech] == 7 && [lifeleech] >= 12								// Breath of the Dying
+[Type] == Sword && [Quality] <= superior && [Flag] == runeword # [itemallskills] == 1 && [skillbattleorders] > 0 && [skillbattlecommand] > 1							// Call to Arms
+[Type] == Sword && [Quality] <= superior && [Flag] == runeword # [skillholyfire] == 16 && [ias] == 33 && [lifeleech] == 7									// Hand of Justice
+
+
+//##### Maces #########################
+[Type] == Mace && [Quality] <= superior && [Flag] == runeword # [ias] == 60 && [statpts] == 30 && [manaleech] == 7 && [lifeleech] >= 12								// Breath of the Dying
+[Type] == Mace && [Quality] <= superior && [Flag] == runeword # [itemallskills] == 1 && [skillbattleorders] > 0 && [skillbattlecommand] > 1							// Call to Arms
+[Type] == Mace && [Quality] <= superior && [Flag] == runeword # [itemallskills] == 3 && [fcr] == 40 && [dexterity] == 10 && [fireresist] >= 30							// Heart of the Oak
+[Type] == Mace && [Quality] <= superior && [Flag] == runeword # [skillholyfire] == 16 && [ias] == 33 && [lifeleech] == 7										// Hand of Justice
+
+
+//##### Staves ########################
+[Type] == Staff && [Quality] <= superior && [Flag] == runeword # [sorceressskills]+[skillenergyshield] == 9											// Memory
+
+
+//##### Wands #########################
+[Type] == Wand && [Quality] <= superior && [Flag] == runeword # [poisonandboneskilltab] == 3 && [skillbonespear] >= 4										// White

@@ -1079,29 +1079,36 @@ var Attack = {
 
 		monList.sort(Sort.units);
 
-		if (this.getMonsterCount(me.x, me.y, 15, monList) === 0) {
+		if (this.getMonsterCount(me.x, me.y, Config.DodgeRange, monList) === 0) {
+			//print("no monsters");
 			return true;
 		}
 
 		CollMap.getNearbyRooms(unit.x, unit.y);
-
+		/*
+		if (!CollMap.checkColl(unit, {x: me.x, y: me.y}, 0x4) && getDistance(me.x, me.y, unit.x, unit.y) >= Config.DodgeRange) {
+			return true;
+		}
+		*/
 		grid = this.buildGrid(unit.x - distance, unit.x + distance, unit.y - distance, unit.y + distance, spread);
 
 		//print("Grid build time: " + (getTickCount() - tick));
 
 		if (!grid.length) {
+			//print("no grid");
 			return false;
 		}
 
 		function sortGrid(a, b) {
 			//return getDistance(a.x, a.y, idealPos.x, idealPos.y) - getDistance(b.x, b.y, idealPos.x, idealPos.y);
-			return getDistance(b.x, b.y, unit.x, unit.y) - getDistance(a.x, a.y, unit.x, unit.y);
+			//return getDistance(b.x, b.y, unit.x, unit.y) - getDistance(a.x, a.y, unit.x, unit.y);
+			return getDistance(a.x, a.y, unit.x, unit.y) - getDistance(b.x, b.y, unit.x, unit.y);
 		}
 
 		grid.sort(sortGrid);
 
 		for (i = 0; i < grid.length; i += 1) {
-			if (!(CollMap.getColl(grid[i].x, grid[i].y, true) & 0x1) && !CollMap.checkColl(unit, {x: grid[i].x, y: grid[i].y}, 0x4)) {
+			if (!(grid[i].coll & 0x1) && !CollMap.checkColl(unit, {x: grid[i].x, y: grid[i].y}, 0x4)) {
 				currCount = this.getMonsterCount(grid[i].x, grid[i].y, range, monList);
 
 				if (currCount < count) {
@@ -1130,7 +1137,7 @@ var Attack = {
 		var i,
 			fire,
 			count = 0,
-			ignored = [243];
+			ignored = [/*243*/];
 
 		for (i = 0; i < list.length; i += 1) {
 			if (ignored.indexOf(list[i].classid) === -1 && this.checkMonster(list[i]) && getDistance(x, y, list[i].x, list[i].y) <= range) {
@@ -1168,6 +1175,15 @@ var Attack = {
 				}
 			}
 		}
+		/*for (i = xmax; i >= xmin; i -= spread) {
+			for (j = ymax; j <= ymin; j -= spread) {
+				coll = CollMap.getColl(i, j, true);
+
+				if (typeof coll === "number") {
+					grid.push({x: i, y: j, coll: coll});
+				}
+			}
+		}*/
 
 		return grid;
 	},

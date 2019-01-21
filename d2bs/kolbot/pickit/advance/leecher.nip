@@ -1,0 +1,8 @@
+// ##### Potions #######################
+[Name] == SuperHealingPotion
+[Name] == SuperManaPotion
+[Name] == RejuvenationPotion
+[Name] == FullRejuvenationPotion
+
+// ##### Gold ##########################
+[Type] == gold # [Gold] >= 5000

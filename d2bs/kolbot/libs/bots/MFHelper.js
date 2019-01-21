@@ -177,10 +177,9 @@ MainLoop:
 			}
 
 			if (command !== oldCommand) {
-				oldCommand = command;
 
 				if (command.indexOf("kill") > -1) {
-					print("ÿc4MFHelperÿc0: Kill");
+					print("\xFFc4MFHelper\xFFc0: Kill");
 
 					split = command.split("kill ")[1];
 
@@ -210,12 +209,16 @@ MainLoop:
 
 						if (!me.inTown && !Pather.usePortal(null, player.name)) {
 							Town.goToTown();
+							if (Config.MFHelper.HealBetweenCommands) {
+								Town.heal();
+								Town.move("portalspot");
+							}
 						}
 					} else {
 						print("Failed to use portal.");
 					}
 				} else if (command.indexOf("clearlevel") > -1) {
-					print("ÿc4MFHelperÿc0: Clear Level");
+					print("\xFFc4MFHelper\xFFc0: Clear Level");
 
 					for (i = 0; i < 5; i += 1) {
 						if (Pather.usePortal(player.area, player.name)) {
@@ -228,16 +231,18 @@ MainLoop:
 					if (me.area === player.area) {
 						Precast.doPrecast(false);
 						Attack.clearLevel(Config.ClearType);
-						Precast.doPrecast(true);
 
 						if (!Pather.usePortal(null, player.name)) {
 							Town.goToTown();
+							if (Config.MFHelper.HealBetweenCommands) {
+								Town.heal();
+								Town.move("portalspot");
+							}
 						}
 					} else {
 						print("Failed to use portal.");
 					}
 				} else if (command.indexOf("clear") > -1) {
-					print("ÿc4MFHelperÿc0: Clear");
 
 					split = command.split("clear ")[1];
 
@@ -266,6 +271,10 @@ MainLoop:
 
 						if (!me.inTown && !Pather.usePortal(null, player.name)) {
 							Town.goToTown();
+							if (Config.MFHelper.HealBetweenCommands) {
+								Town.heal();
+								Town.move("portalspot");
+							}
 						}
 					} else {
 						print("Failed to use portal.");
@@ -273,7 +282,7 @@ MainLoop:
 				} else if (command.indexOf("quit") > -1) {
 					break MainLoop;
 				} else if (command.indexOf("cows") > -1) {
-					print("ÿc4MFHelperÿc0: Clear Cows");
+					print("\xFFc4MFHelper\xFFc0: Clear Cows");
 
 					for (i = 0; i < 5; i += 1) {
 						if (Town.goToTown(1) && Pather.usePortal(39)) {
@@ -284,18 +293,24 @@ MainLoop:
 					}
 
 					if (me.area === 39) {
+						oldCommand = command;
 						Precast.doPrecast(false);
 						this.clearCowLevel();
 						delay(1000);
 
 						if (!Pather.usePortal(null, player.name)) {
 							Town.goToTown();
+							if (Config.MFHelper.HealBetweenCommands) {
+								Town.heal();
+								Town.move("portalspot");
+							}
 						}
 					} else {
 						print("Failed to use portal.");
 					}
 				} else if (command.indexOf("council") > -1) {
-					print("ÿc4MFHelperÿc0: Kill Council");
+					print("\xFFc4MFHelper\xFFc0: Kill Council");
+
 
 					for (i = 0; i < 5; i += 1) {
 						if (Pather.usePortal(player.area, player.name)) {
@@ -311,6 +326,10 @@ MainLoop:
 
 						if (!Pather.usePortal(null, player.name)) {
 							Town.goToTown();
+							if (Config.MFHelper.HealBetweenCommands) {
+								Town.heal();
+								Town.move("portalspot");
+							}
 						}
 					} else {
 						print("Failed to use portal.");

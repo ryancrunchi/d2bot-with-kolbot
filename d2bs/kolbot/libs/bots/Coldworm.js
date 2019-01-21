@@ -10,14 +10,19 @@ function Coldworm() {
 	Town.doChores();
 	Pather.useWaypoint(43);
 	Precast.doPrecast(true);
-
+	
 	// Beetleburst, added by 13ack.Stab
 	if (Config.Coldworm.KillBeetleburst) {
 		if (!Pather.moveToPreset(me.area, 1, 747)) {
 			throw new Error("Failed to move to Beetleburst");
 		}
-
-		Attack.clear(15, 0, getLocaleString(2882));
+		
+		try {
+			Attack.clear(15, 0, getLocaleString(2882));
+		}
+		catch (e) {
+			print(e);
+		}
 	}
 
 	for (i = 62; i <= 64; i += 1) {

@@ -86,6 +86,9 @@ function Follower() {
 
 	// Get leader's act from Party Unit
 	this.checkLeaderAct = function (unit) {
+		while (unit.area == 0) {
+			delay(100);
+		}
 		if (unit.area <= 39) {
 			return 1;
 		}
@@ -171,7 +174,7 @@ function Follower() {
 	// Talk to a NPC
 	this.talk = function (name) {
 		if (!me.inTown) {
-			say("I'm not in town!");
+			//say("I'm not in town!");
 
 			return false;
 		}
@@ -179,7 +182,7 @@ function Follower() {
 		if (typeof name === "string") {
 			name = name.toLowerCase();
 		} else {
-			say("No NPC name given.");
+			//say("No NPC name given.");
 
 			return false;
 		}
@@ -210,14 +213,14 @@ function Follower() {
 		}
 
 		if (names.indexOf(name) === -1) {
-			say("Invalid NPC.");
+			//say("Invalid NPC.");
 
 			return false;
 		}
 
 		if (!Town.move(name === NPC.Jerhyn ? "palace" : name)) {
 			Town.move("portalspot");
-			say("Failed to move to town spot.");
+			//say("Failed to move to town spot.");
 
 			return false;
 		}
@@ -230,14 +233,14 @@ function Follower() {
 					npc.openMenu();
 					me.cancel();
 					Town.move("portalspot");
-					say("Done talking.");
+					//say("Done talking.");
 
 					return true;
 				}
 			} while (npc.getNext());
 		}
 
-		say("NPC not found.");
+		//say("NPC not found.");
 		Town.move("portalspot");
 
 		return false;
@@ -351,16 +354,16 @@ function Follower() {
 		if (me.area === preArea) {
 			me.cancel();
 			Town.move("portalspot");
-			say("Act change failed.");
+			//say("Act change failed.");
 
 			return false;
 		}
 
 		Town.move("portalspot");
-		say("Act change successful.");
+		//say("Act change successful.");
 
 		if (act === 2) {
-			say("Don't forget to talk to Drognan after getting the Viper Amulet!");
+			//say("Don't forget to talk to Drognan after getting the Viper Amulet!");
 		}
 
 		return true;
@@ -450,11 +453,11 @@ function Follower() {
 				if (Pather.teleport) {
 					Pather.teleport = false;
 
-					say("Teleport off.");
+					//say("Teleport off.");
 				} else {
 					Pather.teleport = true;
 
-					say("Teleport on.");
+					//say("Teleport on.");
 				}
 
 				break;
@@ -462,14 +465,14 @@ function Follower() {
 			case me.name + " tele off":
 				Pather.teleport = false;
 
-				say("Teleport off.");
+				//say("Teleport off.");
 
 				break;
 			case "tele on":
 			case me.name + " tele on":
 				Pather.teleport = true;
 
-				say("Teleport on.");
+				//say("Teleport on.");
 
 				break;
 			case "a":
@@ -477,11 +480,11 @@ function Follower() {
 				if (attack) {
 					attack = false;
 
-					say("Attack off.");
+					//say("Attack off.");
 				} else {
 					attack = true;
 
-					say("Attack on.");
+					//say("Attack on.");
 				}
 
 				break;
@@ -493,14 +496,14 @@ function Follower() {
 			case me.name + " aoff":
 				attack = false;
 
-				say("Attack off.");
+				//say("Attack off.");
 
 				break;
 			case "aon":
 			case me.name + " aon":
 				attack = true;
 
-				say("Attack on.");
+				//say("Attack on.");
 
 				break;
 			case "quit":
@@ -513,11 +516,11 @@ function Follower() {
 				if (stop) {
 					stop = false;
 
-					say("Resuming.");
+					//say("Resuming.");
 				} else {
 					stop = true;
 
-					say("Stopping.");
+					//say("Stopping.");
 				}
 
 				break;
@@ -535,7 +538,7 @@ function Follower() {
 						skill = parseInt(msg.split(" ")[2], 10);
 
 						if (me.getSkill(skill, 1)) {
-							say("Active aura is: " + skill);
+							//say("Active aura is: " + skill);
 
 							Config.AttackSkill[2] = skill;
 							Config.AttackSkill[4] = skill;
@@ -543,7 +546,7 @@ function Follower() {
 							Skill.setSkill(skill, 0);
 							//Attack.init();
 						} else {
-							say("I don't have that aura.");
+							//say("I don't have that aura.");
 						}
 					}
 
@@ -557,14 +560,14 @@ function Follower() {
 						skill = parseInt(msg.split(" ")[2], 10);
 
 						if (me.getSkill(skill, 1)) {
-							say("Attack skill is: " + skill);
+							//say("Attack skill is: " + skill);
 
 							Config.AttackSkill[1] = skill;
 							Config.AttackSkill[3] = skill;
 
 							//Attack.init();
 						} else {
-							say("I don't have that skill.");
+							//say("I don't have that skill.");
 						}
 					}
 
@@ -585,7 +588,7 @@ function Follower() {
 					commanders.push(piece);
 				}
 
-				say("Switching leader to " + piece);
+				//say("Switching leader to " + piece);
 
 				Config.Leader = piece;
 				leader = this.getLeader(Config.Leader);
@@ -613,22 +616,18 @@ function Follower() {
 	}
 
 	if (!leader) {
-		say("Leader not found.");
+		//say("Leader not found.");
 		delay(1000);
 		quit();
 	} else {
-		say("Leader found.");
+		//say("Leader found.");
 	}
 
 	while (!Misc.inMyParty(Config.Leader)) {
 		delay(500);
 	}
 
-	say("Partied.");
-
-	if (me.inTown) {
-		Town.move("portalspot");
-	}
+	//say("Partied.");
 
 	// Main Loop
 	while (Misc.inMyParty(Config.Leader)) {
@@ -639,19 +638,142 @@ function Follower() {
 			}
 
 			Town.move("portalspot");
-			say("I'm alive!");
+			//say("I'm alive!");
 		}
 
 		while (stop) {
 			delay(500);
 		}
 
+		var leaderAct = this.checkLeaderAct(leader);
+		if (leaderAct !== me.act) {
+			// go to leader act via wp, or try to talk to NPC to end act
+			if (!Town.goToTown(leaderAct)) {
+				this.changeAct(leaderAct);
+			}
+		}
+		if (me.inTown) {
+			if (leader.inTown) {
+				Town.move("portalspot");
+			}
+			else {
+				// use cows red portal if leader is in cow level and king dead or cain not saved or diablo not completed (classic) or baal not completed (expansion)
+				var useCowRedPortal = leader.area == 39 &&
+					(me.getQuest(4, 10) || !me.getQuest(4, 0) ||
+					(me.gametype == 0 && !me.getQuest(26, 0)) ||
+					(me.gametype == 1 && !me.getQuest(40, 0)));
+				if (useCowRedPortal) {
+					// go via red portal
+					Town.goToTown(1);
+					Town.move("stash");
+					Pather.usePortal(39);
+				}
+				else {
+					Town.move("portalspot");
+					delay(1500);
+					// wait 2 sec to see if leader did not make a tp to get in town
+					if (!this.getLeader(Config.Leader).inTown) {
+						Pather.usePortal(leader.area, leader.name);
+					}
+				}
+			}
+		}
+		else {
+			// I'm not in town
+			if (leader.inTown) {
+				// leader is in town
+				// go to town by using leader's portal or by own means
+				if (!Pather.usePortal(leader.area, leader.name)) {
+					if (leaderAct !== me.act) {
+						Town.goToTown(leaderAct);
+					}
+				}
+			}
+			else {
+				// leader is not in town
+				if (!leaderUnit || !copyUnit(leaderUnit).x) {
+					leaderUnit = this.getLeaderUnit(Config.Leader);
+
+					if (leaderUnit) {
+						//say("Leader unit found.");
+					}
+				}
+			}
+
+			if (!leaderUnit) {
+				player = getUnit(0);
+
+				if (player) {
+					do {
+						if (player.name !== me.name) {
+							Pather.moveToUnit(player);
+
+							break;
+						}
+					} while (player.getNext());
+				}
+			}
+
+			if (leaderUnit && getDistance(me.x, me.y, leaderUnit.x, leaderUnit.y) <= 100) {
+				if (getDistance(me.x, me.y, leaderUnit.x, leaderUnit.y) > 5) {
+					Pather.moveToUnit(leaderUnit);
+					this.pickPotions(20);
+				}
+			}
+
+			if (attack) {
+				Attack.clear(20, false, false, false, false);
+				this.pickPotions(20);
+			}
+
+			if (me.classid === 3 && Config.AttackSkill[2] > 0) {
+				Skill.setSkill(Config.AttackSkill[2], 0);
+			}
+
+			if (leader.area !== me.area) {
+				while (leader.area === 0) {
+					delay(100);
+				}
+
+				result = this.checkExit(leader, leader.area);
+
+				switch (result) {
+				case 1:
+					//say("Taking exit.");
+					delay(100);
+					Pather.moveToExit(leader.area, true);
+
+					break;
+				case 2:
+					//say("Taking portal.");
+
+					break;
+				case 3:
+					//say("Taking waypoint.");
+					delay(100);
+					Pather.useWaypoint(leader.area, true);
+
+					break;
+				case 4:
+					//say("Special transit.");
+
+					break;
+				}
+
+				while (me.area === 0) {
+					delay(100);
+				}
+
+				leaderUnit = this.getLeaderUnit(Config.Leader);
+			}
+		}
+		/*
 		if (!me.inTown) {
 			if (!leaderUnit || !copyUnit(leaderUnit).x) {
 				leaderUnit = this.getLeaderUnit(Config.Leader);
 
 				if (leaderUnit) {
-					say("Leader unit found.");
+					//say("Leader unit found.");
 				}
 			}
 
@@ -693,23 +815,23 @@ function Follower() {
 
 				switch (result) {
 				case 1:
-					say("Taking exit.");
+					//say("Taking exit.");
 					delay(500);
 					Pather.moveToExit(leader.area, true);
 
 					break;
 				case 2:
-					say("Taking portal.");
+					//say("Taking portal.");
 
 					break;
 				case 3:
-					say("Taking waypoint.");
+					//say("Taking waypoint.");
 					delay(500);
 					Pather.useWaypoint(leader.area, true);
 
 					break;
 				case 4:
-					say("Special transit.");
+					//say("Special transit.");
 
 					break;
 				}
@@ -728,7 +850,7 @@ function Follower() {
 				Town.move("portalspot");
 
 				if (!Pather.usePortal(39)) {
-					say("Failed to use cow portal.");
+					//say("Failed to use cow portal.");
 				}
 			}
 
@@ -774,9 +896,9 @@ WPLoop:
 			}
 
 			if (getUIFlag(0x14)) {
-				say("Got wp.");
+				//say("Got wp.");
 			} else {
-				say("Failed to get wp.");
+				//say("Failed to get wp.");
 			}
 
 			me.cancel();
@@ -789,23 +911,23 @@ WPLoop:
 
 			break;
 		case "p":
-			say("!Picking items.");
+			//say("!Picking items.");
 			Pickit.pickItems();
 
 			if (openContainers) {
 				this.openContainers(20);
 			}
 
-			say("!Done picking.");
+			//say("!Done picking.");
 
 			break;
 		case "1":
 			if (me.inTown && leader.inTown && this.checkLeaderAct(leader) !== me.act) {
-				say("Going to leader's town.");
+				//say("Going to leader's town.");
 				Town.goToTown(this.checkLeaderAct(leader));
 				Town.move("portalspot");
 			} else if (me.inTown) {
-				say("Going outside.");
+				//say("Going outside.");
 				Town.goToTown(this.checkLeaderAct(leader));
 				Town.move("portalspot");
 
@@ -823,17 +945,17 @@ WPLoop:
 		case "2":
 			if (!me.inTown) {
 				delay(150);
-				say("Going to town.");
+				//say("Going to town.");
 				Pather.usePortal(null, leader.name);
 			}
 
 			break;
 		case "3":
 			if (me.inTown) {
-				say("Running town chores");
+				//say("Running town chores");
 				Town.doChores();
 				Town.move("portalspot");
-				say("Ready");
+				//say("Ready");
 			}
 
 			break;
@@ -873,10 +995,11 @@ WPLoop:
 				break;
 			}
 
-			say("No TP scrolls or tomes.");
+			//say("No TP scrolls or tomes.");
 
 			break;
 		}
+		*/
 
 		if (action.indexOf("talk") > -1) {
 			this.talk(action.split(" ")[1]);
@@ -886,6 +1009,6 @@ WPLoop:
 
 		delay(100);
 	}
-
+	
 	return true;
 }

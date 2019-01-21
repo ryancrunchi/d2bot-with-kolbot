@@ -3,9 +3,9 @@
  *	@author		kolton, modified by YGM
  *	@desc		Help or Leech Baal Runs.
  */
-
+ 
 function BaalAssistant() {
-
+	
 	var Leader = Config.Leader, // Not entriely needed in the configs.
 		KillNihlathak = Config.BaalAssistant.KillNihlathak,
 		FastChaos = Config.BaalAssistant.FastChaos,
@@ -18,7 +18,7 @@ function BaalAssistant() {
 		WaitForSafeTP = Config.BaalAssistant.WaitForSafeTP,
 		DollQuit = Config.BaalAssistant.DollQuit,
 		SoulQuit = Config.BaalAssistant.SoulQuit,
-		KillBaal = Config.BaalAssistant.KillBaal,
+		KillBaal = Config.BaalAssistant.KillBaal, 
 		hotTPMessage = Config.BaalAssistant.HotTPMessage, // Not entriely needed in the configs.
 		safeTPMessage = Config.BaalAssistant.SafeTPMessage, // Not entriely needed in the configs.
 		baalMessage = Config.BaalAssistant.BaalMessage, // Doesn't need to be in configs.
@@ -231,20 +231,20 @@ function BaalAssistant() {
 	};
 
 	this.checkHydra = function () {
-		var hydra = getUnit(1, getLocaleString(3325));
-		if (hydra) {
+		var monster = getUnit(1, "hydra");
+		if (monster) {
 			do {
-				if (hydra.mode !== 12 && hydra.getStat(172) !== 2) {
+				if (monster.mode !== 12 && monster.getStat(172) !== 2) {
 					Pather.moveTo(15072, 5002);
-					while (hydra.mode !== 12) {
+					while (monster.mode !== 12) {
 						delay(500);
-						if (!copyUnit(hydra).x) {
+						if (!copyUnit(monster).x) {
 							break;
 						}
 					}
 					break;
 				}
-			} while (hydra.getNext());
+			} while (monster.getNext());
 		}
 		return true;
 	};
@@ -312,7 +312,7 @@ function BaalAssistant() {
 	Town.doChores();
 
 	if (Leader || autoLeaderDetect(109) || autoLeaderDetect(130) || autoLeaderDetect(131)) {
-		print("ÿc<Leader: " + Leader);
+		print("\xFFc<Leader: " + Leader);
 		while (Misc.inMyParty(Leader)) {
 			if (!secondAttempt && !safeCheck && !baalCheck && !ShrineStatus && GetShrine && me.area === 109 && me.area !== 131 && me.area !== 132) {
 
@@ -325,7 +325,7 @@ function BaalAssistant() {
 					}
 
 					if (!hotCheck) {
-						print("ÿc1" + "Leader didn't tell me to start hunting for an experience shrine.");
+						print("\xFFc1" + "Leader didn't tell me to start hunting for an experience shrine.");
 						ShrineStatus = true;
 					}
 
@@ -575,7 +575,7 @@ function BaalAssistant() {
 
 								break MainLoop;
 							default:
-								if (getTickCount() - tick < 7e3) {
+								if (getTickCount() - tick < 5e3) {
 									if (me.getState(2)) {
 										Skill.setSkill(109, 0);
 									}

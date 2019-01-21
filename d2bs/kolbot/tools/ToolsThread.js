@@ -37,7 +37,7 @@ function main() {
 		canQuit = true,
 		timerLastDrink = [];
 
-	print("ÿc3Start ToolsThread script");
+	print("\xFFc3Start ToolsThread script");
 	D2Bot.init();
 	Config.init(false);
 	Pickit.init(false);
@@ -127,7 +127,7 @@ function main() {
 
 		for (i = 0; i < items.length; i += 1) {
 			if (type < 3 && items[i].mode === 0 && items[i].location === 3 && items[i].itemType === pottype) {
-				print("ÿc2Drinking potion from inventory.");
+				print("\xFFc2Drinking potion from inventory.");
 
 				return copyUnit(items[i]);
 			}
@@ -150,7 +150,7 @@ function main() {
 			if (script) {
 				if (script.running) {
 					if (i === 0) { // default.dbj
-						print("ÿc1Pausing.");
+						print("\xFFc1Pausing.");
 					}
 
 					// don't pause townchicken during clone walk
@@ -159,7 +159,7 @@ function main() {
 					}
 				} else {
 					if (i === 0) { // default.dbj
-						print("ÿc2Resuming.");
+						print("\xFFc2Resuming.");
 					}
 
 					script.resume();
@@ -198,13 +198,8 @@ function main() {
 
 			break;
 		case 2:
-			if (timerLastDrink[type] && (tNow - timerLastDrink[type] < 300)) { // small delay for juvs just to prevent using more at once
-				return false;
-			}
-
-			break;
 		case 4:
-			if (timerLastDrink[type] && (tNow - timerLastDrink[type] < 2000)) { // larger delay for juvs just to prevent using more at once, considering merc update rate
+			if (timerLastDrink[type] && (tNow - timerLastDrink[type] < 300)) { // small delay for juvs just to prevent using more at once
 				return false;
 			}
 
@@ -222,6 +217,11 @@ function main() {
 		}
 
 		switch (type) {
+		case -1:
+			// stamina
+			pottype = 79;
+			break;
+
 		case 0:
 		case 3:
 			pottype = 76;
@@ -332,13 +332,18 @@ function main() {
 	this.getNearestPreset = function () {
 		var i, unit, dist, id;
 
-		unit = getPresetUnits(me.area);
+		//unit = getPresetUnits(me.area);
+		unit = getUnit(2);
 		dist = 99;
+
+		if (unit) {
+			id = "type "+unit.type + "     id " + unit.id + "     name " + unit.name + "    classid  "+unit.classid;
+		}
 
 		for (i = 0; i < unit.length; i += 1) {
 			if (getDistance(me, unit[i].roomx * 5 + unit[i].x, unit[i].roomy * 5 + unit[i].y) < dist) {
 				dist = getDistance(me, unit[i].roomx * 5 + unit[i].x, unit[i].roomy * 5 + unit[i].y);
-				id = unit[i].type + " " + unit[i].id;
+				id = unit[i].type + " " + unit[i].id + " " + unit[i].name;
 			}
 		}
 
@@ -364,25 +369,26 @@ function main() {
 			var realFCR = me.getStat(105) - Config.FCR;
 			var realIAS = me.getStat(93) - Config.IAS;
 			var realFBR = me.getStat(102) - Config.FBR;
-			var realFHR = me.getStat(99) - Config.FHR;
+			var realFHR = me.getStat(99) - Config.FHR;	
 
-			print("ÿc4MF: ÿc0" + me.getStat(80) + " ÿc4GF: ÿc0" + me.getStat(79) + " ÿc1FR: ÿc0" + me.getStat(39) +
-				" ÿc3CR: ÿc0" + me.getStat(43) + " ÿc9LR: ÿc0" + me.getStat(41) + " ÿc2PR: ÿc0" + me.getStat(45) +
+			print("\xFFc4MF: \xFFc0" + me.getStat(80) + " \xFFc4GF: \xFFc0" + me.getStat(79) + " \xFFc1FR: \xFFc0" + me.getStat(39) +
+				" \xFFc3CR: \xFFc0" + me.getStat(43) + " \xFFc9LR: \xFFc0" + me.getStat(41) + " \xFFc2PR: \xFFc0" + me.getStat(45) + 
+				"\n" + 
+				"FCR: " + realFCR + " IAS: " + realIAS + " FBR: " + realFBR + 
+				" FHR: " + realFHR + " FRW: " + me.getStat(96) + 
 				"\n" +
-				"FCR: " + realFCR + " IAS: " + realIAS + " FBR: " + realFBR +
-				" FHR: " + realFHR + " FRW: " + me.getStat(96) +
-				"\n" +
-				"CB: " + me.getStat(136) + " DS: " + me.getStat(141) + " OW: " + me.getStat(135) +
-				" ÿc1LL: ÿc0" + me.getStat(60) + " ÿc3ML: ÿc0" + me.getStat(62) +
-				" DR: " + me.getStat(36) + "% + " + me.getStat(34) + " MDR: " + me.getStat(37) + "% + " + me.getStat(35) +
-				"\n" +
-				(me.getStat(153) > 0 ? "ÿc3Cannot be Frozenÿc1" : "" ));
+				"CB: " + me.getStat(136) + " DS: " + me.getStat(141) + " OW: " + me.getStat(135) + 
+				" \xFFc1LL: \xFFc0" + me.getStat(60) + " \xFFc3ML: \xFFc0" + me.getStat(62) + 
+				" DR: " + me.getStat(36) + "% + " + me.getStat(34) + " MDR: " + me.getStat(37) + "% + " + me.getStat(35) + 
+				"\n" + 
+				(me.getStat(153) > 0 ? "\xFFc3Cannot be Frozen\xFFc1" : "" ));
 
 			break;
+			
 		case 101: // numpad 5
 			if (AutoMule.getInfo() && AutoMule.getInfo().hasOwnProperty("muleInfo")) {
 				if (AutoMule.getMuleItems().length > 0) {
-					print("ÿc2Mule triggered");
+					print("\xFFc2Mule triggered");
 					scriptBroadcast("mule");
 					this.exit();
 				} else {
@@ -404,12 +410,31 @@ function main() {
 			break;
 		case 110: // decimal point
 			say("/fps");
+			break;
+
+		case 35: // end
+			print("debugging preset units...");
+			var i, id;
+
+			let units = getPresetUnits(me.area);
+			print(units.length+" units");
+			let dist = 99;
+
+			for (i = 0; i < units.length; i += 1) {
+				//if (getDistance(me, unit.roomx * 5 + unit.x, unit.roomy * 5 + unit.y) <= dist) {
+					print("name : "+units[i].name + "\n    type : " + units[i].type + "\n    id : " + units[i].id + "\n    classid : " + units[i].classid + "\n    mode : " + units[i].mode);
+				//}
+			}
+			print("end debugging preset units");
+			print(me.x+" "+me.y);
 
 			break;
+
 		case 105: // numpad 9 - get nearest preset unit id
 			print(this.getNearestPreset());
 
 			break;
+
 		case 106: // numpad * - precast
 			Precast.doPrecast(true);
 
@@ -434,7 +459,7 @@ function main() {
 			}
 
 			break;
-		case 0x06: // "%Name1 was Slain by %Name2"
+		case 0x06: // "%Name1 was Slain by %Name2" 
 			if (Config.AntiHostile && param2 === 0x00 && name2 === me.name) {
 				scriptBroadcast("mugshot " + name1);
 			}
@@ -478,7 +503,7 @@ function main() {
 				this.togglePause();
 				Town.goToTown();
 				showConsole();
-				print("ÿc4Diablo Walks the Earth");
+				print("\xFFc4Diablo Walks the Earth");
 
 				me.maxgametime = 0;
 
@@ -550,6 +575,9 @@ function main() {
 	while (true) {
 		try {
 			if (me.gameReady && !me.inTown) {
+				if (me.stamina / me.staminamax * 100 <= 15) {
+					this.drinkPotion(-1);
+				}
 				if (Config.UseHP > 0 && me.hp < Math.floor(me.hpmax * Config.UseHP / 100)) {
 					this.drinkPotion(0);
 				}
@@ -642,7 +670,7 @@ function main() {
 		}
 
 		if (quitFlag && canQuit) {
-			print("ÿc8Run duration ÿc2" + ((getTickCount() - me.gamestarttime) / 1000));
+			print("\xFFc8Run duration \xFFc2" + ((getTickCount() - me.gamestarttime) / 1000));
 
 			if (Config.LogExperience) {
 				Experience.log();

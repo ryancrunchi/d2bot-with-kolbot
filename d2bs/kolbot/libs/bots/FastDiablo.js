@@ -240,14 +240,16 @@ function FastDiablo() {
 		throw new Error("Failed to kill de Seis");
 	}
 
-	this.openSeal(392);
 	this.openSeal(393);
+	this.openSeal(392);
 
 	if (this.infLayout === 1) {
-		delay(1);
+		delay(1000);
 	} else {
 		Pather.moveTo(7928, 5295); // temp
 	}
+
+	delay(me.ping*2);
 
 	if (!this.getBoss(getLocaleString(2853))) {
 		throw new Error("Failed to kill Infector");

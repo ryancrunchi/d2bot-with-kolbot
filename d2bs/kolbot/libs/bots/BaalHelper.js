@@ -167,12 +167,18 @@ function BaalHelper() { // experi-mental
 		}
 	}
 
+	if (Misc.getPlayerCount() <= 1) {
+		throw new Error("Empty game"); // Alone in game
+	}
+
 	var i, tick, portal, party, entrance;
 
 	Town.goToTown(5);
 	Town.doChores();
 	Pather.useWaypoint(Config.RandomPrecast ? "random" : 129);
 	Precast.doPrecast(true);
+
+	var _leaderFound = false;
 
 	if (Config.BaalHelper.SkipTP) {
 		if (me.area !== 129) {
@@ -189,10 +195,17 @@ WSKLoop:
 
 			if (party) {
 				do {
+					if (party.name === Config.Leader) {
+						_leaderFound = true;
+					}
 					if ((!Config.Leader || party.name === Config.Leader) && party.area === 131) {
 						break WSKLoop;
 					}
 				} while (party.getNext());
+			}
+
+			if (!_leaderFound) {
+				throw new Error("Leader not found");
 			}
 
 			delay(1000);
@@ -236,6 +249,20 @@ WSKLoop:
 				break;
 			}
 
+			party = getParty();
+
+			if (party) {
+				do {
+					if (party.name === Config.Leader) {
+						_leaderFound = true;
+					}
+				} while (party.getNext());
+
+				if (!_leaderFound) {
+					throw new Error("Leader not found");
+				}
+			}
+
 			delay(1000);
 		}
 
@@ -250,18 +277,18 @@ WSKLoop:
 		return true;
 	}
 
-	Precast.doPrecast(false);
+	//Precast.doPrecast(false);
 	Attack.clear(15);
 	this.clearThrone();
 
 	tick = getTickCount();
 
-	Pather.moveTo(15093, me.classid === 3 ? 5029 : 5039);
+	Pather.moveTo(15094, me.classid === 3 ? 5031 : 5039);
 
 MainLoop:
 	while (true) {
-		if (getDistance(me, 15093, me.classid === 3 ? 5029 : 5039) > 3) {
-			Pather.moveTo(15093, me.classid === 3 ? 5029 : 5039);
+		if (getDistance(me, 15094, me.classid === 3 ? 5031 : 5039) > 3) {
+			Pather.moveTo(15094, me.classid === 3 ? 5031 : 5039);
 		}
 
 		if (!getUnit(1, 543)) {
@@ -274,7 +301,7 @@ MainLoop:
 
 			tick = getTickCount();
 
-			Precast.doPrecast(true);
+			//Precast.doPrecast(true);
 
 			break;
 		case 2:
@@ -301,7 +328,7 @@ MainLoop:
 
 			break MainLoop;
 		default:
-			if (getTickCount() - tick < 7e3) {
+			if (getTickCount() - tick < 5e3) {
 				if (me.getState(2)) {
 					Skill.setSkill(109, 0);
 				}
@@ -316,13 +343,13 @@ MainLoop:
 			break;
 		}
 
-		Precast.doPrecast(false);
+		//Precast.doPrecast(false);
 		delay(10);
 	}
 
 	if (Config.BaalHelper.KillBaal) {
 		Pather.moveTo(15092, 5011);
-		Precast.doPrecast(false);
+		//Precast.doPrecast(false);
 
 		while (getUnit(1, 543)) {
 			delay(500);

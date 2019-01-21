@@ -1,17 +1,17 @@
 /**
 *	@filename	MuleLogger.js
 *	@author		kolton
-*	@desc		Log items and perm configurable accounts/characters
+*	@desc		Log items on configurable accounts/characters
 */
 
 var MuleLogger = {
 	LogAccounts: {
-		/* Format:
+		/* Format: 
 			"account1/password1/realm": ["charname1", "charname2 etc"],
 			"account2/password2/realm": ["charnameX", "charnameY etc"],
 			"account3/password3/realm": ["all"]
 
-			To log a full account, put "account/password/realm": ["all"]
+			To log a full account, put "accountname/password/realm": ["all"]
 
 			realm = useast, uswest, europe or asia
 
@@ -22,12 +22,13 @@ var MuleLogger = {
 	},
 
 	LogGame: ["", ""], // ["gamename", "password"]
-	LogNames: true, // Put account/character name on the picture
-	LogItemLevel: true, // Add item level to the picture
-	LogEquipped: false, // include equipped items
-	LogMerc: false, // include items merc has equipped (if alive)
+	LogNames: false, // Put account/character name on the picture
+	LogItemLevel: false, // Add item level to the picture
+	LogEquipped: true, // include equipped items
+	LogMerc: true, // include items merc has equipped (if alive)
+	LogForumPriceTag: true,
 	SaveScreenShot: false, // Save pictures in jpg format (saved in 'Images' folder)
-	IngameTime: rand(180, 210), // (180, 210) to avoid RD, increase it to (7230, 7290) for mule perming
+	IngameTime: 20, // Time to wait after leaving game
 
 	// don't edit
 	getItemDesc: function (unit, logIlvl) {
@@ -73,46 +74,22 @@ var MuleLogger = {
 	},
 
 	inGameCheck: function () {
-		var tick;
-
 		if (getScript("D2BotMuleLog.dbj") && this.LogGame[0] && me.gamename.match(this.LogGame[0], "i")) {
-			print("ÿc4MuleLoggerÿc0: Logging items on " + me.account + " - " + me.name + ".");
-			D2Bot.printToConsole("MuleLogger: Logging items on " + me.account + " - " + me.name + ".", 7);
+			print("\xFFc4MuleLogger\xFFc0: Logging items on " + me.name + ".");
+			D2Bot.printToConsole("MuleLogger: Logging items on " + me.name + ".", 7);
 			this.logChar();
-			tick = getTickCount() + rand(1500, 1750) * 1000; // trigger anti-idle every ~30 minutes
 
 			while ((getTickCount() - me.gamestarttime) < this.IngameTime * 1000) {
-				me.overhead("ÿc2Log items done. ÿc4Stay in " + "ÿc4game more:ÿc0 " + Math.floor(this.IngameTime - (getTickCount() - me.gamestarttime) / 1000) + " sec");
-
 				delay(1000);
-
-				if ((getTickCount() - tick) > 0) {
-					sendPacket(1, 0x40); // quest status refresh, working as anti-idle
-					tick += rand(1500, 1750) * 1000;
-				}
 			}
 
 			quit();
+			//delay(10000);
 
 			return true;
 		}
 
 		return false;
-	},
-
-	load: function (hash) {
-		var filename = "data/secure/" + hash + ".txt";
-
-		if (!FileTools.exists(filename)) {
-            throw new Error("File " + filename + " does not exist!");
-		}
-
-        return FileTools.readText(filename);
-	},
-
-	save: function (hash, data) {
-		var filename = "data/secure/" + hash + ".txt";
-		FileTools.writeText(filename, data);
 	},
 
 	// Log kept item stats in the manager.
@@ -335,6 +312,10 @@ var MuleLogger = {
 			return;
 		}
 
+		if (FileTools.exists("forumules/" + realm + "/" + me.account + "/" + me.name + ".txt")) {
+			FileTools.writeText("forumules/" + realm + "/" + me.account + "/" + me.name + ".txt", "");
+		}
+
 		function itemSort(a, b) {
 			return b.itemType - a.itemType;
 		}
@@ -344,6 +325,7 @@ var MuleLogger = {
 		for (i = 0; i < items.length; i += 1) {
 			if ((this.LogEquipped || items[i].mode === 0) && (items[i].quality !== 2 || !Misc.skipItem(items[i].classid))) {
 				parsedItem = this.logItem(items[i], logIlvl);
+				this.forumizeItem(parsedItem);
 
 				// Log names to saved image
 				if (logName) {
@@ -387,6 +369,7 @@ var MuleLogger = {
 
 				for (i = 0; i < items.length; i += 1) {
 					parsedItem = this.logItem(items[i]);
+					this.forumizeItem(parsedItem);
 					parsedItem.title += " (merc)";
 					string = JSON.stringify(parsedItem);
 					finalString += (string + "\n");
@@ -398,9 +381,49 @@ var MuleLogger = {
 			}
 		}
 
-		// hcl = hardcore class ladder
-		// sen = softcore expan nonladder
-		FileTools.writeText("mules/" + realm + "/" + me.account + "/" + me.name + "." + ( me.playertype ? "h" : "s" ) + (me.gametype ? "e" : "c" ) + ( me.ladder > 0 ? "l" : "n" ) + ".txt", finalString);
+		FileTools.writeText("mules/" + realm + "/" + me.account + "/" + me.name + ".txt", finalString);
 		print("Item logging done.");
-	}
+	},
+
+	forumizeItem: function(item) {
+		var folder;
+		var itemize = item.description;
+		var finalItem = "";
+		if (!FileTools.exists("forumules/" + me.realm + "/" + me.account)) { 
+			folder = dopen("forumules/" + me.realm);
+			folder.create(me.account);
+		}
+
+		//replace colors
+		itemize = itemize.replace("\\xffc0\\n", "", "g");
+		itemize = itemize.replace("\\xffc0\\xffc0", "\\xffc0", "g");
+		itemize = itemize.replace("\\xffc2\\xffc1", "\\xffc1", "g");
+		itemize = itemize.replace(": \\xffc3", ": ", "g");
+		itemize = itemize.replace(": \\xffc0", ": ", "g");
+		itemize = itemize.replace("- \\xffc3", "- ", "g");
+		itemize = itemize.replace("to \\xffc0", "to ", "g");
+		itemize = itemize.replace("to \\xffc3", "to ", "g");
+		itemize = itemize.replace("\\xffc0", "[color=dimgrey]", "g");   // superior
+		itemize = itemize.replace("\\xffc1", "[color=dimgrey]", "g");   // requirements
+		itemize = itemize.replace("\\xffc3", "[color=blue]", "g");   // magic
+		itemize = itemize.replace("\\xffc4", "[color=goldenrod]", "g");   // unique
+		itemize = itemize.replace("\\xffc5", "[color=dimgrey]", "g");   // normal
+		itemize = itemize.replace("\\xffc8", "[color=darkorange]", "g");   // crafted
+		itemize = itemize.replace("\\xffc9", "[color=yellow]", "g");   // rare
+		itemize = itemize.replace("\\xffc2", "[color=forestgreen]", "g");   // set
+
+		//replace newline with end of color (every line has a color it seems)
+		itemize = itemize.replace("\\n", "[/color]\n", "g");
+
+		//remove the ending characters
+		finalItem = itemize.slice(0, itemize.indexOf("$")) + "[/color]\n";
+
+		if (this.LogForumPriceTag) {
+			finalItem += "XXfg\n";
+		}
+
+		finalItem += "\n\n";
+
+		FileTools.appendText("forumules/" + me.realm + "/" + me.account + "/" + me.name + ".txt", finalItem);
+   	}
 };

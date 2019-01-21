@@ -138,7 +138,7 @@ function AutoBaal() {
 
 				if (suspect.area === destination && !getPlayerFlag(me.gid, suspect.gid, 8)) { // first player not hostile found in destination area...
 					leader = suspect.name; // ... is our leader
-					print("ÿc4AutoBaal: ÿc0Autodetected " + leader);
+					print(ColorCodes.DARK_GOLD + "AutoBaal: " + ColorCodes.WHITE + "Autodetected " + leader);
 					return true;
 				}
 			} while (suspect.getNext());
@@ -209,19 +209,22 @@ function AutoBaal() {
 				hotCheck = false;
 			}
 
-			if (throneCheck && me.area === 109) { // wait for throne signal - leader's safe message
-				print("ÿc4AutoBaal: ÿc0Trying to take TP to throne.");
-				Pather.usePortal(131, null); // take TP to throne
-				Pather.moveTo(Config.AutoBaal.LeechSpot[0], Config.AutoBaal.LeechSpot[1]); // move to a safe spot
-				Precast.doPrecast(true);
-				Town.getCorpse(); // check for corpse - happens if you die and reenter
+			if (me.area === 109 && Pather.getPortal(131, null)) { // wait for throne signal - leader's safe message
+				delay(5000);
+				if (Pather.usePortal(131, null)) {
+					delay(5000);
+					print(ColorCodes.DARK_GOLD + "AutoBaal: " + ColorCodes.WHITE + "Trying to take TP to throne.");
+					Pather.moveTo(Config.AutoBaal.LeechSpot[0], Config.AutoBaal.LeechSpot[1]); // move to a safe spot
+					Precast.doPrecast(true);
+					Town.getCorpse(); // check for corpse - happens if you die and reenter
+				}
 			}
 
-			if (!baalCheck && me.area === 131 && Config.AutoBaal.LongRangeSupport) {
+			if (me.area === 131 && Config.AutoBaal.LongRangeSupport) {
 				this.longRangeSupport();
 			}
 
-			if (baalCheck && me.area === 131) { // wait for baal signal - leader's baal message
+			if (me.area === 131 && !getUnit(1, 543)) { // wait for baal signal - leader's baal message
 				Pather.moveTo(15092, 5010); // move closer to chamber portal
 				Precast.doPrecast(false);
 
@@ -231,8 +234,8 @@ function AutoBaal() {
 
 				portal = getUnit(2, 563);
 
-				delay(2000); // wait for others to enter first - helps  with curses and tentacles from spawning around you
-				print("ÿc4AutoBaal: ÿc0Entering chamber.");
+				delay(500); // wait for others to enter first - helps  with curses and tentacles from spawning around you
+				print(ColorCodes.DARK_GOLD + "AutoBaal: " + ColorCodes.WHITE + "Entering chamber.");
 
 				if (Pather.usePortal(null, null, portal)) { // enter chamber
 					Pather.moveTo(15166, 5903); // go to a safe position

@@ -15,7 +15,7 @@ function Andariel () {
 
 		if (Config.MFLeader) {
 			Pather.makePortal();
-			say("kill " + 156);
+			//say("kill " + 156);
 		}
 
 		for (i = 0; i < 300; i += 1) {

@@ -222,9 +222,9 @@ function Diablo() {
 		}
 
 		if (this.seisLayout === 1) {
-			Pather.moveTo(7771, 5196);
+			Pather.moveTo(7771, 5200);
 		} else {
-			Pather.moveTo(7798, 5186);
+			Pather.moveTo(7798, 5190);
 		}
 
 		if (!this.getBoss(getLocaleString(2852))) {
@@ -243,7 +243,7 @@ function Diablo() {
 		}
 
 		if (this.infLayout === 1) {
-			delay(1);
+			delay(500);
 		} else {
 			Pather.moveTo(7928, 5295); // temp
 		}
@@ -449,6 +449,8 @@ function Diablo() {
 
 		Pather.moveTo(7790, 5544);
 		Precast.doPrecast(true);
+		Attack.clear(30, 0, false, this.sort);
+		Pather.moveTo(7790, 5544);
 		Attack.clear(30, 0, false, this.sort);
 		this.followPath(this.entranceToStar);
 	} else {

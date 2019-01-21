@@ -326,7 +326,7 @@ function DiabloHelper() {
 				if (Attack.checkMonster(monster)) {
 					for (i = 0; i < this.cleared.length; i += 1) {
 						if (getDistance(monster, this.cleared[i][0], this.cleared[i][1]) < 30 && Attack.validSpot(monster.x, monster.y)) {
-							me.overhead("we got a stray");
+							//me.overhead("we got a stray");
 							Pather.moveToUnit(monster);
 							Attack.clear(15, 0, false, this.sort);
 
@@ -360,10 +360,12 @@ function DiabloHelper() {
 	// start
 	Town.doChores();
 
+	var _leaderFound = false;
+
 	if (Config.DiabloHelper.SkipIfBaal) {
 AreaInfoLoop:
 		while (true) {
-			me.overhead("Getting party area info");
+			//me.overhead("Getting party area info");
 
 			if (Misc.getPlayerCount() <= 1) {
 				throw new Error("Empty game"); // Alone in game
@@ -373,13 +375,24 @@ AreaInfoLoop:
 
 			if (party) {
 				do {
-					if (party.name !== me.name && party.area) {
+					if (party.name === Config.Leader) {
+						_leaderFound = true;
+					}
+					if (_leaderFound && party.name !== me.name && party.area) {
 						break AreaInfoLoop; // Can read player area
 					}
 				} while (party.getNext());
+
+				if (!_leaderFound) {
+					throw new Error("Leader not found");
+				}
 			}
 
 			delay(1000);
+		}
+
+		if (!_leaderFound) {
+			throw new Error("Leader not found");
 		}
 
 		party = getParty();
@@ -415,10 +428,17 @@ CSLoop:
 
 			if (party) {
 				do {
+					if (party.name === Config.Leader) {
+						_leaderFound = true;
+					}
 					if (party.name !== me.name && party.area === 108 && (!Config.Leader || party.name === Config.Leader)) {
 						break CSLoop;
 					}
 				} while (party.getNext());
+
+				if (!_leaderFound) {
+					throw new Error("Leader not found");
+				}
 			}
 
 			Attack.clear(30, 0, false, this.sort);
@@ -435,6 +455,20 @@ CSLoop:
 		for (i = 0; i < Config.DiabloHelper.Wait; i += 1) {
 			if (Pather.getPortal(108, Config.Leader || null) && Pather.usePortal(108, Config.Leader || null)) {
 				break;
+			}
+
+			party = getParty();
+
+			if (party) {
+				do {
+					if (party.name === Config.Leader) {
+						_leaderFound = true;
+					}
+				} while (party.getNext());
+
+				if (!_leaderFound) {
+					throw new Error("Leader not found");
+				}
 			}
 
 			delay(1000);
@@ -459,7 +493,7 @@ CSLoop:
 	Attack.clear(35, 0, false, this.sort);
 	this.vizierSeal();
 	this.seisSeal();
-	Precast.doPrecast(true);
+	//Precast.doPrecast(true);
 	this.infectorSeal();
 
 	switch (me.classid) {

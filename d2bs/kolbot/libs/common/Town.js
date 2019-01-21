@@ -78,24 +78,26 @@ var Town = {
 
 		this.heal();
 		this.identify();
-		this.shopItems();
 		this.fillTome(518);
 
 		if (Config.FieldID) {
 			this.fillTome(519);
 		}
-
 		this.buyPotions();
-		this.clearInventory();
-		Item.autoEquip();
 		this.buyKeys();
+
 		this.repair(repair);
-		this.gamble();
 		this.reviveMerc();
+
+		this.shopItems();
+		this.clearInventory();
+		this.clearScrolls();
+		this.gamble();
 		Cubing.doCubing();
 		Runewords.makeRunewords();
+		Item.autoEquip();
+		Item.autoEquipMerc();
 		this.stash(true);
-		this.clearScrolls();
 
 		for (i = 0; i < cancelFlags.length; i += 1) {
 			if (getUIFlag(cancelFlags[i])) {
@@ -307,6 +309,12 @@ var Town = {
 		if (me.diff === 0 && Pather.accessToAct(4) && me.act < 4) {
 			this.goToTown(4);
 		}
+		else if (me.diff === 0 && Pather.accessToAct(3) && me.act < 3) {
+			this.goToTown(3);
+		}
+		else if (me.diff === 0 && Pather.accessToAct(2) && me.act < 2) {
+			this.goToTown(2);
+		}
 
 		npc = this.initNPC("Shop", "buyPotions");
 
@@ -320,7 +328,7 @@ var Town = {
 				pot = this.getPotion(npc, Config.BeltColumn[i]);
 
 				if (pot) {
-					//print("ÿc2column ÿc0" + i + "ÿc2 needs ÿc0" + col[i] + " ÿc2potions");
+					//print(ColorCodes.NEON_GREEN + "column " + ColorCodes.WHITE + i + ColorCodes.NEON_GREEN + " needs " + ColorCodes.WHITE + col[i] + ColorCodes.NEON_GREEN + " potions");
 
 					// Shift+buy will trigger if there's no empty columns or if only the current column is empty
 					if (useShift) {
@@ -495,6 +503,7 @@ var Town = {
 		var tome = me.findItem(id, 0, 3);
 
 		if (!tome) {
+			return 0;
 			switch (id) {
 			case 519:
 			case "ibk":
@@ -521,14 +530,59 @@ var Town = {
 		}
 
 		// Avoid unnecessary NPC visits
-		for (i = 0; i < list.length; i += 1) {
+		var processId = false;
+		for (i = 0; i < list.length && !processId; i += 1) {
 			// Only unid items or sellable junk (low level) should trigger a NPC visit
-			if ((!list[i].getFlag(0x10) || Config.LowGold > 0) && ([-1, 4].indexOf(Pickit.checkItem(list[i]).result) > -1 || (!list[i].getFlag(0x10) && Item.hasTier(list[i])))) {
+			// if (item is unid or i'm in low gold) and pickit does not want it
+			//if ((!list[i].getFlag(0x10) || Config.LowGold > (me.getStat(14) + me.getStat(15))) && ([-1, 4].indexOf(Pickit.checkItem(list[i]).result) > -1 || (!list[i].getFlag(0x10) && Item.hasTier(list[i])))) {
+			var checkResult = Pickit.checkItem(list[i]);
+			switch (checkResult.result) {
+				case -1:
+					print(list[i].name + " need id "+checkResult.line);
 				break;
+
+				case 1:
+					print(list[i].name + " keep "+checkResult.line);
+				break;
+
+				case 2:
+					print(list[i].name + " keep for cubing "+checkResult.line);
+				break;
+
+				case 3:
+					print(list[i].name + " keep for runeword "+checkResult.line);
+				break;
+
+				case 4:
+					print(list[i].name + " keep for reselling "+checkResult.line);
+				break;
+
+				case 5:
+					print(list[i].name + " keep for crafting "+checkResult.line);
+				break;
+
+				case 6:
+					print(list[i].name + " keep for repairing "+checkResult.line);
+				break;
+
+				case 7:
+					print(list[i].name + " keep for equipping "+checkResult.line);
+				break;
+
+				case 8:
+					print(list[i].name + " keep for merc "+checkResult.line);
+				break;
+				
+				default:
+					//print(list[i].name + " shit");
+				break;
+			}
+			if ([-1, 4].indexOf(checkResult.result) > -1) {
+				processId = true;
 			}
 		}
 
-		if (i === list.length) {
+		if (!processId) {
 			return false;
 		}
 
@@ -552,95 +606,121 @@ MainLoop:
 				result = Pickit.checkItem(item);
 
 				// Force ID for unid items matching autoEquip criteria
-				if (result.result === 1 && !item.getFlag(0x10) && Item.hasTier(item)) {
+				/*if (result.result === 1 && !item.getFlag(0x10) && Item.hasTier(item)) {
 					result.result = -1;
-				}
+				}*/
 
 				switch (result.result) {
-				// Items for gold, will sell magics, etc. w/o id, but at low levels
-				// magics are often not worth iding.
-				case 4:
-					Misc.itemLogger("Sold", item);
-					item.sell();
-
-					break;
-				case -1:
-					if (tome) {
-						this.identifyItem(item, tome);
-					} else {
-						scroll = npc.getItem(530);
-
-						if (scroll) {
-							if (!Storage.Inventory.CanFit(scroll)) {
-								tpTome = me.findItem(518, 0, 3);
-
-								if (tpTome) {
-									tpTomePos = {x: tpTome.x, y: tpTome.y};
-
-									tpTome.sell();
-									delay(500);
-								}
-							}
-
-							delay(500);
-
-							if (Storage.Inventory.CanFit(scroll)) {
-								scroll.buy();
-							}
-						}
-
-						scroll = me.findItem(530, 0, 3);
-
-						if (!scroll) {
-							break MainLoop;
-						}
-
-						this.identifyItem(item, scroll);
-					}
-
-					result = Pickit.checkItem(item);
-
-					if (!Item.autoEquipCheck(item)) {
-						result.result = 0;
-					}
-
-					switch (result.result) {
-					case 1:
-						// Couldn't id autoEquip item. Don't log it.
-						if (result.result === 1 && Config.AutoEquip && !item.getFlag(0x10) && Item.autoEquipCheck(item)) {
-							break;
-						}
-
-						Misc.itemLogger("Kept", item);
-						Misc.logItem("Kept", item, result.line);
-
-						break;
-					case -1: // unidentified
-						break;
-					case 2: // cubing
-						Misc.itemLogger("Kept", item, "Cubing-Town");
-						Cubing.update();
-
-						break;
-					case 3: // runeword (doesn't trigger normally)
-						break;
-					case 5: // Crafting System
-						Misc.itemLogger("Kept", item, "CraftSys-Town");
-						CraftingSystem.update(item);
-
-						break;
-					default:
+					// Items for gold, will sell magics, etc. w/o id, but at low levels
+					// magics are often not worth iding.
+					case 4:
 						Misc.itemLogger("Sold", item);
+						if (item.getFlag(0x10) && Config.SoldItemInfo && Config.SoldItemInfoQuality.indexOf(item.quality) !== -1) {
+							Misc.logItem("------ Sold", item);
+						}
 						item.sell();
 
-						timer = getTickCount() - this.sellTimer; // shop speedup test
+						break;
+					case -1:
+						if (tome) {
+							this.identifyItem(item, tome);
+						}
+						else {
+							scroll = me.findItem(530, 0, 3);
 
-						if (timer > 0 && timer < 500) {
-							delay(timer);
+							if (!scroll) {
+								scroll = npc.getItem(530);
+								if (scroll) {
+									if (!Storage.Inventory.CanFit(scroll)) {
+										tpTome = me.findItem(518, 0, 3);
+
+										if (tpTome) {
+											tpTomePos = {x: tpTome.x, y: tpTome.y};
+
+											tpTome.sell();
+											delay(500);
+										}
+									}
+
+									delay(500);
+
+									if (Storage.Inventory.CanFit(scroll)) {
+										scroll.buy();
+									}
+								}
+
+								scroll = me.findItem(530, 0, 3);
+							}
+
+							if (!scroll) {
+								break MainLoop;
+							}
+
+							this.identifyItem(item, scroll);
 						}
 
-						break;
-					}
+						result = Pickit.checkItem(item);
+
+						switch (result.result) {
+							// result.result
+							// -1 - Needs iding
+							// 0 - Unwanted
+							// 1 - NTIP wants
+							// 2 - Cubing wants
+							// 3 - Runeword wants
+							// 4 - Pickup to sell (triggered when low on gold)
+							// 5 - Crafting wants
+							// 6 - Repair cube recipe
+							// 7 - Auto equip wants
+							// 8 - Auto equip merc wants
+							case 1:
+							case 7:
+							case 8:
+								var log = "Kept";
+								if (result.result == 7) {
+									let tier = NTIP.GetTier(item);
+									log = "Kept (auto equip tier "+tier+")";
+								}
+								if (result.result == 8) {
+									let mercTier = NTIP.GetMercTier(item);
+									log = "Kept (auto equip merc tier "+mercTier+")";
+								}
+								Misc.itemLogger(log, item);
+								Misc.logItem(log, item, result.line);
+							break;
+
+							case -1: // unidentified
+							break;
+
+							case 2: // cubing
+								Misc.itemLogger("Kept", item, "Cubing-Town");
+								Cubing.update();
+							break;
+
+							case 3: // runeword (doesn't trigger normally)
+							break;
+
+							case 5: // Crafting System
+								Misc.itemLogger("Kept", item, "CraftSys-Town");
+								CraftingSystem.update(item);
+
+							break;
+
+							default:
+								Misc.itemLogger("Sold", item);
+								if (item.getFlag(0x10) && Config.SoldItemInfo && Config.SoldItemInfoQuality.indexOf(item.quality) !== -1) {
+									Misc.logItem("------ Sold", item);
+								}
+								item.sell();
+
+								timer = getTickCount() - this.sellTimer; // shop speedup test
+
+								if (timer > 0 && timer < 500) {
+									delay(timer);
+								}
+
+							break;
+						}
 
 					break;
 				}
@@ -703,10 +783,6 @@ MainLoop:
 			for (i = 0; i < unids.length; i += 1) {
 				result = Pickit.checkItem(unids[i]);
 
-				if (!Item.autoEquipCheck(unids[i])) {
-					result = 0;
-				}
-
 				switch (result.result) {
 				case 0:
 					Misc.itemLogger("Dropped", unids[i], "cainID");
@@ -714,8 +790,19 @@ MainLoop:
 
 					break;
 				case 1:
-					Misc.itemLogger("Kept", unids[i]);
-					Misc.logItem("Kept", unids[i], result.line);
+				case 7:
+				case 8:
+					var log = "Kept";
+					if (result.result == 7) {
+						let tier = NTIP.GetTier(unids[i]);
+						log = "Kept (auto equip tier "+tier+")";
+					}
+					if (result.result == 8) {
+						let mercTier = NTIP.GetMercTier(unids[i]);
+						log = "Kept (auto equip merc tier "+mercTier+")";
+					}
+					Misc.itemLogger(log, unids[i]);
+					Misc.logItem(log, unids[i], result.line);
 
 					break;
 				default:
@@ -746,20 +833,11 @@ MainLoop:
 			item = list.shift();
 			result = Pickit.checkItem(item);
 
-			// Force ID for unid items matching autoEquip criteria
-			if (result.result === 1 && !item.getFlag(0x10) && Item.hasTier(item)) {
-				result.result = -1;
-			}
-
 			if (result.result === -1) { // unid item that should be identified
 				this.identifyItem(item, tome);
 				delay(me.ping + 1);
 
 				result = Pickit.checkItem(item);
-
-				if (!Item.autoEquipCheck(item)) {
-					result.result = 0;
-				}
 
 				switch (result.result) {
 				case 0:
@@ -777,6 +855,8 @@ MainLoop:
 
 					break;
 				case 1:
+				case 7:
+				case 8:
 					Misc.itemLogger("Field Kept", item);
 					Misc.logItem("Field Kept", item, result.line);
 
@@ -901,11 +981,20 @@ CursorLoop:
 		for (i = 0; i < items.length; i += 1) {
 			result = Pickit.checkItem(items[i]);
 
-			if (result.result === 1 && Item.autoEquipCheck(items[i])) {
+			if (result.result == 1 || result.result == 7 || result.result == 8) {
 				try {
 					if (Storage.Inventory.CanFit(items[i]) && me.getStat(14) + me.getStat(15) >= items[i].getItemCost(0)) {
-						Misc.itemLogger("Shopped", items[i]);
-						Misc.logItem("Shopped", items[i], result.line);
+						var log = "Shopped";
+						if (result.result == 7) {
+							let tier = NTIP.GetTier(items[i]);
+							log = "Shopped (auto equip tier "+tier+")";
+						}
+						if (result.result == 8) {
+							let mercTier = NTIP.GetMercTier(items[i]);
+							log = "Shopped (auto equip merc tier "+mercTier+")";
+						}
+						Misc.itemLogger(log, items[i]);
+						Misc.logItem(log, items[i], result.line);
 						items[i].buy();
 					}
 				} catch (e) {
@@ -993,14 +1082,25 @@ CursorLoop:
 					if (newItem) {
 						result = Pickit.checkItem(newItem);
 
-						if (!Item.autoEquipCheck(newItem)) {
+						/*if (!Item.autoEquipCheck(newItem)) {
 							result = 0;
-						}
+						}*/
 
 						switch (result.result) {
 						case 1:
-							Misc.itemLogger("Gambled", newItem);
-							Misc.logItem("Gambled", newItem, result.line);
+						case 7:
+						case 8:
+							var log = "Gambled";
+							if (result.result == 7) {
+								let tier = NTIP.GetTier(newItem);
+								log = "Gambled (auto equip tier "+tier+")";
+							}
+							if (result.result == 8) {
+								let mercTier = NTIP.GetMercTier(newItem);
+								log = "Gambled (auto equip merc tier "+mercTier+")";
+							}
+							Misc.itemLogger(log, newItem);
+							Misc.logItem(log, newItem, result.line);
 							list.push(newItem.gid);
 
 							break;
@@ -1527,19 +1627,21 @@ MainLoop:
 
 		me.cancel();
 
-		var i, result, tier,
+		var i, result, tier, mercTier,
 			items = Storage.Inventory.Compare(Config.Inventory);
 
 		if (items) {
 			for (i = 0; i < items.length; i += 1) {
 				if (this.canStash(items[i])) {
-					result = (Pickit.checkItem(items[i]).result > 0 && Pickit.checkItem(items[i]).result < 4) || Cubing.keepItem(items[i]) || Runewords.keepItem(items[i]) || CraftingSystem.keepItem(items[i]);
+					var itemCheck = Pickit.checkItem(items[i]).result;
+					result = [1, 2, 3, 7, 8].indexOf(itemCheck) > -1 || Cubing.keepItem(items[i]) || Runewords.keepItem(items[i]) || CraftingSystem.keepItem(items[i]);
 
 					// Don't stash low tier autoequip items.
-					if (Config.AutoEquip && Pickit.checkItem(items[i]).result === 1) {
+					if (Config.AutoEquip && (itemCheck == 7 || itemCheck == 8)) {
 						tier = NTIP.GetTier(items[i]);
+						mercTier = NTIP.GetMercTier(items[i]);
 
-						if (tier > 0 && tier < 100) {
+						if (tier > 0 && tier < 100 || mercTier < 0 && mercTier > -100) {
 							result = false;
 						}
 					}
@@ -1908,10 +2010,6 @@ MainLoop:
 					) {
 				result = Pickit.checkItem(items[i]).result;
 
-				if (!Item.autoEquipCheck(items[i])) {
-					result = 0;
-				}
-
 				switch (result) {
 				case 0: // Drop item
 					if ((getUIFlag(0x0C) || getUIFlag(0x08)) && (items[i].getItemCost(1) <= 1 || items[i].itemType === 39)) { // Quest items and such
@@ -2147,7 +2245,8 @@ MainLoop:
 
 		if (!me.inTown) {
 			if (!Pather.makePortal()) {
-				throw new Error("Town.goToTown: Failed to make TP");
+				return false;
+				//throw new Error("Town.goToTown: Failed to make TP");
 			}
 
 			if (!Pather.usePortal(null, me.name)) {

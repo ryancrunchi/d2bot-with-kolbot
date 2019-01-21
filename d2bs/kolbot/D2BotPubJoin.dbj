@@ -14,13 +14,13 @@ var StarterConfig = {
 	SwitchKeyDelay: 5, // Seconds to wait before switching a used/banned key or after realm down
 	CrashDelay: 5, // Seconds to wait after a d2 window crash
 	FTJDelay: 10, // Seconds to wait after failing to create a game
-	RealmDownDelay: 2, // Minutes to wait after getting Realm Down message
+	RealmDownDelay: 60, // Minutes to wait after getting Realm Down message
 	UnableToConnectDelay: 5, // Minutes to wait after Unable To Connect message
 	CDKeyInUseDelay: 5, // Minutes to wait before connecting again if CD-Key is in use.
 	ConnectingTimeout: 20, // Seconds to wait before cancelling the 'Connecting...' screen
 	PleaseWaitTimeout: 10, // Seconds to wait before cancelling the 'Please Wait...' screen
 	WaitInLineTimeout: 60, // Seconds to wait before cancelling the 'Waiting in Line...' screen
-	GameDoesNotExistTimeout: 30 // Seconds to wait before cancelling the 'Game does not exist.' screen
+	GameDoesNotExistTimeout: 10 // Seconds to wait before cancelling the 'Game does not exist.' screen
 };
 
 /**
@@ -44,12 +44,26 @@ var StarterConfig = {
 */
 
 var IncludeFilter = [
-	[""]
+	["dia", "baal"],
+	["diablo", "baal"],
+	["dia", "ball"],
+	["diablo", "ball"],
 ];
 
 var ExcludeFilter = [
-	[""]
+	["baal q"],
+	["o rush"],
+	["rush"],
+	["quest"],
+	["for q"],
+	["for quest"],
+	["kill"],
+	["for kill"]
 ];
+
+// If game elapsed time is more than this value, bot won't join.
+// Set to -1 to not check elapsed time.
+var maxElapsedTime = 90;
 
 // ###############################################################################
 
@@ -475,11 +489,23 @@ MainSwitch:
 
 			for (i = 0; i < gameList.length; i += 1) {
 				if (doneGames.indexOf(gameList[i].gameName) === -1 && includeCheck(gameList[i].gameName) && excludeCheck(gameList[i].gameName)) {
-					print("ÿc7Game: " + gameList[i].gameName + ", Players: " + gameList[i].players);
-
-					gameToJoin = gameList[i].gameName;
-
-					break;
+					if (maxElapsedTime > 0) {
+						var elapsedTime = ControlAction.getGameElapsedTime(gameList[i].gameName);
+						print(gameList[i].gameName+" "+elapsedTime);
+						if (elapsedTime > -1 && elapsedTime < maxElapsedTime) {
+							print(ColorCodes.LIGHT_GOLD + "Game: " + gameList[i].gameName + ", Players: " + gameList[i].players + ", Elapsed Time: " + elapsedTime);
+							gameToJoin = gameList[i].gameName;
+							break;
+						}
+						else {
+							delay(rand(500,1000));
+						}
+					}
+					else {
+						print(ColorCodes.LIGHT_GOLD + "Game: " + gameList[i].gameName + ", Players: " + gameList[i].players);
+						gameToJoin = gameList[i].gameName;
+						break;
+					}
 				}
 			}
 

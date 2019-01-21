@@ -1,0 +1,236 @@
+[Type] == gold # [Gold] >= 500
+
+[type] == healingpotion
+[type] == manapotion
+[type] == rejuvpotion
+// [type] == staminapotion # # [MaxQuantity] == 2
+
+[name] == scrolloftownportal # # [MaxQuantity] == 4
+[name] == scrollofidentify # # [MaxQuantity] == 4
+
+[quality] >= magic # [strength] > 100 // for selling
+
+[type] == 39 // quest items
+[name] == khalim'sflail
+
+// white for runewords
+// [type] == helm && [quality] <= superior && [flag] != ethereal # [sockets] == 2 # [MaxQuantity] == 1  // lore
+// [type] == armor && [name] <= hardleatherarmor && [quality] <= superior && [flag] != ethereal # [sockets] == 2 # [MaxQuantity] == 1  // stealth
+// [type] == shield && [quality] <= superior && [flag] != ethereal # [sockets] == 2 # [MaxQuantity] == 1  // rhyme
+// ([Name] == LargeShield || [Name] == KiteShield) && [quality] <= superior && [flag] != ethereal # [sockets] == 3 # [MaxQuantity] == 1  // ancient's pledge
+[type] == polearm && [quality] <= superior # [sockets] == 4 # [MaxQuantity] == 1  // insight
+// ([name] == crystalsword || [name] == broadsword || [name] == longsword) && [quality] <= superior && [flag] != ethereal # [sockets] == 4 # [MaxQuantity] == 1  // spirit
+
+
+// gloves
+[type] == gloves && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 100 # [tier] == 17
+[type] == gloves && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 90 # [tier] == 16
+[type] == gloves && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 80 # [tier] == 15
+[type] == gloves && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 70 # [tier] == 14
+[type] == gloves && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 60 # [tier] == 13
+[type] == gloves && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 50 # [tier] == 12
+[type] == gloves && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 40 # [tier] == 11
+[type] == gloves && [flag] != ethereal && [quality] == rare # ([strength] > 0 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 5) || [maxhp] > 0 # [tier] == 10
+[type] == gloves && [flag] != ethereal && [quality] == unique # # [tier] == 9
+[type] == gloves && [flag] != ethereal # [strength] > 0 && [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 5 # [tier] == 8
+[type] == gloves && [flag] != ethereal && [quality] == rare # # [tier] == 7
+[type] == gloves && [flag] != ethereal && [quality] == set # # [tier] == 6
+[type] == gloves && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 5 # [tier] == 5
+[type] == gloves && [flag] != ethereal && [quality] == magic # # [tier] == 4
+[type] == gloves && [flag] != ethereal && [quality] == superior # # [tier] == 3
+[type] == gloves && [flag] != ethereal && [quality] == normal # # [tier] == 2
+[type] == gloves && [flag] != ethereal && [quality] == lowquality # # [tier] == 1
+
+
+// boots
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 60 && [frw] >= 10 # [tier] == 27
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 60 # [tier] == 26
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 50 && [frw] == 30 # [tier] == 25
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 50 && [frw] >= 20 # [tier] == 24
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 50 && [frw] >= 10 # [tier] == 23
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 50 # [tier] == 22
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 40 && [frw] == 30 # [tier] == 21
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 40 && [frw] >= 20 # [tier] == 20
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 40 && [frw] >= 10 # [tier] == 19
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 40 # [tier] == 18
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 30 && [frw] == 30 # [tier] == 17
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 30 && [frw] >= 20 # [tier] == 16
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 30 && [frw] >= 10 # [tier] == 15
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 30 # [tier] == 14
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 20 && [frw] == 30 # [tier] == 13
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 20 && [frw] >= 20 # [tier] == 12
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 20 && [frw] >= 10 # [tier] == 11
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 20 # [tier] == 10
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 10 && [frw] == 30 # [tier] == 9
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 10 && [frw] >= 20 # [tier] == 8
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 10 && [frw] >= 10 # [tier] == 7
+[type] == boots && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 10 # [tier] == 6
+[type] == boots && [flag] != ethereal && [quality] == rare # # [tier] == 5
+[type] == boots && [flag] != ethereal && [quality] == magic # # [tier] == 4
+[type] == boots && [flag] != ethereal && [quality] == superior # # [tier] == 3
+[type] == boots && [flag] != ethereal && [quality] == normal # # [tier] == 2
+[type] == boots && [flag] != ethereal && [quality] == lowquality # # [tier] == 1
+
+
+// belts
+([type] == belt && [name] >= belt) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 60 && [maxhp] > 0 # [tier] == 17
+([type] == belt && [name] >= belt) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 60 # [tier] == 16
+([type] == belt && [name] >= belt) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 50 && [maxhp] > 0 # [tier] == 15
+([type] == belt && [name] >= belt) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 50 # [tier] == 14
+([type] == belt && [name] >= belt) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 40 && [maxhp] > 0 # [tier] == 13
+([type] == belt && [name] >= belt) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 40 # [tier] == 12
+([type] == belt && [name] >= belt) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 30 && [maxhp] > 0 # [tier] == 11
+([type] == belt && [name] >= belt) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 30 # [tier] == 10
+([type] == belt && [name] >= belt) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 20 && [maxhp] > 0 # [tier] == 9
+([type] == belt && [name] >= belt) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 20 # [tier] == 8
+([type] == belt && [name] >= belt) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 10 && [maxhp] > 0 # [tier] == 7
+([type] == belt && [name] >= belt) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 10 # [tier] == 6
+([type] == belt && [name] >= belt) && [flag] != ethereal # [maxhp] > 0 # [tier] == 5
+([type] == belt && [name] >= belt) && [flag] != ethereal # # [tier] == 4
+[type] == belt && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist]+[poisonresist] >= 5 # [tier] == 3
+[type] == belt && [flag] != ethereal && [quality] >= magic # # [tier] == 2
+[type] == belt && [flag] != ethereal # # [tier] == 1
+
+
+// helms
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 80 && [maxhp] > 0 # [tier] == 55
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 80 # [tier] == 50
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 70 && [maxhp] > 0 # [tier] == 45
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 70 # [tier] == 40
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 60 && [maxhp] > 0 # [tier] == 35
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 60 # [tier] == 30
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 50 && [maxhp] > 0 # [tier] == 25
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 50 # [tier] == 20
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [itemallskills] > 0 # [tier] == 15
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 40 && [maxhp] > 0 # [tier] == 14
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 40 # [tier] == 13
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 30 && [maxhp] > 0 # [tier] == 11
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 30 # [tier] == 10
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 20 && [maxhp] > 0 # [tier] == 9
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 20 # [tier] == 8
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 10 && [maxhp] > 0 # [tier] == 7
+([type] == helm || [Type] == circlet) && [flag] != ethereal # [fireresist]+[lightresist]+[coldresist] >= 10 # [tier] == 6
+([type] == helm || [Type] == circlet) && [flag] != ethereal && [quality] == rare # # [tier] == 5
+([type] == helm || [Type] == circlet) && [flag] != ethereal && [quality] == magic # # [tier] == 4
+([type] == helm || [Type] == circlet) && [flag] != ethereal && [quality] == superior # # [tier] == 3
+([type] == helm || [Type] == circlet) && [flag] != ethereal && [quality] == normal # # [tier] == 2
+([type] == helm || [Type] == circlet) && [flag] != ethereal && [quality] == lowquality # # [tier] == 1
+
+
+// amulets
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 150 # [tier] == 17
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 140 # [tier] == 16
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 130 # [tier] == 15
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 120 # [tier] == 14
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 110 # [tier] == 13
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 100 # [tier] == 12
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 90 # [tier] == 11
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 80 # [tier] == 10
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 70 # [tier] == 9
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 60 # [tier] == 8
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 50 # [tier] == 7
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 40 # [tier] == 6
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 30 # [tier] == 5
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 20 # [tier] == 4
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 10 # [tier] == 3
+[type] == amulet && [quality] == rare # [maxhp]+[fireresist]+[lightresist]+[coldresist] >= 5 # [tier] == 2
+[type] == amulet && [quality] >= magic # # [tier] == 1
+
+
+// rings
+[type] == ring # [fireresist]+[lightresist]+[coldresist]+[maxhp] >= 150 # [tier] == 14
+[type] == ring # [fireresist]+[lightresist]+[coldresist]+[maxhp] >= 120 # [tier] == 13
+[type] == ring # [fireresist]+[lightresist]+[coldresist]+[maxhp] >= 100 # [tier] == 12
+[type] == ring # [fireresist]+[lightresist]+[coldresist]+[maxhp] >= 90 # [tier] == 11
+[type] == ring # [fireresist]+[lightresist]+[coldresist]+[maxhp] >= 80 # [tier] == 10
+[type] == ring # [fireresist]+[lightresist]+[coldresist]+[maxhp] >= 70 # [tier] == 9
+[type] == ring # [fireresist]+[lightresist]+[coldresist]+[maxhp] >= 60 # [tier] == 8
+[type] == ring # [fireresist]+[lightresist]+[coldresist]+[maxhp] >= 50 # [tier] == 7
+[type] == ring # [fireresist]+[lightresist]+[coldresist]+[maxhp] >= 40 # [tier] == 6
+[type] == ring # [fireresist]+[lightresist]+[coldresist]+[maxhp] >= 30 # [tier] == 5
+[type] == ring # [fireresist]+[lightresist]+[coldresist]+[maxhp] >= 20 # [tier] == 4
+[type] == ring # [fireresist]+[lightresist]+[coldresist] >= 10 # [tier] == 3
+[type] == ring # [fireresist]+[lightresist]+[coldresist] >= 5 # [tier] == 2
+[type] == ring && [quality] >= magic # # [tier] == 1
+
+
+
+
+
+
+
+// ########################## MERC ##########################
+
+// merc weapons
+// merc act 1 bow
+[type] == bow # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 150 # [tier] == -19
+[type] == bow # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 150 # [tier] == -18
+[type] == bow # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 120 # [tier] == -17
+[type] == bow # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 120 # [tier] == -16
+[type] == bow # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 100 # [tier] == -15
+[type] == bow # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 100 # [tier] == -14
+[type] == bow # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 80 # [tier] == -13
+[type] == bow # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 80 # [tier] == -12
+[type] == bow # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 60 # [tier] == -11
+[type] == bow # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 60 # [tier] == -10
+[type] == bow # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 40 # [tier] == -9
+[type] == bow # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 40 # [tier] == -8
+[type] == bow # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 20 # [tier] == -7
+[type] == bow # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 20 # [tier] == -6
+[type] == bow # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 10 # [tier] == -5
+[type] == bow # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 10 # [tier] == -4
+[type] == bow && [quality] >= rare # # [tier] == -3
+[type] == bow && [quality] >= magic # # [tier] == -2
+[type] == bow # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[poisonmaxdam]+[mindamage]+[maxdamage] >= 0 # [tier] == -1
+
+// merc act 2 polearm
+[type] == polearm && [flag] == runeword # [meditationaura] == 17 && [fcr] == 35 && [itemmagicbonus] == 23 # [tier] == -100
+[type] == polearm && [flag] == runeword # [meditationaura] >= 12 && [fcr] == 35 && [itemmagicbonus] == 23 # [tier] == -99
+[type] == polearm # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 150 # [tier] == -19
+[type] == polearm # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 150 # [tier] == -18
+[type] == polearm # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 120 # [tier] == -17
+[type] == polearm # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 120 # [tier] == -16
+[type] == polearm # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 100 # [tier] == -15
+[type] == polearm # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 100 # [tier] == -14
+[type] == polearm # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 80 # [tier] == -13
+[type] == polearm # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 80 # [tier] == -12
+[type] == polearm # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 60 # [tier] == -11
+[type] == polearm # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 60 # [tier] == -10
+[type] == polearm # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 40 # [tier] == -9
+[type] == polearm # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 40 # [tier] == -8
+[type] == polearm # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 20 # [tier] == -7
+[type] == polearm # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 20 # [tier] == -6
+[type] == polearm # [sockets] >= 2 && [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 10 # [tier] == -5
+[type] == polearm # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[mindamage]+[maxdamage] >= 10 # [tier] == -4
+[type] == polearm && [quality] >= rare # # [tier] == -3
+[type] == polearm && [quality] >= magic # # [tier] == -2
+[type] == polearm # [enhanceddamage]+[coldmindam]+[coldmaxdam]+[firemindam]+[firemaxdam]+[lightmaxdam]+[poisonmaxdam]+[mindamage]+[maxdamage] >= 0 # [tier] == -1
+
+
+// merc armor
+[Type] == Armor && [Quality] == unique && [Class] >= exceptional # # [tier] == -12 // any exceptional armor for merc
+[type] == armor # [enhanceddefense]+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 120 # [tier] == -11
+[type] == armor # [enhanceddefense]+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 100 # [tier] == -10
+[type] == armor # [enhanceddefense]+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 80 # [tier] == -9
+[type] == armor # [enhanceddefense]+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 70 # [tier] == -8
+[type] == armor # [enhanceddefense]+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 60 # [tier] == -7
+[type] == armor # [enhanceddefense]+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 50 # [tier] == -6
+[type] == armor # [enhanceddefense]+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 40 # [tier] == -5
+[type] == armor # [enhanceddefense]+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 30 # [tier] == -4
+[type] == armor # [enhanceddefense]+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 20 # [tier] == -3
+[type] == armor # [enhanceddefense]+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 10 # [tier] == -2
+[type] == armor # [enhanceddefense]+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 0 # [tier] == -1
+
+
+// merc helm
+([type] == helm || [Type] == circlet) # [enhanceddefense]/10+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 120 # [tier] == -11
+([type] == helm || [Type] == circlet) # [enhanceddefense]/10+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 100 # [tier] == -10
+([type] == helm || [Type] == circlet) # [enhanceddefense]/10+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 80 # [tier] == -9
+([type] == helm || [Type] == circlet) # [enhanceddefense]/10+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 70 # [tier] == -8
+([type] == helm || [Type] == circlet) # [enhanceddefense]/10+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 60 # [tier] == -7
+([type] == helm || [Type] == circlet) # [enhanceddefense]/10+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 50 # [tier] == -6
+([type] == helm || [Type] == circlet) # [enhanceddefense]/10+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 40 # [tier] == -5
+([type] == helm || [Type] == circlet) # [enhanceddefense]/10+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 30 # [tier] == -4
+([type] == helm || [Type] == circlet) # [enhanceddefense]/10+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 20 # [tier] == -3
+([type] == helm || [Type] == circlet) # [enhanceddefense]/10+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 10 # [tier] == -2
+([type] == helm || [Type] == circlet) # [enhanceddefense]/10+[lightresist]+[fireresist]+[coldresist]+[poisonresist]+[maxhp] >= 0 # [tier] == -1

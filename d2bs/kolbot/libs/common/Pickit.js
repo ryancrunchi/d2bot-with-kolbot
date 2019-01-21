@@ -8,6 +8,7 @@ var Pickit = {
 	gidList: [],
 	beltSize: 1,
 	ignoreLog: [4, 5, 6, 22, 41, 76, 77, 78, 79, 80, 81], // Ignored item types for item logging
+	forceLog: [82, 83, 84, 647, 648, 649], // Forced item classes ID for item logging (uber keys)
 
 	init: function (notify) {
 		var i, filename;
@@ -28,6 +29,10 @@ var Pickit = {
 	// 2 - Cubing wants
 	// 3 - Runeword wants
 	// 4 - Pickup to sell (triggered when low on gold)
+	// 5 - Crafting wants
+	// 6 - Repair recipe
+	// 7 - Auto equip
+	// 8 - Auto equip merc
 	checkItem: function (unit) {
 		var rval = NTIP.CheckItem(unit, false, true);
 
@@ -59,6 +64,37 @@ var Pickit = {
 			};
 		}
 
+		if (Item.autoEquipCheck(unit) && unit.getFlag(0x10)) {
+			return {
+				result: 7,
+				line: rval.line
+			};
+		}
+
+		if (Item.autoEquipMercCheck(unit) && unit.getFlag(0x10)) {
+			return {
+				result: 8,
+				line: rval.line
+			};
+		}
+
+		if (Item.hasTier(unit)) {
+			// item has tier, but not high enough, check to see if it should be kept anyway
+			if (unit.getFlag(0x10)) {
+				var existingWithoutTier = NTIP.ExistsWithoutTier(unit);
+				if (existingWithoutTier) {
+					return NTIP.CheckItem(unit, [existingWithoutTier], true);
+				}
+				else {
+					rval.result = 0;
+				}
+				rval.result = NTIP.ExistsWithoutTier(unit) ? 1 : 0;
+			}
+			else {
+				rval.result = -1;
+			}
+		}
+
 		// If total gold is less than 10k pick up anything worth 10 gold per
 		// square to sell in town.
 		if (rval.result === 0 && Town.ignoredItemTypes.indexOf(unit.itemType) === -1 && me.gold < Config.LowGold && unit.itemType !== 39) {
@@ -77,7 +113,7 @@ var Pickit = {
 				};
 			}
 		}
-
+		
 		return rval;
 	},
 
@@ -119,7 +155,7 @@ var Pickit = {
 				// Check if the item should be picked
 				status = this.checkItem(pickList[0]);
 
-				if (status.result && this.canPick(pickList[0]) && Item.autoEquipCheck(pickList[0])) {
+				if (this.canPick(pickList[0]) && status.result) {
 					// Override canFit for scrolls, potions and gold
 					canFit = Storage.Inventory.CanFit(pickList[0]) || [4, 22, 76, 77, 78].indexOf(pickList[0].itemType) > -1;
 
@@ -219,6 +255,8 @@ var Pickit = {
 			this.useTk = Config.UseTelekinesis && me.classid === 1 && me.getSkill(43, 1) && (this.type === 4 || this.type === 22 || (this.type > 75 && this.type < 82)) &&
 						getDistance(me, unit) > 5 && getDistance(me, unit) < 20 && !checkCollision(me, unit, 0x4);
 			this.picked = false;
+			this.tier = NTIP.GetTier(unit);
+			this.mercTier = NTIP.GetMercTier(unit);
 		}
 
 		var i, item, tick, gid, stats,
@@ -325,6 +363,17 @@ MainLoop:
 			DataFile.updateStats("lastArea");
 
 			switch (status) {
+				// status
+				// -1 - Needs iding
+				// 0 - Unwanted
+				// 1 - NTIP wants
+				// 2 - Cubing wants
+				// 3 - Runeword wants
+				// 4 - Pickup to sell (triggered when low on gold)
+				// 5 - Crafting wants
+				// 6 - Repair recipe
+				// 7 - Auto equip wants
+				// 8 - Auto equip merc wants
 			case 1:
 				print("ÿc7Picked up " + stats.color + stats.name + " ÿc0(ilvl " + stats.ilvl + (keptLine ? ") (" + keptLine + ")" : ")"));
 
@@ -334,23 +383,25 @@ MainLoop:
 				}
 
 				break;
+
 			case 2:
 				print("ÿc7Picked up " + stats.color + stats.name + " ÿc0(ilvl " + stats.ilvl + ")" + " (Cubing)");
 				Misc.itemLogger("Kept", item, "Cubing " + me.findItems(item.classid).length);
 				Cubing.update();
-
 				break;
+
 			case 3:
 				print("ÿc7Picked up " + stats.color + stats.name + " ÿc0(ilvl " + stats.ilvl + ")" + " (Runewords)");
 				Misc.itemLogger("Kept", item, "Runewords");
 				Runewords.update(stats.classid, gid);
-
 				break;
+
 			case 5: // Crafting System
 				print("ÿc7Picked up " + stats.color + stats.name + " ÿc0(ilvl " + stats.ilvl + ")" + " (Crafting System)");
 				CraftingSystem.update(item);
 
 				break;
+
 			default:
 				print("ÿc7Picked up " + stats.color + stats.name + " ÿc0(ilvl " + stats.ilvl + (keptLine ? ") (" + keptLine + ")" : ")"));
 

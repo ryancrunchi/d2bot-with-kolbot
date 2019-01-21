@@ -142,7 +142,11 @@ var ClassAttack = {
 	// Returns: 0 - fail, 1 - success, 2 - no valid attack skills
 	doCast: function (unit, timedSkill, untimedSkill) {
 		var i, walk;
-
+		/*var canCastTimedSkill = true;
+		var canCastUntimedSkill = true;
+		var isTimedSkillCast = false;
+		var isUntimedSkillCast = false;
+		*/
 		// No valid skills can be found
 		if (timedSkill < 0 && untimedSkill < 0) {
 			return 2;
@@ -151,6 +155,7 @@ var ClassAttack = {
 		if (timedSkill > -1 && (!me.getState(121) || !Skill.isTimed(timedSkill))) {
 			if (Skill.getRange(timedSkill) < 4 && !Attack.validSpot(unit.x, unit.y)) {
 				return 0;
+				//canCastTimedSkill = false;
 			}
 
 			if (Math.round(getDistance(me, unit)) > Skill.getRange(timedSkill) || checkCollision(me, unit, 0x4)) {
@@ -159,19 +164,21 @@ var ClassAttack = {
 
 				if (!Attack.getIntoPosition(unit, Skill.getRange(timedSkill), 0x4, walk)) {
 					return 0;
+					//canCastTimedSkill = false;
 				}
 			}
 
-			if (!unit.dead && !checkCollision(me, unit, 0x4)) {
+			if (/*canCastTimedSkill && */!unit.dead && !checkCollision(me, unit, 0x4)) {
 				Skill.cast(timedSkill, Skill.getHand(timedSkill), unit);
+				//isTimedSkillCast = true;
 			}
-
 			return 1;
 		}
 
 		if (untimedSkill > -1) {
 			if (Skill.getRange(untimedSkill) < 4 && !Attack.validSpot(unit.x, unit.y)) {
 				return 0;
+				//return isTimedSkillCast ? 1 : 0;
 			}
 
 			if (Math.round(getDistance(me, unit)) > Skill.getRange(untimedSkill) || checkCollision(me, unit, 0x4)) {
@@ -180,23 +187,25 @@ var ClassAttack = {
 
 				if (!Attack.getIntoPosition(unit, Skill.getRange(untimedSkill), 0x4, walk)) {
 					return 0;
+					//return isTimedSkillCast ? 1 : 0;
 				}
 			}
 
-			if (!unit.dead) {
+			if (/*canCastUntimedSkill && */!unit.dead) {
 				Skill.cast(untimedSkill, Skill.getHand(untimedSkill), unit);
+				//isUntimedSkillCast = true;
 			}
 
 			return 1;
 		}
 
-		for (i = 0; i < 25; i += 1) {
+		/*for (i = 0; i < 25; i += 1) {
 			if (!me.getState(121)) {
 				break;
 			}
 
 			delay(40);
-		}
+		}*/
 
 		return 1;
 	}

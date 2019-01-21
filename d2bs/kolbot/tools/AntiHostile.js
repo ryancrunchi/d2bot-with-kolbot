@@ -71,7 +71,7 @@ function main() {
 		var script = getScript("default.dbj");
 
 		if (script && script.running) {
-			print("ÿc1Pausing.");
+			print("\xFFc1Pausing.");
 			script.pause();
 		}
 	};
@@ -81,7 +81,7 @@ function main() {
 		var script = getScript("default.dbj");
 
 		if (script && !script.running) {
-			print("ÿc2Resuming.");
+			print("\xFFc2Resuming.");
 			script.resume();
 		}
 	};
@@ -184,7 +184,7 @@ function main() {
 	};
 
 	addEventListener("scriptmsg", this.scriptEvent);
-	print("ÿc2Anti-Hostile thread loaded.");
+	print("\xFFc2Anti-Hostile thread loaded.");
 
 	// Main Loop
 	while (true) {

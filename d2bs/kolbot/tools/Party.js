@@ -16,10 +16,16 @@ function main() {
 
 	Config.init();
 
-	var i, myPartyId, player, otherParty, shitList, currScript, scriptList,
+	var i, otherParty, shitList, currScript, scriptList,
 		classes = ["Amazon", "Sorceress", "Necromancer", "Paladin", "Barbarian", "Druid", "Assassin"],
 		playerLevels = {},
 		partyTick = getTickCount();
+
+	let partyModeLoot = 0;
+	let partyModeHostile = 1;
+	let partyModeInviteAcceptCancel = 2;
+	let partyModeLeaveParty = 3;
+	let partyIdNotInParty = 65535;
 
 	addEventListener("gameevent",
 		function (mode, param1, param2, name1, name2) {
@@ -71,6 +77,39 @@ function main() {
 			}
 		});
 
+	addEventListener("keyup", function(key) {
+		switch (key) {
+			case 111: // "/"
+				//if (!Config.PublicMode) {
+				Config.PublicMode = (Config.PublicMode+1) %4;
+				var text;
+				switch (Config.PublicMode) {
+					case 0:
+						text = "disabled";
+					break;
+
+					case 1:
+						text = "invite and accept";
+					break;
+
+					case 2:
+						text = "accept only";
+					break;
+
+					case 3:
+						text = "invite only";
+					break;
+				}
+				print("Config.PublicMode = "+Config.PublicMode+" ("+text+")");
+				/*}
+				else {
+					Config.PublicMode = 0;
+				}*/
+			break;
+		}
+	});
+
+	let mode = Config.PublicMode
 	print("ÿc2Party thread loaded. Mode: " + (Config.PublicMode === 2 ? "Accept" : "Invite"));
 
 	if (Config.ShitList || Config.UnpartyShitlisted) {
@@ -88,77 +127,215 @@ function main() {
 			}
 		}
 	}
+	
+	var numberOfPlayersInParty = function(partyId) {
+		return playersInParty(partyId).length;
+	};
+	
+	// not counting myself
+	var playersInParty = function(partyId) {
+		if (partyId == partyIdNotInParty) {
+			return [];
+		}
+		var player = getParty();
+		var players = [];
+
+		if (player) {
+			while (player.getNext()) {
+				if (player.partyid == partyId) {
+					players.push(player);
+				}
+			}
+		}
+		return players;
+	};
+
+	var allParties = function() {
+		var player = getParty();
+		var parties = [];
+
+		if (player) {
+			if (player.partyid != partyIdNotInParty && parties.indexOf(player.partyid) == -1) {
+				parties.push(player.partyid);
+			}
+			while (player.getNext()) {
+				if (player.partyid != partyIdNotInParty && parties.indexOf(player.partyid) == -1) {
+					parties.push(player.partyid);
+				}
+			}
+		}
+		return parties;
+	};
+
+	var playerWithName = function(name) {
+		var player = getParty();
+		do {
+			if (player.name == name) {
+				return player;
+			}
+		} while (player.getNext());
+		return null;
+	};
 
 	// Main loop
 	while (true) {
-		if (me.gameReady && (!Config.PartyAfterScript || scriptList.indexOf(currScript) > scriptList.indexOf(Config.PartyAfterScript))) {
-			player = getParty();
+		if (me.gameReady && Config.PublicMode != 0 && (!Config.PartyAfterScript || scriptList.indexOf(currScript) > scriptList.indexOf(Config.PartyAfterScript))) {
+			
+			var player = getParty();
+			var myPartyId = partyIdNotInParty;
+			var meInParty = false;
+			var canInvite = [1, 3].indexOf(Config.PublicMode) > -1;
+			var canAccept = [1, 2].indexOf(Config.PublicMode) > -1;
 
 			if (player) {
 				myPartyId = player.partyid;
+				meInParty = myPartyId != partyIdNotInParty;
+			}
 
-				while (player.getNext()) {
-					switch (Config.PublicMode) {
-					case 1: // Invite others
-					case 3: // Invite others but never accept
-						if (getPlayerFlag(me.gid, player.gid, 8)) {
+			let parties = allParties();
+			var maxPartyMembers = 0;
+			var bestPartyId = partyIdNotInParty;
+			for (var p = 0; p < parties.length; p++) {
+				let partyId = parties[p];
+				let countInParty = numberOfPlayersInParty(partyId);
+				if (countInParty > maxPartyMembers) {
+					bestPartyId = partyId;
+					maxPartyMembers = countInParty;
+				}
+			}
+
+			if (bestPartyId != partyIdNotInParty) {
+				if (meInParty && myPartyId != bestPartyId) {
+					// I'm not in the best party, leave my party ?
+					print("I'm not in the best party, should I leave my party ?");
+				}
+				else if (!meInParty) {
+					//print("I'm not in a party, wait an invitation from best party");
+					player = getParty();
+					while (player.getNext()) {
+						let playerPartyId = player.partyid;
+						if (playerPartyId == bestPartyId) {
+							let playerIsInParty = playerPartyId != partyIdNotInParty;
+							let playerIsInMyParty = playerPartyId == myPartyId;
+							let playerPartyFlag = player.partyflag;
+							let canInvitePlayer = player.partyflag == 0;
+							let playerHasInvitedMe = player.partyflag == 2;
+							let canCancelInvitation = player.partyflag == 4;
+							let playerIsHostile = getPlayerFlag(me.gid, player.gid, 8);
+							if (playerIsHostile) {
+								print("Player is hostile");
+								if (Config.ShitList && shitList.indexOf(player.name) === -1) {
+									print(player.name + " has been shitlisted.");
+									shitList.push(player.name);
+									ShitList.add(player.name);
+								}
+								else {
+
+								}
+							}
+							if (playerHasInvitedMe && canAccept) {
+								//print("Player has invited me, I accept");
+								clickParty(player, partyModeInviteAcceptCancel);
+								break;
+							}
+							else if (canAccept) {
+								//delay(1000);
+								// print("Player has not invited me, waiting...");
+								delay(me.ping);
+							}
+							else {
+								// print("Cannot accept invitations");
+							}
+						}
+					}
+				}
+				else {
+					// already in best party
+					// print("Already in best party");
+					if (canInvite) {
+						// print("Let's invite others");
+						player = getParty();
+						while (player.getNext()) {
+							let playerPartyId = player.partyid;
+							let playerIsInParty = playerPartyId != partyIdNotInParty;
+							let playerIsInMyParty = playerPartyId == myPartyId;
+							let playerPartyFlag = player.partyflag;
+							let canInvitePlayer = playerPartyFlag == 0;
+							let playerHasInvitedMe = playerPartyFlag == 2;
+							let canCancelInvitation = playerPartyFlag == 4;
+							let playerIsHostile = getPlayerFlag(me.gid, player.gid, 8);
+							
+							if (playerIsHostile) {
+								print("Player is hostile");
+								if (Config.ShitList && shitList.indexOf(player.name) === -1) {
+									print(player.name + " has been shitlisted.");
+									shitList.push(player.name);
+									ShitList.add(player.name);
+								}
+								else {
+
+								}
+							}
+							if (canInvitePlayer) {
+								// print("Inviting player in my party");
+								clickParty(player, partyModeInviteAcceptCancel);
+							}
+							else if (playerIsInMyParty) {
+								// print("Player is already in my party");
+							}
+							else if (playerIsInParty) {
+								// print("Player is in another party, can't invite");
+							}
+							else if (canCancelInvitation) {
+								// do not cancel, this is the best party invitation
+								// print("Player already invited");
+							}
+							else {
+
+							}
+						}
+					}
+					else {
+						// print("Cannot invite others");
+					}
+				}
+			}
+			else {
+				// print("There are no parties");
+				if (canInvite || canAccept) {
+					// print("Let's try to make one by inviting or accepting");
+					player = getParty();
+					while (player.getNext()) {
+						let playerPartyId = player.partyid;
+						let playerIsInParty = playerPartyId != partyIdNotInParty;
+						let playerIsInMyParty = playerPartyId == myPartyId;
+						let playerPartyFlag = player.partyflag;
+						let canInvitePlayer = playerPartyFlag == 0;
+						let playerHasInvitedMe = playerPartyFlag == 2;
+						let canCancelInvitation = playerPartyFlag == 4;
+						let playerIsHostile = getPlayerFlag(me.gid, player.gid, 8);
+						
+						if (playerIsHostile) {
+							print("Player is hostile");
 							if (Config.ShitList && shitList.indexOf(player.name) === -1) {
-								say(player.name + " has been shitlisted.");
+								print(player.name + " has been shitlisted.");
 								shitList.push(player.name);
 								ShitList.add(player.name);
 							}
+							else {
 
-							if (player.partyflag === 4) {
-								clickParty(player, 2); // cancel invitation
-								delay(100);
 							}
-
-							break;
 						}
-
-						if (Config.ShitList && shitList.indexOf(player.name) > -1) {
-							break;
+						if ((canInvite && canInvitePlayer) || (canAccept && playerHasInvitedMe)) {
+							clickParty(player, partyModeInviteAcceptCancel);
 						}
-
-						if (player.partyflag !== 4 && (Config.PublicMode === 1 || player.partyflag !== 2) && player.partyid === 65535) {
-							clickParty(player, 2);
-							delay(100);
-						}
-
-						break;
-					case 2: // Accept invites
-						if (Config.Leader && player.name !== Config.Leader) {
-							break;
-						}
-
-						if (player.partyid !== 65535 && player.partyid !== myPartyId) {
-							otherParty = player.partyid;
-						}
-
-						if (player.partyflag === 2 && (!otherParty || player.partyid === otherParty) && (getTickCount() - partyTick >= 2000 || Config.FastParty)) {
-							clickParty(player, 2);
-							delay(100);
-						}
-
-						break;
-					}
-
-					if (Config.UnpartyShitlisted) {
-						// Add new hostile players to temp shitlist, leader should have Config.ShitList set to true to update the permanent list.
-						if (getPlayerFlag(me.gid, player.gid, 8) && shitList.indexOf(player.name) === -1) {
-							shitList.push(player.name);
-						}
-
-						if (shitList.indexOf(player.name) > -1 && myPartyId !== 65535 && player.partyid === myPartyId) {
-							// Only the one sending invites should say this.
-							if ([1, 3].indexOf(Config.PublicMode) > -1) {
-								say(player.name + " is shitlisted. Do not invite them.");
-							}
-
-							clickParty(player, 3);
-							delay(100);
+						else if (canCancelInvitation) {
+							// do not cancel, there are no parties
 						}
 					}
+				}
+				else {
+					// print("Cannot invite or accept, leave me alone");
 				}
 			}
 
@@ -185,4 +362,5 @@ function main() {
 
 		delay(500);
 	}
+	print("ÿc1Party thread done.");
 }

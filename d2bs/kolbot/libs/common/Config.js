@@ -195,6 +195,8 @@ var Config = {
 
 	ItemInfo: false,
 	ItemInfoQuality: [],
+	SoldItemInfo: false,
+	SoldItemInfoQuality: [],
 
 	LogKeys: false,
 	LogOrgans: true,
@@ -316,6 +318,9 @@ var Config = {
 
 	// Script specific
 	MFLeader: false,
+	MFHelper: {
+		HealBetweenCommands: false
+	},
 	Mausoleum: {
 		KillBloodRaven: false,
 		ClearCrypt: false
@@ -361,6 +366,9 @@ var Config = {
 	},
 	Countess: {
 		KillGhosts: false
+	},
+	CowsHelper: {
+		Wait: 120
 	},
 	Baal: {
 		DollQuit: false,
@@ -411,6 +419,9 @@ var Config = {
 		Entrance: false,
 		SkipIfBaal: false,
 		SkipTP: false
+	},
+	Wakka: {
+		SkipIfBaal: false
 	},
 	BattleOrders: {
 		Mode: 0,
@@ -524,5 +535,17 @@ var Config = {
 		Template: "",
 		Verbose: false,
 		DebugMode: false
-	}
+	},
+	AutoSmurf: {
+        TeamSize: 1,
+		TeleportingSorc: "",
+		BoBarb: "",
+		NonSorcChar: [],
+      	AllTeamProfiles: []
+    },
+    AutoSmurf2: {
+        Smurfette: "",
+        BigSmurf: "",
+        Smurfs: []
+    }
 };

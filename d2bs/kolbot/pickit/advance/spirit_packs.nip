@@ -1,0 +1,6 @@
+// [Name] == TalRune
+// [Name] == ThulRune
+// [Name] == OrtRune
+// [Name] == AmnRune
+// [Name] == HelRune
+[Name] == Monarch && [Quality] <= superior && [Flag] != ethereal # [Sockets] == 4

@@ -25,6 +25,20 @@ function LoadConfig() {
 	// Team MF system
 	Config.MFLeader = false; // Set to true if you have one or more MFHelpers. Opens TP and gives commands when doing normal MF runs.
 
+	// Auto
+	Scripts.AutoSmurf = false; 
+		Config.AutoSmurf.TeamSize = 1; //- length of your ingame team
+		Config.AutoSmurf.TeleportingSorc = []; // ingame character(s) name(s) - ex: ["SorcTeleportA", "SorcTeleportB", ""];
+			//- search brain - teleport to diablo/baal - if you have less than 3 sorc, use this - 3 characters max
+		Config.AutoSmurf.QuestingSorcA = []; // ingame character(s) name(s) - ex: ["SorcFireBall", "", ""];
+			//- search eye / rescue barbs - 3 characters max
+		Config.AutoSmurf.QuestingSorcB = []; // ingame character(s) name(s) - ex: ["SorcBlizzard", "", ""];
+			//- search heart / shenk - 3 characters max
+		Config.AutoSmurf.NonSorcChar = [];  // ingame character(s) name(s) - ex: ["", "", ""]; 
+			//- hammer, druid, whatever... but not the bo barb! - 3 characters max
+		Config.AutoSmurf.BoBarb = ""; // ingame character name - ex: "BarbBo";
+        	//- name of your bo barb, if you have one - 1 character max : no brackets!
+
 	// Boss/area scripts
 
 	// *** act 1 ***
@@ -133,6 +147,7 @@ function LoadConfig() {
 	Scripts.TravincalLeech = false; // Enters portal at back of Travincal.
 		Config.TravincalLeech.Helper = true; // If set to true the character will teleport to the stairs and help attack.
 	Scripts.MFHelper = false; // Run the same MF run as the MFLeader. Leader must have Config.MFLeader = true
+		Config.MFHelper.HealBetweenCommands = false; // If set to true, the helper will heal (if needed based on Config.HealHP and Config.HealMP) to NPC between leader's commands.
 	Scripts.Wakka = false; // Walking chaos leecher with auto leader assignment, stays at safe distance from the leader
 	Scripts.SealLeecher = false; // Enter safe portals to Chaos. Leader should run SealLeader.
 	Scripts.DiabloHelper = false; // Chaos helper, kills monsters and doesn't open seals on its own.
@@ -232,20 +247,20 @@ function LoadConfig() {
 	Config.MercWatch = false; // Instant merc revive during battle.
 
 	// Potion settings
-	Config.UseHP = 75; // Drink a healing potion if life is under designated percent.
-	Config.UseRejuvHP = 40;  // Drink a rejuvenation potion if life is under designated percent.
-	Config.UseMP = 30; // Drink a mana potion if mana is under designated percent.
-	Config.UseRejuvMP = 0; // Drink a rejuvenation potion if mana is under designated percent.
-	Config.UseMercHP = 75; // Give a healing potion to your merc if his/her life is under designated percent.
-	Config.UseMercRejuv = 0; // Give a rejuvenation potion to your merc if his/her life is under designated percent.
+	Config.UseHP = -1; // Drink a healing potion if life is under designated percent.
+	Config.UseRejuvHP = -1;  // Drink a rejuvenation potion if life is under designated percent.
+	Config.UseMP = -1; // Drink a mana potion if mana is under designated percent.
+	Config.UseRejuvMP = -1; // Drink a rejuvenation potion if mana is under designated percent.
+	Config.UseMercHP = -1; // Give a healing potion to your merc if his/her life is under designated percent.
+	Config.UseMercRejuv = -1; // Give a rejuvenation potion to your merc if his/her life is under designated percent.
 	Config.HPBuffer = 0; // Number of healing potions to keep in inventory.
 	Config.MPBuffer = 0; // Number of mana potions to keep in inventory.
 	Config.RejuvBuffer = 0; // Number of rejuvenation potions to keep in inventory.
 
 	// Chicken settings
-	Config.LifeChicken = 30; // Exit game if life is less or equal to designated percent.
-	Config.ManaChicken = 0; // Exit game if mana is less or equal to designated percent.
-	Config.MercChicken = 0; // Exit game if merc's life is less or equal to designated percent.
+	Config.LifeChicken = -1; // Exit game if life is less or equal to designated percent.
+	Config.ManaChicken = -1; // Exit game if mana is less or equal to designated percent.
+	Config.MercChicken = -1; // Exit game if merc's life is less or equal to designated percent.
 	Config.TownHP = 0; // Go to town if life is under designated percent.
 	Config.TownMP = 0; // Go to town if mana is under designated percent.
 

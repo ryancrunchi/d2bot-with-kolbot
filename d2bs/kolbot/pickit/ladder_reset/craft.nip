@@ -1,0 +1,122 @@
+// ##### Helms #########################
+[Type] == helm && [Quality] == crafted # [Sockets] >= 2 && [ItemDeadlyStrike] >= 8 && [LifeLeech] >= 2 && [ItemToHitPercentPerLevel] >= 1 && [FHR] >= 10 && ([EnhancedDefense] >= 150 || [MaxHP] >= 50)
+
+
+// ##### Armor #########################
+
+
+// ##### Shields #######################
+[Name] == Monarch && [Quality] == crafted # [Sockets] >= 2 && [EnhancedDefense] >= 180 && [FBR] >= 30 && (([FireResist] >= 17 && [LightResist] >= 17) || [FHR] >= 17)
+
+
+// ##### Gloves ########################
+//// Prefix
+// max mana = 40 (60 caster)
+// bow|java|martial sk = 2
+//// Suffix
+// max ias = 20
+// max str = 15
+// max dex = 15
+// max ll = 3
+// max ml = 3
+
+// hit power gloves
+// knockback
+[Type] == gloves && [Quality] == crafted # [ItemKnockBack] > 0 && [javelinandspearskilltab]+[bowandcrossbowskilltab]+[martialartsskilltab] == 2 && [IAS] == 20 && ([Strength] >= 10 || [Dexterity] >= 10)
+[Type] == gloves && [Quality] == crafted # [ItemKnockBack] > 0 && [javelinandspearskilltab]+[bowandcrossbowskilltab]+[martialartsskilltab] == 2 && [IAS] == 20 && [Strength]/2+[Dexterity]/2 >= 10
+
+// blood gloves
+// max cb = 10
+// max ll = 3
+// max life = 20
+[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 5 && [LifeLeech] >= 3 && [IAS] == 20 && [Dexterity] >= 10
+[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 7 && [LifeLeech] >= 3 && [IAS] == 20 && ([Strength] >= 10 || [Dexterity] >= 10)
+[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 7 && [LifeLeech]+[ManaLeech] > 3 && [IAS] == 20 && ([Strength] >= 10 || [Dexterity] >= 10)
+[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 7 && [LifeLeech] >= 3 && [Strength]/2+[Dexterity]/2 >= 12
+[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 7 && [LifeLeech] >= 3 && [Strength]+[Dexterity] == 30
+
+
+// ##### Boots #########################
+//// Prefix
+// max mana = 40 (60 caster)
+// max signle res = 40
+//// Suffix
+// max dex = 9
+// max frw = 30
+// max fhr = 10
+
+// max ll = 3 (blood)
+// max life = 20 (blood)
+[Type] == boots && [Quality] == crafted # [FRW] == 30 && [FHR] == 10 && [FireResist]+[LightResist]+[ColdResist] >= 75
+[Type] == boots && [Quality] == crafted # [FRW] == 30 && [FHR] == 10 && [FireResist]+[LightResist]+[ColdResist] >= 90
+[Type] == boots && [Quality] == crafted # [FRW] == 30 && [FHR] == 10 && [Dexterity] >= 6 && [FireResist]+[LightResist]+[ColdResist] >= 60
+[Type] == boots && [Quality] == crafted # [FRW] == 30 && [FHR] == 10 && [Dexterity] == 9 && [FireResist]+[LightResist]+[ColdResist] >= 40
+
+
+// ##### Belts #########################
+//// Prefix
+// max mana = 30 (50 caster)
+// max ed = 200
+// max single res = 30
+//// Suffix
+// max str = 30
+// max life = 60 (80 blood)
+// max fhr = 24
+
+// max fcr = 10 (caster)
+// max ll = 3 (blood)
+// max ow = 10 (blood)
+
+// caster
+[Type] == belt && [Quality] == crafted # [FCR] == 10 && [FHR] >= 17 && [Strength] >= 25 && [MaxHP]+[MaxMana] >= 70
+[Type] == belt && [Quality] == crafted # [FCR] == 10 && [FHR] == 24 && [Strength] >= 21 && [MaxHP]+[MaxMana] >= 60
+
+// blood
+[Type] == belt && [Quality] == crafted # [FHR] >= 17 && [Strength] >= 25 && [MaxHP] >= 60 && [ItemOpenWounds] >= 7 && [LifeLeech] == 3 && ([MaxMana] >= 0 || [ColdResist] >= 20 || [LightResist] >= 20 || [FireResist] >= 20 || [EnhancedDefense] >= 180)
+[Type] == belt && [Quality] == crafted # [FHR] == 24 && [Strength] >= 21 && [MaxHP] >= 60 && [ItemOpenWounds] >= 7 && [LifeLeech] >= 2 && ([MaxMana] >= 0 || [ColdResist] >= 20 || [LightResist] >= 20 || [FireResist] >= 20 || [EnhancedDefense] >= 180)
+
+
+// ##### Rings #########################
+//// Prefix
+// max ar = 120
+// max mana = 90 (110 caster)
+// max single res = 30
+// max @ = 11
+//// Suffix
+// max str = 20 (25 blood)
+// max dex = 15 (20 power)
+// max en = 15 (20 caster)
+// max life = 40 (60 blood)
+// max ll = 9 (12 blood)
+// max ml = 9
+// max fcr = 10
+[Type] == ring && [Quality] == crafted # [FCR] == 10 && [Strength] >= 10 && ([FireResist] >= 15 || [LightResist] >= 15 || [ColdResist] >= 15) && [MaxHP] >= 20
+[Type] == ring && [Quality] == crafted # [FCR] == 10 && [Strength]+[Dexterity] >= 25 && [FireResist]+[LightResist]+[ColdResist]+[PoisonResist] >= 30
+[Type] == ring && [Quality] == crafted # [FCR] == 10 && [Strength]+[Dexterity] >= 30 && [FireResist]+[LightResist]+[ColdResist]+[PoisonResist] >= 30
+[Type] == ring && [Quality] == crafted # [ToHit] >= 100 && [Strength]+[Dexterity] >= 25 && [LifeLeech] >= 7
+[Type] == ring && [Quality] == crafted # [ToHit] >= 100 && [Strength]+[Dexterity] >= 30 && [LifeLeech] >= 7
+[Type] == ring && [Quality] == crafted # [ToHit] >= 100 && ([Strength] >= 18 || [Dexterity] >= 12) && [LifeLeech] >= 7 && [ManaLeech] > 0
+[Type] == ring && [Quality] == crafted # [ToHit] >= 100 && ([Strength] >= 15 || [Dexterity] >= 10) && [LifeLeech] >= 7 && [FireResist]+[LightResist]+[ColdResist]+[PoisonResist] >= 36
+
+
+// ##### Amulets #######################
+//// Prefix
+// max mana = 90 (110 caster)
+// max single res = 40
+// max @ = 20
+// max class sk = 2
+// max sk tab = 2
+//// Suffix
+// max fcr = 10 (20 caster)
+// max str = 30
+// max dex = 20
+// max en = 20
+// max life = 60 (80 blood)
+// max ll = 9 (13 blood)
+// max ml = 9
+// CASTER
+[Type] == amulet && [Quality] == crafted # [FCR] >= 15 && [itemaddsorceressskills] == 2 && ([FireResist] >= 33 || [LightResist] >= 33 || [ColdResist] >= 33 || [PoisonResist] >= 33) && [MaxMana] > 42 && [MaxHP] > 50
+[Type] == amulet && [Quality] == crafted # [FCR] == 20 && [ItemAddClassSkills] == 2 && [FireResist]+[LightResist]+[ColdResist]+[PoisonResist] >= 60 && ([MaxMana] >= 100 || [MaxHP] >= 40 || [Strength] >= 20 || [Dexterity] >= 15)
+//BLOOD
+[Type] == amulet && [Quality] == crafted # [LifeLeech] >= 10 && [ItemAddClassSkills] == 2 && [FireResist]+[LightResist]+[ColdResist]+[PoisonResist] > 60 && ([ManaLeech] >= 7 || [MaxHP] >= 60 || [Strength] >= 15 || [Dexterity] >= 10)
+[Type] == amulet && [Quality] == crafted # [LifeLeech] >= 10 && [ItemAddClassSkills] == 2 && [Strength]+[Dexterity] >= 35
