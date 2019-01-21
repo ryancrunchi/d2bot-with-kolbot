@@ -37,6 +37,7 @@ function main() {
 		load("tools/heartbeat.js");
 	}
 
+	load("tools/Party.js");
 	if (getScript("d2botmap.dbj")) {
 		load("tools/mapthread.js");
 		load("tools/ToolsThread.js");
@@ -158,10 +159,6 @@ function main() {
 
 	if (Config.TownCheck || Config.TownHP || Config.TownMP) {
 		load("tools/TownChicken.js");
-	}
-
-	if (Config.PublicMode) {
-		load("tools/Party.js");
 	}
 
 	if (Config.AntiHostile) {
