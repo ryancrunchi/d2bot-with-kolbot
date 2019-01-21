@@ -205,138 +205,94 @@ function main() {
 				}
 			}
 
-			if (bestPartyId != partyIdNotInParty) {
-				if (meInParty && myPartyId != bestPartyId) {
-					// I'm not in the best party, leave my party ?
-					print("I'm not in the best party, should I leave my party ?");
-				}
-				else if (!meInParty) {
-					//print("I'm not in a party, wait an invitation from best party");
-					player = getParty();
-					while (player.getNext()) {
-						let playerPartyId = player.partyid;
-						if (playerPartyId == bestPartyId) {
-							let playerIsInParty = playerPartyId != partyIdNotInParty;
-							let playerIsInMyParty = playerPartyId == myPartyId;
-							let playerPartyFlag = player.partyflag;
-							let canInvitePlayer = player.partyflag == 0;
-							let playerHasInvitedMe = player.partyflag == 2;
-							let canCancelInvitation = player.partyflag == 4;
-							let playerIsHostile = getPlayerFlag(me.gid, player.gid, 8);
-							if (playerIsHostile) {
-								print("Player is hostile");
-								if (Config.ShitList && shitList.indexOf(player.name) === -1) {
-									print(player.name + " has been shitlisted.");
-									shitList.push(player.name);
-									ShitList.add(player.name);
-								}
-								else {
+			player = getParty();
+			while (player.getNext()) {
+				let playerPartyId = player.partyid;
+				let playerIsInParty = playerPartyId != partyIdNotInParty;
+				let playerIsInBestParty = playerPartyId == bestPartyId;
+				let playerIsInMyParty = playerPartyId == myPartyId;
+				let playerPartyFlag = player.partyflag;
+				let canInvitePlayer = player.partyflag == 0;
+				let playerHasInvitedMe = player.partyflag == 2;
+				let canCancelInvitation = player.partyflag == 4;
+				let playerIsHostile = getPlayerFlag(me.gid, player.gid, 8);
+				var playerIsShitListed = Config.ShitList && shitList.indexOf(player.name) > -1;
+				if (playerIsHostile) {
+					print("Player is hostile");
+					if (Config.ShitList && shitList.indexOf(player.name) === -1) {
+						print(player.name + " has been shitlisted.");
+						shitList.push(player.name);
+						ShitList.add(player.name);
+						playerIsShitListed = true;
+					}
+					else {
 
-								}
-							}
-							if (playerHasInvitedMe && canAccept) {
-								//print("Player has invited me, I accept");
+					}
+				}
+				if (!playerIsShitListed) {
+					if (!meInParty) {
+						if (bestPartyId != partyIdNotInParty) {
+							// there is a best party
+							if (playerIsInBestParty && playerHasInvitedMe && canAccept) {
+								// Player has invited me, I accept
 								clickParty(player, partyModeInviteAcceptCancel);
 								break;
 							}
-							else if (canAccept) {
-								//delay(1000);
-								// print("Player has not invited me, waiting...");
+							else if (playerIsInBestParty && canAccept) {
+								// Player has not invited me, waiting...
 								delay(me.ping);
 							}
+							else if (playerHasInvitedMe && canAccept) {
+								// player has invited, but not in best party
+							}
 							else {
-								// print("Cannot accept invitations");
+								// Cannot accept invitations
+							}
+						}
+						else {
+							// There are not parties
+							if (canInvite || canAccept) {
+								// Let's try to make a party by inviting or accepting
+								if ((canInvite && canInvitePlayer) || (canAccept && playerHasInvitedMe)) {
+									clickParty(player, partyModeInviteAcceptCancel);
+								}
+								else if (canCancelInvitation) {
+									// do not cancel, there are no parties
+								}
+							}
+							else {
+								// Cannot invite or accept, leave me alone
 							}
 						}
 					}
-				}
-				else {
-					// already in best party
-					// print("Already in best party");
-					if (canInvite) {
-						// print("Let's invite others");
-						player = getParty();
-						while (player.getNext()) {
-							let playerPartyId = player.partyid;
-							let playerIsInParty = playerPartyId != partyIdNotInParty;
-							let playerIsInMyParty = playerPartyId == myPartyId;
-							let playerPartyFlag = player.partyflag;
-							let canInvitePlayer = playerPartyFlag == 0;
-							let playerHasInvitedMe = playerPartyFlag == 2;
-							let canCancelInvitation = playerPartyFlag == 4;
-							let playerIsHostile = getPlayerFlag(me.gid, player.gid, 8);
-							
-							if (playerIsHostile) {
-								print("Player is hostile");
-								if (Config.ShitList && shitList.indexOf(player.name) === -1) {
-									print(player.name + " has been shitlisted.");
-									shitList.push(player.name);
-									ShitList.add(player.name);
-								}
-								else {
-
-								}
-							}
+					else if (myPartyId != bestPartyId) {
+						// I'm not in the best party, leave my party ?
+						// Other players cannot invite me
+					}
+					else {
+						// already in best party
+						if (canInvite) {
 							if (canInvitePlayer) {
-								// print("Inviting player in my party");
+								// Inviting player in my party
 								clickParty(player, partyModeInviteAcceptCancel);
 							}
 							else if (playerIsInMyParty) {
-								// print("Player is already in my party");
+								// Player is already in my party
 							}
 							else if (playerIsInParty) {
-								// print("Player is in another party, can't invite");
+								// Player is in another party, can't invite
 							}
 							else if (canCancelInvitation) {
 								// do not cancel, this is the best party invitation
-								// print("Player already invited");
 							}
 							else {
 
 							}
 						}
-					}
-					else {
-						// print("Cannot invite others");
-					}
-				}
-			}
-			else {
-				// print("There are no parties");
-				if (canInvite || canAccept) {
-					// print("Let's try to make one by inviting or accepting");
-					player = getParty();
-					while (player.getNext()) {
-						let playerPartyId = player.partyid;
-						let playerIsInParty = playerPartyId != partyIdNotInParty;
-						let playerIsInMyParty = playerPartyId == myPartyId;
-						let playerPartyFlag = player.partyflag;
-						let canInvitePlayer = playerPartyFlag == 0;
-						let playerHasInvitedMe = playerPartyFlag == 2;
-						let canCancelInvitation = playerPartyFlag == 4;
-						let playerIsHostile = getPlayerFlag(me.gid, player.gid, 8);
-						
-						if (playerIsHostile) {
-							print("Player is hostile");
-							if (Config.ShitList && shitList.indexOf(player.name) === -1) {
-								print(player.name + " has been shitlisted.");
-								shitList.push(player.name);
-								ShitList.add(player.name);
-							}
-							else {
-
-							}
-						}
-						if ((canInvite && canInvitePlayer) || (canAccept && playerHasInvitedMe)) {
-							clickParty(player, partyModeInviteAcceptCancel);
-						}
-						else if (canCancelInvitation) {
-							// do not cancel, there are no parties
+						else {
+							// Cannot invite
 						}
 					}
-				}
-				else {
-					// print("Cannot invite or accept, leave me alone");
 				}
 			}
 
