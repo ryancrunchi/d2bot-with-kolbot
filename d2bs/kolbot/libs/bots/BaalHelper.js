@@ -98,7 +98,7 @@ function BaalHelper() { // experi-mental
 	this.clearThrone = function () {
 		var i, monster,
 			monList = [],
-			pos = [15097, 5054, 15085, 5053, 15085, 5040, 15098, 5040, 15099, 5022, 15086, 5024];
+			pos = [15094, 5022, 15094, 5041, 15094, 5060, 15094, 5041, 15094, 5022];
 
 		if (Config.AvoidDolls) {
 			monster = getUnit(1, 691);
