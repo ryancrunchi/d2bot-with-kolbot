@@ -177,7 +177,8 @@ MainLoop:
 			}
 
 			if (command !== oldCommand) {
-
+				oldCommand = command;
+				
 				if (command.indexOf("kill") > -1) {
 					print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Kill");
 
@@ -294,7 +295,6 @@ MainLoop:
 					}
 
 					if (me.area === 39) {
-						oldCommand = command;
 						Precast.doPrecast(false);
 						this.clearCowLevel();
 						delay(1000);
