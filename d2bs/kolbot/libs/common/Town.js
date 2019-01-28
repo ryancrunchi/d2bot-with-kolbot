@@ -2164,10 +2164,8 @@ MainLoop:
 		}
 
 		if (act !== me.act) {
-			try {
-				Pather.useWaypoint(towns[act - 1], wpmenu);
-			} catch (WPError) {
-				throw new Error("Town.goToTown: Failed use WP");
+			if (!Pather.useWaypoint(towns[act - 1], wpmenu)) {
+				return false;
 			}
 		}
 
