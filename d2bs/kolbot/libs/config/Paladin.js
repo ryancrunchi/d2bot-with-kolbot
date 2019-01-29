@@ -245,11 +245,11 @@ function LoadConfig() {
 	Config.MercWatch = false; // Instant merc revive during battle.
 
 	// Potion settings
-	Config.UseHP = 40; // Drink a healing potion if life is under designated percent.
-	Config.UseRejuvHP = 20;  // Drink a rejuvenation potion if life is under designated percent.
+	Config.UseHP = 60; // Drink a healing potion if life is under designated percent.
+	Config.UseRejuvHP = 40;  // Drink a rejuvenation potion if life is under designated percent.
 	Config.UseMP = 15; // Drink a mana potion if mana is under designated percent.
 	Config.UseRejuvMP = -1; // Drink a rejuvenation potion if mana is under designated percent.
-	Config.UseMercHP = -1; // Give a healing potion to your merc if his/her life is under designated percent.
+	Config.UseMercHP = 15; // Give a healing potion to your merc if his/her life is under designated percent.
 	Config.UseMercRejuv = -1; // Give a rejuvenation potion to your merc if his/her life is under designated percent.
 	Config.HPBuffer = 0; // Number of healing potions to keep in inventory.
 	Config.MPBuffer = 0; // Number of mana potions to keep in inventory.
@@ -455,10 +455,10 @@ function LoadConfig() {
 	Config.PrimarySlot = -1; // Set to use specific weapon slot as primary weapon slot: -1 = disabled, 0 = slot I, 1 = slot II
 
 	// Fastmod config
-	Config.FCR = 0; // 0 - disable, 1 to 255 - set value of faster cast rate 
-	Config.FHR = 0; // 0 - disable, 1 to 255 - set value of faster hit recovery 
-	Config.FBR = 0; // 0 - disable, 1 to 255 - set value of faster block recovery 
-	Config.IAS = 200; // 0 - disable, 1 to 255 - set value of increased attack speed 
+	Config.FCR = 255; // 0 - disable, 1 to 255 - set value of faster cast rate 
+	Config.FHR = 255; // 0 - disable, 1 to 255 - set value of faster hit recovery 
+	Config.FBR = 255; // 0 - disable, 1 to 255 - set value of faster block recovery 
+	Config.IAS = 255; // 0 - disable, 1 to 255 - set value of increased attack speed 
 	Config.PacketCasting = 0; // 0 = disable, 1 = packet teleport, 2 = full packet casting.
 	Config.WaypointMenu = true;
 

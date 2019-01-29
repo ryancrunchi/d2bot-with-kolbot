@@ -142,8 +142,11 @@ var ClassAttack = {
 			}
 
 			return 1;
+
+		// holy bolt, try to telestomp
 		case 101:
-			if (getDistance(me, unit) > Skill.getRange(attackSkill) + 3 || CollMap.checkColl(me, unit, 0x4)) {
+			return 2;
+			/*if (getDistance(me, unit) > Skill.getRange(attackSkill) + 3 || CollMap.checkColl(me, unit, 0x4)) {
 				if (!Attack.getIntoPosition(unit, Skill.getRange(attackSkill), 0x4)) {
 					return 0;
 				}
@@ -165,7 +168,7 @@ var ClassAttack = {
 				Skill.cast(attackSkill, Skill.getHand(attackSkill), unit);
 			}
 
-			return 1;
+			return 1;*/
 		case 121: // FoH
 			if (!me.getState(121)) {
 				if (getDistance(me, unit) > Skill.getRange(attackSkill) || CollMap.checkColl(me, unit, 0x2004, 2)) {

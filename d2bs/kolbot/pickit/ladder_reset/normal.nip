@@ -1,6 +1,6 @@
 // ##### Helms #########################
 // ([Name] == Cap || [Name] == Mask || [Name] == BoneHelm || [Name] == GrimHelm || [Name] == DeathMask || [Name] == shako) && [quality] <= superior && [flag] != ethereal # [sockets] == 2 # [MaxQuantity] == 1
-([Name] == GrimHelm || [Name] == DeathMask || [Name] == shako) && [quality] <= superior && [flag] != ethereal # [sockets] == 2 # [MaxQuantity] == 1
+// ([Name] == GrimHelm || [Name] == DeathMask || [Name] == shako) && [quality] <= superior && [flag] != ethereal # [sockets] == 2 # [MaxQuantity] == 1
 [Type] == primalhelm && [Quality] <= superior # [Sockets] == 3 && [SkillBattleOrders]+[SkillBattleCommand] >= 5
 [Type] == primalhelm && [Quality] <= superior # [Sockets] == 3 && [SkillBattleOrders]+[SkillShout] >= 5
 [Type] == pelt && [Quality] <= superior # [Sockets] == 3 && [SkillHurricane]+[SkillTornado] >= 5
@@ -10,23 +10,33 @@
 // ([Name] == ArchonPlate || [Name] == DuskShroud || [Name] == MagePlate) && [Flag] != ethereal # [Sockets] == 3 # [MaxQuantity] == 1 // for treachery
 // [type] == armor && [Class] == elite && ([Quality] == normal || [Quality] == superior) # [Sockets] == 3
 // [Name] == MagePlate && [Quality] <= superior && [Flag] != ethereal # ([Sockets] == 0 || [Sockets] == 3) # [MaxQuantity] == 1
-[Name] == MagePlate && [Quality] <= superior && [Flag] != ethereal # [Sockets] == 3 # [MaxQuantity] == 1
-[Name] == MagePlate && [Quality] == superior && [Flag] != ethereal # ([Sockets] == 0 || [Sockets] == 3) && [EnhancedDefense] == 15
+// [Name] == MagePlate && [Quality] <= superior && [Flag] != ethereal # [Sockets] == 3 # [MaxQuantity] == 1
+// [Name] == MagePlate && [Quality] == superior && [Flag] != ethereal # ([Sockets] == 0 || [Sockets] == 3) && [EnhancedDefense] == 15
 [Name] == MagePlate && [Quality] == superior && [Flag] != ethereal # [Sockets] == 3 && [EnhancedDefense] == 15
 // ([Name] == ArchonPlate || [Name] == DuskShroud) && [Quality] <= superior && [Flag] != ethereal # [Sockets] >= 3
 // ([Name] == ArchonPlate || [Name] == DuskShroud) && [Quality] == superior && [Flag] != ethereal # ([Sockets] == 0 || [Sockets] >= 3) && [EnhancedDefense] == 15
 ([Name] == ArchonPlate || [Name] == DuskShroud) && [Quality] == superior && [Flag] != ethereal # [Sockets] >= 3 && [EnhancedDefense] == 15
 [Name] == SacredArmor && [Quality] == normal && [Flag] == ethereal # [Sockets] == 0
 // [Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 0
-[Type] == armor && [Quality] <= superior && [Class] == elite && [Flag] == ethereal # [Sockets] == 4
+// [Type] == armor && [Quality] <= superior && [Class] == elite && [Flag] == ethereal # [Sockets] == 4
 // max defense eth = 900 (perf def sacred armor)
+[Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 0 && [defense] >= 667 // bugged = 1000+
 [Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 0 && [defense] >= 733 // bugged = 1100+
 [Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 0 && [defense] >= 800 // bugged = 1200+
 [Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 0 && [defense] >= 867 // bugged = 1300+
 [Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 0 && [defense] == 900 // bugged = 1350
 // max defense eth bugged = 1350 (perf def sacred armor)
-[Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 4 && [defense] >= 796
-[Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 4 && [defense] >= 1100
+// [Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 3 && [defense] >= 796
+[Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 3 && [defense] >= 1000
+[Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 3 && [defense] >= 1100
+[Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 3 && [defense] >= 1200
+[Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 3 && [defense] >= 1300
+[Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 3 && [defense] >= 1334
+[Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 3 && [defense] == 1350
+
+// [Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 4 && [defense] >= 796
+// [Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 4 && [defense] >= 1000
+// [Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 4 && [defense] >= 1100
 [Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 4 && [defense] >= 1200
 [Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 4 && [defense] >= 1300
 [Type] == armor && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 4 && [defense] >= 1334
@@ -40,13 +50,16 @@
 // [Name] == Monarch && [Quality] <= superior && [Flag] != ethereal # [Sockets] == 4 # [MaxQuantity] == 1
 // [Name] == Monarch && [Quality] == superior && [Flag] != ethereal # ([Sockets] == 0 || [Sockets] == 4) && [EnhancedDefense] == 15
 [Name] == Monarch && [Quality] == superior && [Flag] != ethereal # [Sockets] == 4 && [EnhancedDefense] == 15
+
 [Name] == SacredTarge && ([Quality] == normal || [Quality] == superior) # ([Sockets] == 0 || [Sockets] == 4) && [FireResist] >= 40 && [coldresist] >= 40 && [lightresist] >= 40
 [Name] == SacredTarge && ([Quality] == normal || [Quality] == superior) # ([Sockets] == 0 || [Sockets] == 4) && [FireResist] == 45 && [coldresist] == 45 && [lightresist] == 45
+
 // [Type] == auricshields && [Quality] <= superior && [Flag] != ethereal # [Sockets] == 4 # [MaxQuantity] == 1
-[Type] == auricshields && ([Quality] == normal || [Quality] == superior) && [Class] == elite # [Sockets] == 4 && [FireResist] >= 40 && [coldresist] >= 40 && [lightresist] >= 40
-[Type] == auricshields && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 0 && [FireResist] == 45 && [coldresist] == 45 && [lightresist] == 45
+[Type] == auricshields && [Quality] <= superior && [Class] == elite # [Sockets] == 4 && [FireResist] >= 40 && [coldresist] >= 40 && [lightresist] >= 40
+[Type] == auricshields && [Quality] == normal && [Class] == elite && [Flag] == ethereal # [Sockets] == 0 && [FireResist] >= 40 && [coldresist] >= 40 && [lightresist] >= 40
 [Type] == auricshields && [Quality] <= superior && [Class] == elite # ([Sockets] == 0 || [Sockets] == 4) && [FireResist] == 45 && [coldresist] == 45 && [lightresist] == 45
 [Type] == auricshields && [Quality] <= superior && [Class] == elite # [Sockets] == 4 && [FireResist] == 45 && [coldresist] == 45 && [lightresist] == 45
+
 [Name] == VortexShield && [Quality] <= superior && [Flag] == ethereal # ([Sockets] == 0 || [Sockets] == 4)
 [Name] == VortexShield && [Quality] <= superior && [Flag] == ethereal # ([Sockets] == 0 || [Sockets] == 4) && [FireResist] >= 30 && [coldresist] >= 30 && [lightresist] >= 30
 [Name] == VortexShield && [Quality] <= superior && [Flag] == ethereal # ([Sockets] == 0 || [Sockets] == 4) && [FireResist] >= 40 && [coldresist] >= 40 && [lightresist] >= 40
@@ -54,9 +67,9 @@
 
 
 // ##### Axes ##########################
-[Name] == BerserkerAxe && [Quality] <= superior # [Sockets] == 5
+// [Name] == BerserkerAxe && [Quality] <= superior # [Sockets] == 5
 [Name] == BerserkerAxe && [Quality] == superior # [Sockets] == 5 && [EnhancedDamage] == 15
-[Name] == BerserkerAxe && [Quality] <= superior && [Flag] == ethereal # ([Sockets] == 0 || [Sockets] == 6)
+// [Name] == BerserkerAxe && [Quality] <= superior && [Flag] == ethereal # ([Sockets] == 0 || [Sockets] == 6)
 [Name] == BerserkerAxe && [Quality] == superior && [Flag] == ethereal # ([Sockets] == 0 || [Sockets] == 6) && [EnhancedDamage] == 15
 
 
@@ -77,16 +90,15 @@
 // [Type] == Polearm && [Quality] <= superior # [Sockets] == 4 # [MaxQuantity] == 1
 // [Name] == Partizan && [Quality] <= superior # [Sockets] == 4 # [MaxQuantity] == 1
 // [Type] == Polearm && [Class] == elite && [Quality] <= superior && [Flag] == ethereal # [Sockets] == 4 # [MaxQuantity] == 1
-[Name] == ColossusVoulge && [Quality] <= superior && [Flag] == ethereal # [Sockets] == 0 || [Sockets] == 4 # [MaxQuantity] == 1
-([Name] == ColossusVoulge || [Name] == CrypticAxe) && [Quality] <= superior && [Flag] == ethereal # [Sockets] == 4
-([Name] == ColossusVoulge || [Name] == CrypticAxe) && [Quality] == superior && [Flag] == ethereal # [Sockets] == 4
-([Name] == ColossusVoulge || [Name] == CrypticAxe) && [Quality] == superior && [Flag] == ethereal # [Sockets] == 4 && [EnhancedDamage] == 15
+[Name] == CrypticAxe && [Quality] == normal && [Flag] == ethereal # [Sockets] == 0 || [Sockets] == 4
+[Name] == CrypticAxe && [Quality] == superior && [Flag] == ethereal # [Sockets] == 4
+[Name] == CrypticAxe && [Quality] == superior && [Flag] == ethereal # [Sockets] == 4 && [EnhancedDamage] == 15
 
 
 // ##### Scepters ######################
-([Name] == WarScepter || [Name] == DivineScepter || [Name] == Caduceus) && [Quality] <= superior # ([Sockets] == 0 || [Sockets] == 5) && [SkillBlessedHammer] == 3 && [SkillConcentration] >= 1
+// ([Name] == WarScepter || [Name] == DivineScepter || [Name] == Caduceus) && [Quality] <= superior # ([Sockets] == 0 || [Sockets] == 5) && [SkillBlessedHammer] == 3 && [SkillConcentration] >= 1
 ([Name] == WarScepter || [Name] == DivineScepter || [Name] == Caduceus) && [Quality] <= superior # ([Sockets] == 0 || [Sockets] == 5) && [SkillBlessedHammer] == 3 && [SkillConcentration] >= 2
-([Name] == WarScepter || [Name] == DivineScepter || [Name] == Caduceus) && [Quality] <= superior # ([Sockets] == 0 || [Sockets] == 5) && [SkillFistOfTheHeavens] == 3 && [SkillConviction] >= 1
+// ([Name] == WarScepter || [Name] == DivineScepter || [Name] == Caduceus) && [Quality] <= superior # ([Sockets] == 0 || [Sockets] == 5) && [SkillFistOfTheHeavens] == 3 && [SkillConviction] >= 1
 ([Name] == WarScepter || [Name] == DivineScepter || [Name] == Caduceus) && [Quality] <= superior # ([Sockets] == 0 || [Sockets] == 5) && [SkillFistOfTheHeavens] == 3 && [SkillConviction] >= 2
 
 
@@ -94,15 +106,15 @@
 // [Name] == BroadSword && [Class] == normal && [Quality] <= superior # [Sockets] == 4 # [MaxQuantity] == 1
 // [Name] == LongSword && [Class] == normal && [Quality] <= superior # [Sockets] == 4 # [MaxQuantity] == 1
 // [Name] == CrystalSword && [Quality] <= superior # [Sockets] == 4
-[Name] == CrystalSword && [Quality] <= superior # [Sockets] == 5
-[Name] == PhaseBlade && [Quality] <= superior # [Sockets] >= 5
-[Name] == PhaseBlade && [Quality] <= superior # [Sockets] == 6
-[Name] == PhaseBlade && [Quality] == superior # [Sockets] >= 5 && [EnhancedDamage] >= 10
+// [Name] == CrystalSword && [Quality] <= superior # [Sockets] == 5
+// [Name] == PhaseBlade && [Quality] <= superior # [Sockets] >= 5
+// [Name] == PhaseBlade && [Quality] <= superior # [Sockets] == 6
+// [Name] == PhaseBlade && [Quality] == superior # [Sockets] >= 5 && [EnhancedDamage] >= 10
 [Name] == PhaseBlade && [Quality] == superior # [Sockets] >= 5 && [EnhancedDamage] == 15
 
 
 // ##### Staves ########################
-[Type] == staff && [Quality] <= superior # [Sockets] == 4 && [skillenergyshield] == 3
+// [Type] == staff && [Quality] <= superior # [Sockets] == 4 && [skillenergyshield] == 3
 [Type] == staff && [Quality] <= superior # [Sockets] == 4 && [skillenergyshield] == 3 && ([skillfrozenarmor] == 3 || [skillshiverarmor] == 3 || [skillchillingarmor] == 3)
 
 
@@ -179,13 +191,13 @@
 // [Name] == FlawlessSapphire
 // [Name] == FlawlessSkull
 // [Name] == FlawlessTopaz
-[Name] == PerfectAmethyst # # [MaxQuantity] == 3
-[Name] == PerfectDiamond # # [MaxQuantity] == 3
-[Name] == PerfectEmerald # # [MaxQuantity] == 3
-[Name] == PerfectRuby # # [MaxQuantity] == 3
-[Name] == PerfectSapphire # # [MaxQuantity] == 3
-[Name] == PerfectSkull # # [MaxQuantity] == 3
-[Name] == PerfectTopaz # # [MaxQuantity] == 3
+// [Name] == PerfectAmethyst # # [MaxQuantity] == 3
+// [Name] == PerfectDiamond # # [MaxQuantity] == 3
+// [Name] == PerfectEmerald # # [MaxQuantity] == 3
+// [Name] == PerfectRuby # # [MaxQuantity] == 3
+// [Name] == PerfectSapphire # # [MaxQuantity] == 3
+// [Name] == PerfectSkull # # [MaxQuantity] == 3
+// [Name] == PerfectTopaz # # [MaxQuantity] == 3
 
 
 // ##### Potions #######################

@@ -194,35 +194,15 @@ Unit.prototype.buy = function (shiftBuy, gamble) {
 		return false;
 	}
 
-	var i, tick,
-		oldGold = me.getStat(14) + me.getStat(15),
-		itemCount = me.itemcount;
+	var i = 0, result;
 
-	for (i = 0; i < 3; i += 1) {
-		//print("BUY " + this.name + " " + i);
+	do {
+		result = this.shop(shiftBuy ? 6 : 2);
+		delay(2*me.ping);
+		i += 1;
+	} while (i < 3 && !result);
 
-		this.shop(shiftBuy ? 6 : 2);
-
-		tick = getTickCount();
-
-		while (getTickCount() - tick < Math.max(2000, me.ping * 2 + 500)) {
-			if (shiftBuy && me.getStat(14) + me.getStat(15) < oldGold) {
-				delay(500);
-
-				return true;
-			}
-
-			if (itemCount !== me.itemcount) {
-				delay(500);
-
-				return true;
-			}
-
-			delay(10);
-		}
-	}
-
-	return false;
+	return result;
 };
 
 // Item owner name

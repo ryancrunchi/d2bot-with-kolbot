@@ -1126,7 +1126,7 @@ MainLoop:
 		var i, tick, portal,
 			preArea = me.area;
 
-		for (i = 0; i < 10; i += 1) {
+		for (i = 0; i < 5; i += 1) {
 			if (me.dead) {
 				break;
 			}

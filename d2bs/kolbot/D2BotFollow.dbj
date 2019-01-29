@@ -31,7 +31,7 @@ var StarterConfig = {
 var JoinSettings = {
 	"ManualLeader": ["PalaFollow"],
 	"DiaBaalRun": ["PalaFollow"],
-	"MF-Sorc": ["MF-Pala"]
+	"MF-Pala": ["MF-Sorc"]
 };
 
 // Advanced config - you don't have to edit this unless you need some of the features provided
@@ -223,11 +223,11 @@ function main () {
 		if (!!DataFile.getStats().debugInfo) {
 			gameInfo.crashInfo = DataFile.getStats().debugInfo;
 
-			D2Bot.printToConsole("Crash Info: Script: " + JSON.parse(gameInfo.crashInfo).currScript + " Area: " + JSON.parse(gameInfo.crashInfo).area, 10);
+			D2Bot.printToConsole("Crash Info: Script: " + JSON.parse(gameInfo.crashInfo).currScript + " Area: " + JSON.parse(gameInfo.crashInfo).area, ColorCodes.D2Bot.GRAY);
 		}
 
 		/*if (gameInfo.crashInfo) {
-			D2Bot.printToConsole("Crash Info: Script: " + gameInfo.crashInfo.currScript + " Area: " + gameInfo.crashInfo.area + (gameInfo.crashInfo.hasOwnProperty("lastAction") ? " " + gameInfo.crashInfo.lastAction : ""), 10);
+			D2Bot.printToConsole("Crash Info: Script: " + gameInfo.crashInfo.currScript + " Area: " + gameInfo.crashInfo.area + (gameInfo.crashInfo.hasOwnProperty("lastAction") ? " " + gameInfo.crashInfo.lastAction : ""), ColorCodes.D2Bot.GRAY);
 		}*/
 
 		ControlAction.timeoutDelay("Crash Delay", StarterConfig.CrashDelay * 1e3);
@@ -555,7 +555,7 @@ JoinLoop2:
 			case getLocaleString(5202): // cd key intended for another product
 			case getLocaleString(10915): // lod key intended for another product
 				D2Bot.updateStatus("Invalid CDKey");
-				D2Bot.printToConsole("Invalid CDKey: " + gameInfo.mpq, 6);
+				D2Bot.printToConsole("Invalid CDKey: " + gameInfo.mpq, ColorCodes.D2Bot.GOLD);
 				D2Bot.CDKeyDisabled();
 
 				if (gameInfo.switchKeys) {
@@ -568,7 +568,7 @@ JoinLoop2:
 				break;
 			case getLocaleString(5199):
 				D2Bot.updateStatus("Disabled CDKey");
-				D2Bot.printToConsole("Disabled CDKey: " + gameInfo.mpq, 6);
+				D2Bot.printToConsole("Disabled CDKey: " + gameInfo.mpq, ColorCodes.D2Bot.GOLD);
 				D2Bot.CDKeyDisabled();
 
 				if (gameInfo.switchKeys) {
@@ -581,7 +581,7 @@ JoinLoop2:
 				break;
 			case getLocaleString(10913):
 				D2Bot.updateStatus("Disabled LoD CDKey");
-				D2Bot.printToConsole("Disabled LoD CDKey: " + gameInfo.mpq, 6);
+				D2Bot.printToConsole("Disabled LoD CDKey: " + gameInfo.mpq, ColorCodes.D2Bot.GOLD);
 				D2Bot.CDKeyDisabled();
 
 				if (gameInfo.switchKeys) {
@@ -676,7 +676,7 @@ JoinLoop2:
 
 		break;
 	case 19: // Login - Cdkey In Use
-		D2Bot.printToConsole(gameInfo.mpq + " is in use by " + ControlAction.getText(4, 158, 310, 485, 40), 6);
+		D2Bot.printToConsole(gameInfo.mpq + " is in use by " + ControlAction.getText(4, 158, 310, 485, 40), ColorCodes.D2Bot.GOLD);
 		D2Bot.CDKeyInUse();
 
 		if (gameInfo.switchKeys) {
@@ -712,7 +712,7 @@ JoinLoop2:
 
 		switch (string) {
 		case getLocaleString(10914):
-			D2Bot.printToConsole(gameInfo.mpq + " LoD key in use by " + ControlAction.getText(4, 158, 310, 485, 40), 6);
+			D2Bot.printToConsole(gameInfo.mpq + " LoD key in use by " + ControlAction.getText(4, 158, 310, 485, 40), ColorCodes.D2Bot.GOLD);
 			D2Bot.CDKeyInUse();
 
 			if (gameInfo.switchKeys) {
@@ -754,7 +754,7 @@ JoinLoop2:
 
 			if (string === getLocaleString(11161)) { // CDKey disabled from realm play
 				D2Bot.updateStatus("Realm Disabled CDKey");
-				D2Bot.printToConsole("Realm Disabled CDKey: " + gameInfo.mpq, 6);
+				D2Bot.printToConsole("Realm Disabled CDKey: " + gameInfo.mpq, ColorCodes.D2Bot.GOLD);
 				D2Bot.CDKeyDisabled();
 
 				if (gameInfo.switchKeys) {
@@ -793,7 +793,7 @@ JoinLoop2:
 		D2Bot.printToConsole("Game doesn't exist");
 
 		if (gameInfo.rdBlocker) {
-			D2Bot.printToConsole(gameInfo.mpq + " is probably flagged.", 6);
+			D2Bot.printToConsole(gameInfo.mpq + " is probably flagged.", ColorCodes.D2Bot.GOLD);
 
 			if (gameInfo.switchKeys) {
 				ControlAction.timeoutDelay("Key switch delay", StarterConfig.SwitchKeyDelay * 1000);

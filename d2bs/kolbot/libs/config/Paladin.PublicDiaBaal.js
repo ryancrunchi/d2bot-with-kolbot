@@ -248,8 +248,8 @@ function LoadConfig() {
 	Config.MercWatch = false; // Instant merc revive during battle.
 
 	// Potion settings
-	Config.UseHP = 10; // Drink a healing potion if life is under designated percent.
-	Config.UseRejuvHP = -1;  // Drink a rejuvenation potion if life is under designated percent.
+	Config.UseHP = 50; // Drink a healing potion if life is under designated percent.
+	Config.UseRejuvHP = 20;  // Drink a rejuvenation potion if life is under designated percent.
 	Config.UseMP = -1; // Drink a mana potion if mana is under designated percent.
 	Config.UseRejuvMP = -1; // Drink a rejuvenation potion if mana is under designated percent.
 	Config.UseMercHP = -1; // Give a healing potion to your merc if his/her life is under designated percent.
@@ -298,6 +298,25 @@ function LoadConfig() {
 	// Pickit config. Default folder is kolbot/pickit.
 	// Config.PickitFiles.push("kolton.nip");
 	// Config.PickitFiles.push("LLD.nip");
+
+	// Config.PickitFiles.push("ladder_reset/normal.nip");
+	// Config.PickitFiles.push("ladder_reset/magic_rare.nip");
+	// Config.PickitFiles.push("ladder_reset/set.nip");
+	// Config.PickitFiles.push("ladder_reset/unique.nip");
+	// Config.PickitFiles.push("ladder_reset/craft.nip");
+	// Config.PickitFiles.push("ladder_reset/runewords.nip");
+
+	// Config.PickitFiles.push("autoequip/sorceress.blizzard.nip");
+	// Config.PickitFiles.push("autoequip/base.nip");
+
+	Config.PickitFiles.push("advance/normal.nip");
+	Config.PickitFiles.push("advance/magic_rare.nip");
+	Config.PickitFiles.push("advance/set.nip");
+	Config.PickitFiles.push("advance/unique.nip");
+	Config.PickitFiles.push("advance/craft.nip");
+	Config.PickitFiles.push("advance/runewords.nip");
+	// Config.PickitFiles.push("advance/spirit_packs.nip");
+
 	Config.PickRange = 40; // Pick radius
 	Config.FastPick = false; // Check and pick items between attacks
 

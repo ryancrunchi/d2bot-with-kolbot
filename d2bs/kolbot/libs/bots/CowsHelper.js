@@ -72,6 +72,7 @@ function CowsHelper() {
 			return getDistance(myRoom[0], myRoom[1], a[0], a[1]) - getDistance(myRoom[0], myRoom[1], b[0], b[1]);
 		}
 
+		var king;
 		while (rooms.length > 0) {
 			// get the first room + initialize myRoom var
 			if (!myRoom) {
@@ -94,8 +95,20 @@ function CowsHelper() {
 			if (result) {
 				Pather.moveTo(result[0], result[1], 3);
 
-				if (!Attack.clear(30)) {
-					return false;
+				king = getPresetUnit(me.area, 1, 773);
+				if (king) {
+					var distance = getDistance(me, king);
+					print("Found king at "+distance);
+					if (distance > 80) {
+						if (!Attack.clear(30)) {
+							return false;
+						}
+					}
+				}
+				else {
+					if (!Attack.clear(30)) {
+						return false;
+					}
 				}
 			}
 		}

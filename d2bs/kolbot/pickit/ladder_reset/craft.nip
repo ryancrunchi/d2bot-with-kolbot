@@ -30,10 +30,10 @@
 // max ll = 3
 // max life = 20
 [Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 5 && [LifeLeech] >= 3 && [IAS] == 20 && [Dexterity] >= 10
-[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 7 && [LifeLeech] >= 3 && [IAS] == 20 && ([Strength] >= 10 || [Dexterity] >= 10)
-[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 7 && [LifeLeech]+[ManaLeech] > 3 && [IAS] == 20 && ([Strength] >= 10 || [Dexterity] >= 10)
-[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 7 && [LifeLeech] >= 3 && [Strength]/2+[Dexterity]/2 >= 12
-[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 7 && [LifeLeech] >= 3 && [Strength]+[Dexterity] == 30
+[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 5 && [LifeLeech] >= 3 && [IAS] == 20 && ([Strength] >= 10 || [Dexterity] >= 10)
+[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 5 && [LifeLeech]+[ManaLeech] > 3 && [IAS] == 20 && ([Strength] >= 10 || [Dexterity] >= 10)
+[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 5 && [LifeLeech] >= 3 && [Strength]/2+[Dexterity]/2 >= 12
+[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 5 && [LifeLeech] >= 3 && [Strength]+[Dexterity] == 30
 
 
 // ##### Boots #########################

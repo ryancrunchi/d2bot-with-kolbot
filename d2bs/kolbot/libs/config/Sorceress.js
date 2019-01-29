@@ -480,10 +480,10 @@ function LoadConfig() {
 	Config.PrimarySlot = -1; // Set to use specific weapon slot as primary weapon slot: -1 = disabled, 0 = slot I, 1 = slot II
 
 	// Speedup config. Full packet casting is not recommended for melee skills.
-	Config.FCR = 0; // 0 - disable, 1 to 255 - set value of Faster Cast Rate.
-	Config.FHR = 0; // 0 - disable, 1 to 255 - set value of Faster Hit Recovery.
-	Config.FBR = 0; // 0 - disable, 1 to 255 - set value of Faster Block Recovery.
-	Config.IAS = 0; // 0 - disable, 1 to 255 - set value of Increased Attack Speed.
+	Config.FCR = 255; // 0 - disable, 1 to 255 - set value of Faster Cast Rate.
+	Config.FHR = 255; // 0 - disable, 1 to 255 - set value of Faster Hit Recovery.
+	Config.FBR = 255; // 0 - disable, 1 to 255 - set value of Faster Block Recovery.
+	Config.IAS = 255; // 0 - disable, 1 to 255 - set value of Increased Attack Speed.
 	Config.PacketCasting = 0; // 0 = disable, 1 = packet teleport, 2 = full packet casting.
 	Config.WaypointMenu = true;
 

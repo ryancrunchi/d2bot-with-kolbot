@@ -236,6 +236,10 @@ function Baal() {
 		Pather.moveTo(15118, 5045);
 		Pather.makePortal();
 		//say(Config.Baal.SafeTPMessage);
+		if (getDistance(me, me.classid === 3 ? 15092 : 15094, me.classid === 3 ? 5029 : 5039) > 3) {
+			Pather.moveTo(me.classid === 3 ? 15092 : 15094, me.classid === 3 ? 5029 : 5039);
+		}
+		
 		Precast.doPrecast(true);
 	}
 
@@ -258,6 +262,10 @@ MainLoop:
 			Attack.clear(40);
 
 			tick = getTickCount();
+
+			if (getDistance(me, me.classid === 3 ? 15092 : 15094, me.classid === 3 ? 5029 : 5039) > 3) {
+				Pather.moveTo(me.classid === 3 ? 15092 : 15094, me.classid === 3 ? 5029 : 5039);
+			}
 
 			Precast.doPrecast(true);
 

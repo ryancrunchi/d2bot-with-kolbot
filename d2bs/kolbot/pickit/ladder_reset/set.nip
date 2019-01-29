@@ -175,7 +175,7 @@
 // [Name] == BalrogSkin && [Quality] == set // Sazabi's Ghost Liberator
 
 // ##### Tal Rasha's Wrappings #########
-[Name] == SwirlingCrystal && [Quality] == set # # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
+// [Name] == SwirlingCrystal && [Quality] == set # # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
 // [Name] == SwirlingCrystal && [Quality] == set # [skilllightningmastery] == 2 # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
 // [Name] == SwirlingCrystal && [Quality] == set # [skillfiremastery] == 2 # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
 // [Name] == SwirlingCrystal && [Quality] == set # [skillcoldmastery] == 2 # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
