@@ -128,7 +128,7 @@ var Gambling = {
 			game = this.getGame();
 
 			if (game) {
-				D2Bot.printToConsole("Joining gold drop game.", 7);
+				D2Bot.printToConsole("Joining gold drop game.", ColorCodes.D2Bot.DARK_GOLD);
 
 				this.inGame = true;
 				me.blockMouse = true;

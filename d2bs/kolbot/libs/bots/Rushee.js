@@ -665,7 +665,7 @@ function Rushee() {
 						}
 
 						if (!this.checkQuest(6, 4)) {
-							D2Bot.printToConsole("Andariel quest failed", 9);
+							D2Bot.printToConsole("Andariel quest failed", ColorCodes.D2Bot.RED);
 							quit();
 						}
 
@@ -700,7 +700,7 @@ function Rushee() {
 						}
 
 						if (!this.checkQuest(13, 0)) {
-							D2Bot.printToConsole("Summoner quest failed", 9);
+							D2Bot.printToConsole("Summoner quest failed", ColorCodes.D2Bot.RED);
 							quit();
 						}
 
@@ -726,7 +726,7 @@ function Rushee() {
 						}
 
 						if (!this.checkQuest(21, 0)) {
-							D2Bot.printToConsole("Travincal quest failed", 9);
+							D2Bot.printToConsole("Travincal quest failed", ColorCodes.D2Bot.RED);
 							quit();
 						}
 

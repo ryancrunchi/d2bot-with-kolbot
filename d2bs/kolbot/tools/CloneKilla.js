@@ -41,7 +41,7 @@ function main() {
 
 	if (typeof KillDclone === "function") {
 		try {
-			D2Bot.printToConsole("Trying to kill DClone.", 7);
+			D2Bot.printToConsole("Trying to kill DClone.", ColorCodes.D2Bot.DARK_GOLD);
 			KillDclone.call();
 		} catch (e) {
 			Misc.errorReport(e, "CloneKilla.js");

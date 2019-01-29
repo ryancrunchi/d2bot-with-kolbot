@@ -76,7 +76,7 @@ function main() {
 
 					if (getTickCount() - pingTimer[i] >= Config.PingQuit[i].Duration * 1000) {
 						if (print) {
-							D2Bot.printToConsole("High ping (" + me.ping + "/" + Config.PingQuit[i].Ping + ") - leaving game.", 9);
+							D2Bot.printToConsole("High ping (" + me.ping + "/" + Config.PingQuit[i].Ping + ") - leaving game.", ColorCodes.D2Bot.RED);
 						}
 
 						scriptBroadcast("pingquit");
@@ -493,7 +493,7 @@ function main() {
 			}
 
 			if (Config.SoJWaitTime && me.gametype === 1) { // only do this in expansion
-				D2Bot.printToConsole(param1 + " Stones of Jordan Sold to Merchants on IP " + me.gameserverip.split(".")[3], 7);
+				D2Bot.printToConsole(param1 + " Stones of Jordan Sold to Merchants on IP " + me.gameserverip.split(".")[3], ColorCodes.D2Bot.DARK_GOLD);
 				Messaging.sendToScript("default.dbj", "soj");
 			}
 
@@ -508,7 +508,7 @@ function main() {
 			}
 
 			if (Config.StopOnDClone && me.gametype === 1) { // only do this in expansion
-				D2Bot.printToConsole("Diablo Walks the Earth", 7);
+				D2Bot.printToConsole("Diablo Walks the Earth", ColorCodes.D2Bot.DARK_GOLD);
 
 				cloneWalked = true;
 
@@ -599,7 +599,7 @@ function main() {
 				}
 
 				if (Config.LifeChicken > 0 && me.hp <= Math.floor(me.hpmax * Config.LifeChicken / 100)) {
-					D2Bot.printToConsole("Life Chicken (" + me.hp + "/" + me.hpmax + ")" + this.getNearestMonster() + " in " + Pather.getAreaName(me.area) + ". Ping: " + me.ping, 9);
+					D2Bot.printToConsole("Life Chicken (" + me.hp + "/" + me.hpmax + ")" + this.getNearestMonster() + " in " + Pather.getAreaName(me.area) + ". Ping: " + me.ping, ColorCodes.D2Bot.RED);
 					D2Bot.updateChickens();
 					this.exit();
 
@@ -615,7 +615,7 @@ function main() {
 				}
 
 				if (Config.ManaChicken > 0 && me.mp <= Math.floor(me.mpmax * Config.ManaChicken / 100)) {
-					D2Bot.printToConsole("Mana Chicken: (" + me.mp + "/" + me.mpmax + ") in " + Pather.getAreaName(me.area), 9);
+					D2Bot.printToConsole("Mana Chicken: (" + me.mp + "/" + me.mpmax + ") in " + Pather.getAreaName(me.area), ColorCodes.D2Bot.RED);
 					D2Bot.updateChickens();
 					this.exit();
 
@@ -629,7 +629,7 @@ function main() {
 
 					if (ironGolem) {
 						if (ironGolem.hp <= Math.floor(128 * Config.IronGolemChicken / 100)) { // ironGolem.hpmax is bugged with BO
-							D2Bot.printToConsole("Irom Golem Chicken in " + Pather.getAreaName(me.area), 9);
+							D2Bot.printToConsole("Irom Golem Chicken in " + Pather.getAreaName(me.area), ColorCodes.D2Bot.RED);
 							D2Bot.updateChickens();
 							this.exit();
 
@@ -644,7 +644,7 @@ function main() {
 
 					if (mercHP > 0 && merc && merc.mode !== 12) {
 						if (mercHP < Config.MercChicken) {
-							D2Bot.printToConsole("Merc Chicken in " + Pather.getAreaName(me.area), 9);
+							D2Bot.printToConsole("Merc Chicken in " + Pather.getAreaName(me.area), ColorCodes.D2Bot.RED);
 							D2Bot.updateChickens();
 							this.exit();
 
@@ -663,7 +663,7 @@ function main() {
 
 				if (Config.ViperCheck && getTickCount() - tick >= 250) {
 					if (this.checkVipers()) {
-						D2Bot.printToConsole("Revived Tomb Vipers found. Leaving game.", 9);
+						D2Bot.printToConsole("Revived Tomb Vipers found. Leaving game.", ColorCodes.D2Bot.RED);
 
 						quitFlag = true;
 					}

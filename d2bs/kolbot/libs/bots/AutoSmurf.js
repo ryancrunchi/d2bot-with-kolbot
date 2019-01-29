@@ -5821,7 +5821,7 @@ function AutoSmurf() {
 		if (getTickCount() - tick > 5 * 60 * 1000) { // Leave the game after 5 minutes of waiting.
 			print("Team wasn't in game within 5 minutes.");
 
-			D2Bot.printToConsole("AutoSmurf: Team didn't join the game within 5 minutes.", 9);
+			D2Bot.printToConsole("AutoSmurf: Team didn't join the game within 5 minutes.", ColorCodes.D2Bot.RED);
 
 			quit();
 		}
@@ -6101,7 +6101,7 @@ function AutoSmurf() {
 			if (checkPartyAct === 3) { // If the lowest Town is Act 3.
 				Messaging.sendToList(Config.AutoSmurf.AllTeamProfiles, "red portal");
 
-				D2Bot.printToConsole("AutoSmurf: Helping straggler complete Act 3.", 5);
+				D2Bot.printToConsole("AutoSmurf: Helping straggler complete Act 3.", ColorCodes.D2Bot.GREEN);
 
 				this.mephisto(true);
 			}

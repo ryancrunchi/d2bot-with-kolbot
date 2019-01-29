@@ -1405,7 +1405,13 @@ var ColorCodes = {
 
 	D2Bot: {
 		BLACK: 0,
-		RED: 9
+		BLUE: 4,
+		GREEN: 5,
+		GOLD: 6,
+		DARK_GOLD: 7,
+		ORANGE: 8,
+		RED: 9,
+		GRAY: 10
 	}
 };
 

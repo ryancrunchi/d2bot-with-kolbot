@@ -330,7 +330,7 @@ function main() {
 		delay(200);
 
 		if (gameInfo.crashInfo) {
-			D2Bot.printToConsole("Crash Info: Script: " + gameInfo.crashInfo.currScript + " Area: " + gameInfo.crashInfo.area, 10);
+			D2Bot.printToConsole("Crash Info: Script: " + gameInfo.crashInfo.currScript + " Area: " + gameInfo.crashInfo.area, ColorCodes.D2Bot.GRAY);
 		}
 
 		ControlAction.timeoutDelay("Crash Delay", StarterConfig.CrashDelay * 1e3);
@@ -618,7 +618,7 @@ MainSwitch:
 				break;
 			case getLocaleString(5199):
 				D2Bot.updateStatus("Disabled CDKey");
-				D2Bot.printToConsole("Disabled CDKey: " + gameInfo.mpq, 6);
+				D2Bot.printToConsole("Disabled CDKey: " + gameInfo.mpq, ColorCodes.D2Bot.GOLD);
 				D2Bot.CDKeyDisabled();
 
 				if (gameInfo.switchKeys) {
@@ -631,7 +631,7 @@ MainSwitch:
 				break;
 			case getLocaleString(10913):
 				D2Bot.updateStatus("Disabled LoD CDKey");
-				D2Bot.printToConsole("Disabled LoD CDKey: " + gameInfo.mpq, 6);
+				D2Bot.printToConsole("Disabled LoD CDKey: " + gameInfo.mpq, ColorCodes.D2Bot.GOLD);
 				D2Bot.CDKeyDisabled();
 
 				if (gameInfo.switchKeys) {
@@ -719,7 +719,7 @@ MainSwitch:
 
 		break;
 	case 19: // Login - Cdkey In Use
-		D2Bot.printToConsole(gameInfo.mpq + " is in use by " + ControlAction.getText(4, 158, 310, 485, 40), 6);
+		D2Bot.printToConsole(gameInfo.mpq + " is in use by " + ControlAction.getText(4, 158, 310, 485, 40), ColorCodes.D2Bot.GOLD);
 		D2Bot.CDKeyInUse();
 
 		if (gameInfo.switchKeys) {
@@ -755,7 +755,7 @@ MainSwitch:
 
 		switch (string) {
 		case getLocaleString(10914):
-			D2Bot.printToConsole(gameInfo.mpq + " LoD key in use by " + ControlAction.getText(4, 158, 310, 485, 40), 6);
+			D2Bot.printToConsole(gameInfo.mpq + " LoD key in use by " + ControlAction.getText(4, 158, 310, 485, 40), ColorCodes.D2Bot.GOLD);
 			D2Bot.CDKeyInUse();
 
 			if (gameInfo.switchKeys) {
@@ -815,7 +815,7 @@ MainSwitch:
 		D2Bot.printToConsole("Game doesn't exist");
 
 		if (gameInfo.rdBlocker) {
-			D2Bot.printToConsole(gameInfo.mpq + " is probably flagged.", 6);
+			D2Bot.printToConsole(gameInfo.mpq + " is probably flagged.", ColorCodes.D2Bot.GOLD);
 
 			if (gameInfo.switchKeys) {
 				ControlAction.timeoutDelay("Key switch delay", StarterConfig.SwitchKeyDelay * 1000);

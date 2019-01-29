@@ -1282,7 +1282,7 @@ CursorLoop:
 
 						if (cubeItems[0].bodylocation === bodyLoc) {
 							print(cubeItems[0].fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, "").trim() + " successfully repaired and equipped.");
-							D2Bot.printToConsole(cubeItems[0].fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, "").trim() + " successfully repaired and equipped.", 5);
+							D2Bot.printToConsole(cubeItems[0].fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, "").trim() + " successfully repaired and equipped.", ColorCodes.D2Bot.GREEN);
 
 							return true;
 						}
@@ -1716,7 +1716,7 @@ MainLoop:
 			}
 
 			if (getTickCount() - timer > 30000) {
-				D2Bot.printToConsole("Failed to get corpse, stopping.", 9);
+				D2Bot.printToConsole("Failed to get corpse, stopping.", ColorCodes.D2Bot.RED);
 				D2Bot.stop();
 			}
 

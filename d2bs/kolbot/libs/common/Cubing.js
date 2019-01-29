@@ -951,7 +951,7 @@ IngredientLoop:
 				delay(700 + me.ping);
 				print(ColorCodes.DARK_GOLD + "Cubing: " + string);
 				if (Config.ShowCubingInfo) {
-					D2Bot.printToConsole(string, 5);
+					D2Bot.printToConsole(string, ColorCodes.D2Bot.GREEN);
 				}
 
 				this.update();
