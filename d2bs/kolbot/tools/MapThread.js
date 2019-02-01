@@ -332,6 +332,10 @@ var Hooks = {
 				unit = getPresetUnit(me.area, 2, 30);
 				name = "Tree";
 
+			case 25:
+				unit = getPresetUnit(me.area, 2, 580);
+				name = "Countess";
+
 				break;
 			case 49: // Sewers 3
 				unit = getPresetUnit(me.area, 2, 355);
@@ -521,6 +525,14 @@ var Hooks = {
 					name: "Side Area",
 					destination: 8,
 					hook: new Text("Num 4: " + Pather.getAreaName(8), 150, 525 - (this.hooks.length * 10))
+				});
+
+				break;
+			case 6: // Black marsh
+				this.hooks.push({
+					name: "Side Area",
+					destination: 20, // forgotten tower
+					hook: new Text("Num 4: " + Pather.getAreaName(20), 150, 525 - (this.hooks.length * 10))
 				});
 
 				break;
