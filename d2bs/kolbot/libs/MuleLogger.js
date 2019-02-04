@@ -391,7 +391,15 @@ var MuleLogger = {
 		var folder;
 		var itemize = item.description;
 		var finalItem = "";
-		if (!FileTools.exists("forumules/" + me.realm + "/" + me.account)) { 
+		if (!FileTools.exists("forumules")) {
+			folder = dopen("/");
+			folder.create("forumules");
+		}
+		if (!FileTools.exists("forumules/" + me.realm)) {
+			folder = dopen("forumules");
+			folder.create(me.realm);
+		}
+		if (!FileTools.exists("forumules/" + me.realm + "/" + me.account)) {
 			folder = dopen("forumules/" + me.realm);
 			folder.create(me.account);
 		}
