@@ -177,6 +177,13 @@ MainLoop:
 				delay(100);
 			}
 
+			if (player.area != me.area) {
+				if (!me.inTown && !Pather.usePortal(null, player.name)) {
+					Town.goToTown();
+					Town.move("portalspot");
+				}
+			}
+
 			playerAct = this.getPlayerAct(player);
 
 			if (playerAct && playerAct !== me.act) {
@@ -191,22 +198,29 @@ MainLoop:
 
 			if (command !== oldCommand) {
 				oldCommand = command;
-				
-				if (command.indexOf("kill") > -1) {
-					print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Kill");
 
-					split = command.split("kill ")[1];
+				if (command.indexOf("quit") > -1) {
+					break MainLoop;
+				}
 
-					for (i = 0; i < 5; i += 1) {
-						if (Pather.usePortal(player.area, player.name)) {
-							break;
-						}
+				delay(me.ping);
 
-						delay(1000);
-					}
+				Pather.usePortal(null, player.name)
 
-					if (me.area === player.area) {
-						Precast.doPrecast(false);
+				while (!me.area) {
+					delay(100);
+				}
+
+				delay(me.ping);
+
+				if (me.area === player.area) {
+
+					Precast.doPrecast(false);
+
+					if (command.indexOf("kill") > -1) {
+						print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Kill");
+
+						split = command.split("kill ")[1];
 
 						try {
 							if (!!parseInt(split, 10)) {
@@ -218,59 +232,14 @@ MainLoop:
 						} catch (killerror) {
 							print(killerror);
 						}
+					} else if (command.indexOf("clearlevel") > -1) {
+						print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Clear Level");
 
-						delay(1000);
-
-						if (!me.inTown && !Pather.usePortal(null, player.name)) {
-							Town.goToTown();
-							if (Config.MFHelper.HealBetweenCommands) {
-								Town.heal();
-								Town.move("portalspot");
-							}
-						}
-					} else {
-						print("Failed to use portal.");
-					}
-				} else if (command.indexOf("clearlevel") > -1) {
-					print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Clear Level");
-
-					for (i = 0; i < 5; i += 1) {
-						if (Pather.usePortal(player.area, player.name)) {
-							break;
-						}
-
-						delay(1000);
-					}
-
-					if (me.area === player.area) {
-						Precast.doPrecast(false);
 						Attack.clearLevel(Config.ClearType);
+					} else if (command.indexOf("clear") > -1) {
+						print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Clear");
 
-						if (!Pather.usePortal(null, player.name)) {
-							Town.goToTown();
-							if (Config.MFHelper.HealBetweenCommands) {
-								Town.heal();
-								Town.move("portalspot");
-							}
-						}
-					} else {
-						print("Failed to use portal.");
-					}
-				} else if (command.indexOf("clear") > -1) {
-					print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Clear");
-
-					split = command.split("clear ")[1];
-
-					for (i = 0; i < 5; i += 1) {
-						if (Pather.usePortal(player.area, player.name)) {
-							break;
-						}
-
-						delay(1000);
-					}
-
-					if (me.area === player.area) {
-						Precast.doPrecast(false);
+						split = command.split("clear ")[1];
 
 						try {
 							if (!!parseInt(split, 10)) {
@@ -281,73 +250,33 @@ MainLoop:
 						} catch (killerror2) {
 							print(killerror2);
 						}
+					} else if (command.indexOf("cows") > -1) {
+						print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Clear Cows");
 
-						delay(1000);
-
-						if (!me.inTown && !Pather.usePortal(null, player.name)) {
-							Town.goToTown();
-							if (Config.MFHelper.HealBetweenCommands) {
-								Town.heal();
-								Town.move("portalspot");
-							}
-						}
-					} else {
-						print("Failed to use portal.");
-					}
-				} else if (command.indexOf("quit") > -1) {
-					break MainLoop;
-				} else if (command.indexOf("cows") > -1) {
-					print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Clear Cows");
-
-					for (i = 0; i < 5; i += 1) {
-						if (Town.goToTown(1) && Pather.usePortal(39)) {
-							break;
+						if (me.area != 39) {
+							Town.goToTown(1);
+							Town.move("stash");
+							Pather.usePortal(39);
 						}
 
-						delay(1000);
-					}
-
-					if (me.area === 39) {
-						Precast.doPrecast(false);
 						this.clearCowLevel();
-						delay(1000);
+					} else if (command.indexOf("council") > -1) {
+						print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Kill Council");
 
-						if (!Pather.usePortal(null, player.name)) {
-							Town.goToTown();
-							if (Config.MFHelper.HealBetweenCommands) {
-								Town.heal();
-								Town.move("portalspot");
-							}
-						}
-					} else {
-						print("Failed to use portal.");
-					}
-				} else if (command.indexOf("council") > -1) {
-					print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Kill Council");
-
-
-					for (i = 0; i < 5; i += 1) {
-						if (Pather.usePortal(player.area, player.name)) {
-							break;
-						}
-
-						delay(1000);
-					}
-
-					if (me.area === player.area) {
-						Precast.doPrecast(false);
 						Attack.clearList(Attack.getMob([345, 346, 347], 0, 40));
-
-						if (!Pather.usePortal(null, player.name)) {
-							Town.goToTown();
-							if (Config.MFHelper.HealBetweenCommands) {
-								Town.heal();
-								Town.move("portalspot");
-							}
-						}
-					} else {
-						print("Failed to use portal.");
 					}
+
+					delay(1000);
+
+					if (!Pather.usePortal(null, player.name)) {
+						Town.goToTown();
+						if (Config.MFHelper.HealBetweenCommands) {
+							Town.heal();
+							Town.move("portalspot");
+						}
+					}
+				} else {
+					print("Failed to use portal.");
 				}
 			}
 		}
