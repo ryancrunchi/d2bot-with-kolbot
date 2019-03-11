@@ -374,6 +374,7 @@ var Config = {
 		DollQuit: false,
 		SoulQuit: false,
 		KillBaal: false,
+		Wave2Fix: false,
 		HotTPMessage: "Hot TP!",
 		SafeTPMessage: "Safe TP!",
 		BaalMessage: "Baal!"

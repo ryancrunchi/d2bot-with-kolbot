@@ -73,7 +73,7 @@ var ClassAttack = {
 					Pather.moveToUnit(unit);
 				}
 
-				this.doCast(unit, Config.AttackSkill[1], Config.AttackSkill[2]);
+				this.doCast(unit, attackSkill, aura);
 			}
 
 			return 1;
@@ -145,30 +145,56 @@ var ClassAttack = {
 
 		// holy bolt, try to telestomp
 		case 101:
-			return 2;
-			/*if (getDistance(me, unit) > Skill.getRange(attackSkill) + 3 || CollMap.checkColl(me, unit, 0x4)) {
-				if (!Attack.getIntoPosition(unit, Skill.getRange(attackSkill), 0x4)) {
-					return 0;
+			if (Config.Baal.Wave2Fix && me.area == 131) {
+				//wet solution for baal wave 2 & holy bolt
+				if (getDistance(me, unit) > 5 || CollMap.checkColl(me, unit, 0x4)) {
+					if (!Attack.getIntoPosition(unit, 0, 0x4)) {
+						return 0;
+					}
+				}
+
+				CollMap.reset();
+
+				if (getDistance(me, unit) > 0 || CollMap.checkColl(me, unit, 0x2004, 2)) {
+					if (!Attack.getIntoPosition(unit, 5, 0x2004, true)) {
+						return 0;
+					}
+				}
+
+				if (!unit.dead) {
+					if (aura > -1) {
+						Skill.setSkill(aura, 0);
+					}
+					Skill.cast(attackSkill, Skill.getHand(attackSkill), unit);
+				}
+
+				return 1;
+
+			}
+			else {
+				if (getDistance(me, unit) > Skill.getRange(attackSkill) + 3 || CollMap.checkColl(me, unit, 0x4)) {
+					if (!Attack.getIntoPosition(unit, Skill.getRange(attackSkill), 0x4)) {
+						return 0;
+					}
+				}
+
+				CollMap.reset();
+
+				if (getDistance(me, unit) > Skill.getRange(attackSkill) || CollMap.checkColl(me, unit, 0x2004, 2)) {
+					if (!Attack.getIntoPosition(unit, Skill.getRange(attackSkill), 0x2004, true)) {
+						return 0;
+					}
+				}
+
+				if (!unit.dead) {
+					if (aura > -1) {
+						Skill.setSkill(aura, 0);
+					}
+					Skill.cast(attackSkill, Skill.getHand(attackSkill), unit);
 				}
 			}
 
-			CollMap.reset();
-
-			if (getDistance(me, unit) > Skill.getRange(attackSkill) || CollMap.checkColl(me, unit, 0x2004, 2)) {
-				if (!Attack.getIntoPosition(unit, Skill.getRange(attackSkill), 0x2004, true)) {
-					return 0;
-				}
-			}
-
-			if (!unit.dead) {
-				if (aura > -1) {
-					Skill.setSkill(aura, 0);
-				}
-
-				Skill.cast(attackSkill, Skill.getHand(attackSkill), unit);
-			}
-
-			return 1;*/
+			return 1;
 		case 121: // FoH
 			if (!me.getState(121)) {
 				if (getDistance(me, unit) > Skill.getRange(attackSkill) || CollMap.checkColl(me, unit, 0x2004, 2)) {
