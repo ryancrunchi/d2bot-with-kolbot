@@ -131,6 +131,7 @@ if (!FileTools.exists("data/" + me.profile + ".json")) {
 
 var gameInfo, gameStart, ingame, chatActionsDone, pingQuit,
 	handle, useChat, firstLogin, connectFail, lastGameTick,
+	refreshGamesTick,
 	gameCount = DataFile.getStats().runs + 1,
 	lastGameStatus = "ready",
 	loginRetry = 0,
@@ -496,6 +497,11 @@ MainSwitch:
 							break;
 						}
 						else {
+							if (doneGames.length >= 20) {
+								doneGames.shift();
+							}
+							doneGames.push(gameList[i].gameName);
+							Misc.fileAction("logs/doneGames.json", 1, JSON.stringify(doneGames));
 							delay(rand(200,1000));
 						}
 					}
@@ -526,6 +532,22 @@ MainSwitch:
 				me.blockMouse = false;
 
 				locationTimeout(5000, location);
+			}
+			else {
+				if (!refreshGamesTick) {
+					refreshGamesTick = getTickCount();
+				}
+				var time = getTickCount() - refreshGamesTick;
+				print("No games to join after "+time);
+				if (time > 15000) {
+					// click create and join to refresh list
+					print("Trying to refresh the games");
+					refreshGamesTick = getTickCount();
+					if (ControlAction.click(6, 533, 469, 120, 20)) { // Create
+						delay(rand(200, 1500));
+						ControlAction.click(6, 652, 469, 120, 20); // Join
+					}
+				}
 			}
 		}
 
