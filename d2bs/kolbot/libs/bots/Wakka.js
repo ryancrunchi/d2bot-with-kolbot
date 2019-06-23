@@ -17,6 +17,7 @@ function Wakka() {
 
 	function autoLeaderDetect(destination) { // autoleader by Ethic
 		var solofail, suspect;
+		var maxLevel = 0;
 
 		do {
 			solofail = 0;
@@ -27,21 +28,23 @@ function Wakka() {
 					solofail += 1;
 				}
 
-				if (suspect.area === destination && !getPlayerFlag(me.gid, suspect.gid, 8)) { // first player not hostile found in destination area...
+				if (suspect.area === destination && !getPlayerFlag(me.gid, suspect.gid, 8) && suspect.level > maxLevel) { // first player not hostile found in destination area...
+					maxLevel = suspect.level;
 					leader = suspect.name; // ... is our leader
-
-					if (suspect.area === 131) {
-						return false;
-					}
-
-					print(ColorCodes.DARK_GOLD + "Wakka: " + ColorCodes.WHITE + "Autodetected " + leader);
-
-					return true;
 				}
 			} while (suspect.getNext());
 
 			if (solofail === 0) { // empty game, nothing left to do
 				return false;
+			}
+
+			if (leader && Config.Wakka.SkipIfBaal && leader.area === 131) {
+				return false;
+			}
+
+			if (leader) {
+				print(ColorCodes.DARK_GOLD + "Wakka: " + ColorCodes.WHITE + "Autodetected " + leader);
+				return true;
 			}
 
 			delay(500);
@@ -222,6 +225,9 @@ function Wakka() {
 			}
 
 			if (Pather.moveTo(path[0].x, path[0].y)) {
+				if (Pickit.pickItems()) {
+					Pather.moveTo(path[0].x, path[0].y);
+				}
 				path.shift();
 			}
 
@@ -319,6 +325,7 @@ AreaInfoLoop:
 
 					//Pather.usePortal(108, leader);
 					Pather.usePortal(108, null);
+					Precast.doPrecast();
 				}
 
 				break;
@@ -347,6 +354,7 @@ AreaInfoLoop:
 					if (tick && getTickCount() - tick >= 5000) {
 						vizClear = true;
 						tick = false;
+						Precast.doPrecast();
 
 						break;
 					}
@@ -371,6 +379,7 @@ AreaInfoLoop:
 					if (tick && getTickCount() - tick >= 7000) {
 						seisClear = true;
 						tick = false;
+						Precast.doPrecast();
 
 						break;
 					}
@@ -395,6 +404,7 @@ AreaInfoLoop:
 					if (tick && getTickCount() - tick >= 2000) {
 						infClear = true;
 						tick = false;
+						Precast.doPrecast();
 
 						break;
 					}
@@ -411,12 +421,25 @@ AreaInfoLoop:
 				}
 
 				me.overhead("going to star for diablo");
-				Pather.moveTo(7767, 5263);
+
+				if (!diablo) {
+					Pather.moveTo(7767, 5263);
+				}
 
 				diablo = getUnit(1, 243);
 
-				if (diablo && (diablo.mode === 0 || diablo.mode === 12)) {
-					return true;
+				if (diablo) {
+					if (diablo.hp * 100 / 128 <= 20) {
+						Pather.moveTo(diablo.x, diablo.y);
+						Pickit.pickItems();
+					}
+					else {
+						Pather.moveTo(7767, 5263);
+					}
+					if (diablo.mode === 0 || diablo.mode === 12) {
+						Pickit.pickItems();
+						return true;
+					}
 				}
 				else {
 					me.overhead("scanning for diablo");

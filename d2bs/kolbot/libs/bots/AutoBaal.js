@@ -127,6 +127,7 @@ function AutoBaal() {
 	};
 
 	function autoLeaderDetect(destination) { // autoleader by Ethic
+		var maxLevel = 0;
 		do {
 			solofail = 0;
 			suspect = getParty(); // get party object (players in game)
@@ -136,15 +137,19 @@ function AutoBaal() {
 					solofail += 1;
 				}
 
-				if (suspect.area === destination && !getPlayerFlag(me.gid, suspect.gid, 8)) { // first player not hostile found in destination area...
-					leader = suspect.name; // ... is our leader
-					print(ColorCodes.DARK_GOLD + "AutoBaal: " + ColorCodes.WHITE + "Autodetected " + leader);
-					return true;
+				if (suspect.area === destination && !getPlayerFlag(me.gid, suspect.gid, 8) && suspect.level > maxLevel) { // first player not hostile found in destination area...
+					maxLevel = suspect.level;
+					leader = suspect.name;
 				}
 			} while (suspect.getNext());
 
 			if (solofail === 0) { // empty game, nothing left to do
 				return false;
+			}
+
+			if (leader) {
+				print(ColorCodes.DARK_GOLD + "AutoBaal: " + ColorCodes.WHITE + "Autodetected " + leader);
+				return true;
 			}
 
 			delay(500);
@@ -247,7 +252,12 @@ function AutoBaal() {
 			baal = getUnit(1, 544);
 
 			if (baal) {
+				if (baal.hp * 100 / 128 <= 15) {
+					Pather.moveTo(baal.x, baal.y);
+					Pickit.pickItems();
+				}
 				if (baal.mode === 0 || baal.mode === 12) {
+					Pickit.pickItems();
 					break;
 				}
 
