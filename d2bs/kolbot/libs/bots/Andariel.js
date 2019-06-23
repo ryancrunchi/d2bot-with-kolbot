@@ -41,7 +41,7 @@ function Andariel () {
 		throw new Error("Failed to move to Catacombs Level 4");
 	}
 
-	Pather.moveTo(22549, 9520);
+	Pather.moveTo(22540, 9520);
 
 	if (me.classid === 1 && me.gametype === 0) {
 		this.killAndariel();
