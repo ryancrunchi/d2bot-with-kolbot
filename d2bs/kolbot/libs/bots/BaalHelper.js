@@ -21,7 +21,7 @@ function BaalHelper() { // experi-mental
 						delay(100);
 					}
 				} else {
-					return Skill.cast(Config.AttackSkill[1], 0, 15094 + rand(-1, 1), 5028);
+					return Skill.cast(Config.AttackSkill[1], 0, 15092 + rand(-2, 2), 5028);
 				}
 
 				break;
