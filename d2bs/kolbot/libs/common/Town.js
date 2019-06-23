@@ -336,6 +336,7 @@ var Town = {
 					} else {
 						for (j = 0; j < col[i]; j += 1) {
 							pot.buy(false);
+							delay(800);
 						}
 					}
 				}
