@@ -36,7 +36,9 @@ function main() {
 		quitFlag = false,
 		cloneWalked = false,
 		canQuit = true,
-		timerLastDrink = [];
+		timerLastDrink = [],
+		debugPosition = false,
+		debugPositionTick;
 
 	print(ColorCodes.BLUE + "Start ToolsThread script");
 	D2Bot.init();
@@ -357,6 +359,14 @@ function main() {
 		return id || "";
 	};
 
+	this.toggleDebugPosition = function() {
+		debugPosition = !debugPosition;
+		if (debugPosition) {
+			D2Bot.printToConsole(me.area+" : "+me.x+", "+me.y, ColorCodes.D2Bot.GRAY);
+			debugPositionTick = getTickCount();
+		}
+	};
+
 	// Event functions
 	this.keyEvent = function (key) {
 		switch (key) {
@@ -392,10 +402,10 @@ function main() {
 
 			break;
 
-		case 100: // Numpad 4
+		case 45: // Inser
 			this.toggleDebugPosition();
 		break;
-			
+		
 		case 101: // numpad 5
 			if (AutoMule.getInfo() && AutoMule.getInfo().hasOwnProperty("muleInfo")) {
 				if (AutoMule.getMuleItems().length > 0) {
@@ -674,6 +684,11 @@ function main() {
 				if (this.checkPing(true)) {
 					quitFlag = true;
 				}
+			}
+
+			if (me.gameReady && debugPosition && getTickCount()-debugPositionTick >= 1000) {
+				D2Bot.printToConsole(me.area+" : "+me.x+", "+me.y, ColorCodes.D2Bot.GRAY);
+				debugPositionTick = getTickCount();
 			}
 		} catch (e) {
 			Misc.errorReport(e, "ToolsThread");
