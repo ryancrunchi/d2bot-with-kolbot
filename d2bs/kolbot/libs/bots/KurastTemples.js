@@ -23,14 +23,14 @@ function KurastTemples() {
 			throw new Error("Failed to move to the temple");
 		}
 
-		if (i === 3) {
-			Precast.doPrecast(true);
-		}
-
 		Attack.clearLevel(Config.ClearType);
 
 		if (i < 5 && !Pather.moveToExit(80 + Math.floor(i / 2), true)) {
 			throw new Error("Failed to move out of the temple");
+		}
+
+		if (i === 3) {
+			Precast.doPrecast(true);
 		}
 	}
 
