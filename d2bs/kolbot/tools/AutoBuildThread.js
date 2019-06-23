@@ -10,6 +10,7 @@
 
 js_strict(true);
 
+include("OOG.js");
 if (!isIncluded("common/AutoSkill.js")) { include("common/AutoSkill.js"); };
 if (!isIncluded("common/AutoStat.js")) { include("common/AutoStat.js"); };
 if (!isIncluded("common/Config.js")) { include("common/Config.js"); };
