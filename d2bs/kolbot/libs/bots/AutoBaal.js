@@ -10,6 +10,7 @@
 function AutoBaal() {
 	// editable variables
 	var i, baalCheck, throneCheck, hotCheck, leader, suspect, solofail, portal, baal,
+		timeout = 180, // seconds
 		// internal variables
 		safeMsg = ["safe", "throne clear", "leechers can come", "tp is up", "1 clear"], // safe message - casing doesn't matter
 		baalMsg = ["baal"], // baal message - casing doesn't matter
@@ -128,6 +129,7 @@ function AutoBaal() {
 
 	function autoLeaderDetect(destination) { // autoleader by Ethic
 		var maxLevel = 0;
+		var start = getTickCount();
 		do {
 			solofail = 0;
 			suspect = getParty(); // get party object (players in game)
@@ -153,6 +155,10 @@ function AutoBaal() {
 			}
 
 			delay(500);
+
+			if (getTickCount() - start >= timeout * 1000) {
+				throw new Error("No leader found");
+			}
 		} while (!leader); // repeat until leader is found (or until game is empty)
 
 		return false;
@@ -215,9 +221,9 @@ function AutoBaal() {
 			}
 
 			if (me.area === 109 && Pather.getPortal(131, null)) { // wait for throne signal - leader's safe message
-				delay(5000);
+				delay(6000);
 				if (Pather.usePortal(131, null)) {
-					delay(5000);
+					delay(10000);
 					print(ColorCodes.DARK_GOLD + "AutoBaal: " + ColorCodes.WHITE + "Trying to take TP to throne.");
 					Pather.moveTo(Config.AutoBaal.LeechSpot[0], Config.AutoBaal.LeechSpot[1]); // move to a safe spot
 					Precast.doPrecast(true);
