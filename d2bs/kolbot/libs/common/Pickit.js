@@ -8,7 +8,6 @@ var Pickit = {
 	gidList: [],
 	beltSize: 1,
 	ignoreLog: [4, 5, 6, 22, 41, 76, 77, 78, 79, 80, 81], // Ignored item types for item logging
-	forceLog: [82, 83, 84, 647, 648, 649], // Forced item classes ID for item logging (uber keys)
 
 	init: function (notify) {
 		var i, filename;
@@ -394,18 +393,14 @@ MainLoop:
 				}
 				print(printString);
 
-				if (this.forceLog.indexOf(stats.classid) !== -1) {
-					Misc.itemLogger(log, item);
-					Misc.logItem(log, item, keptLine);
-				}
-				else if (this.ignoreLog.indexOf(stats.type) === -1) {
+				if (this.ignoreLog.indexOf(stats.type) === -1) {
 					Misc.itemLogger(log, item);
 
-					if (["pk1", "pk2", "pk3"].indexOf(item.code) > -1 && !TorchSystem.LogKeys) {
+					if (["pk1", "pk2", "pk3"].indexOf(item.code) > -1 && !Config.LogKeys) {
 						break;
 					}
 
-					if (["dhn", "bey", "mbr"].indexOf(item.code) > -1 && !TorchSystem.LogOrgans) {
+					if (["dhn", "bey", "mbr"].indexOf(item.code) > -1 && !Config.LogOrgans) {
 						break;
 					}
 

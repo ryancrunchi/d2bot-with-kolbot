@@ -1618,7 +1618,7 @@ var Misc = {
 
 		switch (action) {
 		case "Sold":
-			if (Config.ItemInfoQuality.indexOf(unit.quality) === -1) {
+			if (Config.SoldItemInfoQuality.indexOf(unit.quality) === -1) {
 				return false;
 			}
 

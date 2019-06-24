@@ -636,7 +636,9 @@ MainLoop:
 							log += " (auto equip merc tier "+mercTier+")";
 						}
 						Misc.itemLogger(log, item);
-						Misc.logItem(log, item, result.line);
+						if (Config.ItemInfo && Config.ItemInfoQuality.indexOf(item.quality) !== -1) {
+							Misc.logItem(log, item, result.line);
+						}
 
 						break;
 					case -1: // unidentified
