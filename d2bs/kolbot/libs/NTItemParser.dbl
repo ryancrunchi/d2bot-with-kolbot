@@ -635,13 +635,20 @@ NTIP.ParseLineInt = function (input, info) {
 			p_keyword = p_section[i].substring(0, p_end);
 
 			if (isNaN(p_keyword)) {
-				if (NTIPAliasStat[p_keyword] === undefined) {
+				if (p_keyword == "strreq") {
+					p_result[1] += "item.strreq";
+				}
+				else if (p_keyword == "dexreq") {
+					p_result[1] += "item.dexreq";
+				}
+				else if (NTIPAliasStat[p_keyword] !== undefined) {
+					p_result[1] += "item.getStatEx(" + NTIPAliasStat[p_keyword] + ")";
+				}
+				else {
 					Misc.errorReport("Unknown stat: " + p_keyword + " File: " + info.file + " Line: " + info.line);
 
 					return false;
 				}
-
-				p_result[1] += "item.getStatEx(" + NTIPAliasStat[p_keyword] + ")";
 			} else {
 				p_result[1] += "item.getStatEx(" + p_keyword + ")";
 			}
