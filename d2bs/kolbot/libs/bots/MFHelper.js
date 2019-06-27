@@ -149,6 +149,18 @@ function MFHelper() {
 		return true;
 	};
 
+	this.afterCommand = function () {
+		delay(me.ping);
+
+		if (!Pather.usePortal(null, player.name, null, 2)) {
+			Town.goToTown();
+			if (Config.MFHelper.HealBetweenCommands) {
+				Town.heal();
+				Town.move("portalspot");
+			}
+		}
+	};
+
 	addEventListener("chatmsg", ChatEvent);
 	Town.doChores();
 	Town.move("portalspot");
@@ -180,6 +192,11 @@ MainLoop:
 			if (player.area != me.area) {
 				if (!me.inTown && !Pather.usePortal(null, player.name)) {
 					Town.goToTown();
+
+					if (Config.MFHelper.HealBetweenCommands) {
+						Town.heal();
+					}
+
 					Town.move("portalspot");
 				}
 			}
@@ -188,6 +205,16 @@ MainLoop:
 
 			if (playerAct && playerAct !== me.act) {
 				Town.goToTown(playerAct);
+
+				if (Config.MFHelper.HealBetweenCommands) {
+					Town.heal();
+				}
+
+				Town.move("portalspot");
+			}
+
+			if (Config.MFHelper.HealBetweenCommands) {
+				Town.heal();
 				Town.move("portalspot");
 			}
 
@@ -205,13 +232,9 @@ MainLoop:
 
 				delay(me.ping);
 
-				Pather.usePortal(null, player.name)
+				Pather.usePortal(null, player.name);
 
-				while (!me.area) {
-					delay(100);
-				}
-
-				delay(me.ping);
+				delay(2*me.ping);
 
 				if (me.area === player.area) {
 
@@ -250,31 +273,33 @@ MainLoop:
 						} catch (killerror2) {
 							print(killerror2);
 						}
-					} else if (command.indexOf("cows") > -1) {
-						print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Clear Cows");
-
-						if (me.area != 39) {
-							Town.goToTown(1);
-							Town.move("stash");
-							Pather.usePortal(39);
-						}
-
-						this.clearCowLevel();
 					} else if (command.indexOf("council") > -1) {
 						print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Kill Council");
 
 						Attack.clearList(Attack.getMob([345, 346, 347], 0, 40));
-					}
+						Attack.clear(30);
+					} else if (command.indexOf("cows") > -1) {
+						print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Clear Cows");
 
-					delay(1000);
+						if (me.area != 39) {
+							// taking leader's portal fails if we did not kill baal, try to use red portal.
+							for (i = 0; i < 5; i += 1) {	
+								if (Town.goToTown(1) && Pather.usePortal(39)) {	
+									break;	
+								}
+								delay(1000);
+							}
+						}
 
-					if (!Pather.usePortal(null, player.name)) {
-						Town.goToTown();
-						if (Config.MFHelper.HealBetweenCommands) {
-							Town.heal();
-							Town.move("portalspot");
+						if (me.area == 39) {
+							this.clearCowLevel();
+						}
+						else {
+							print("Failed to clear cows.");
 						}
 					}
+
+					this.afterCommand();
 				} else {
 					print("Failed to use portal.");
 				}
