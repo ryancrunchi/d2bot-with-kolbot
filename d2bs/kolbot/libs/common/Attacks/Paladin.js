@@ -60,6 +60,7 @@ var ClassAttack = {
 		result = this.doCast(unit, attackSkill, aura);
 
 		if (result === 2 && Config.TeleStomp && Attack.checkResist(unit, "physical") && !!me.getMerc()) {
+			aura = aura > -1 ? aura : Config.AttackSkill[6];
 			while (Attack.checkMonster(unit)) {
 				if (Town.needMerc()) {
 					if (Config.MercWatch && mercRevive++ < 1) {
