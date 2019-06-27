@@ -115,7 +115,6 @@ var Precast = new function () {
 				}
 			} while (item.getNext());
 		}
-		print("Precast skill level : "+sumCurr+"\nSwap skill level : "+sumSwap);
 
 		this.bestSlot[skillId] = (sumSwap > sumCurr) ? me.weaponswitch ^ 1 : me.weaponswitch;
 		return this.bestSlot[skillId];
