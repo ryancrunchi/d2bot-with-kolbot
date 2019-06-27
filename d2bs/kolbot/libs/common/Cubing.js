@@ -965,7 +965,9 @@ IngredientLoop:
 						switch (result.result) {
 						case 0:
 							Misc.itemLogger("Dropped", items[j], "doCubing");
-							Misc.logItem("------ Dropped", items[j]);
+							if (Config.SoldItemInfo && Config.SoldItemInfoQuality.indexOf(items[j].quality) > -1) {
+								Misc.logItem("------ Dropped", items[j]);
+							}
 							items[j].drop();
 
 							break;
@@ -982,7 +984,7 @@ IngredientLoop:
 								log += " (auto equip merc tier "+mercTier+")";
 							}
 							Misc.itemLogger(log, items[j]);
-							if (Config.ShowCubingInfo) {
+							if (Config.ShowCubingInfo && Config.ItemInfoQuality.indexOf(items[j].quality) > -1) {
 								Misc.logItem(log, items[j], result.line);
 							}
 

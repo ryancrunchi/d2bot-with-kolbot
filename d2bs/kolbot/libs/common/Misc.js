@@ -1640,7 +1640,7 @@ var Misc = {
 
 			break;
 		default:
-			desc = unit.fname.split("\n").reverse().join(" ").replace(/(\\xff|ÿ)c[0-9!"+<:;.*]|\/|\\/gi, "").trim();
+			desc = unit.fname ? unit.fname.split("\n").reverse().join(" ").replace(/(\\xff|ÿ)c[0-9!"+<:;.*]|\/|\\/gi, "").trim() : this.getItemDesc(unit).split("\n").join(" | ").replace(/(\\xff|ÿ)c[0-9!"+<:;.*]/gi, "").trim();
 
 			break;
 		}
@@ -1654,45 +1654,39 @@ var Misc = {
 			return false;
 		}
 
-		var i;
-
-		if (!Config.LogKeys && ["pk1", "pk2", "pk3"].indexOf(unit.code) > -1) {
+		if (Config.SkipLogging.indexOf(unit.itemType) > -1) {
 			return false;
 		}
 
-		if (!Config.LogOrgans && ["dhn", "bey", "mbr"].indexOf(unit.code) > -1) {
-			return false;
+		var exceptions = [];
+		if (!Config.LogKeys) {
+			exceptions.push("pk1", "pk2", "pk3");
 		}
-
-		if (!Config.LogLowRunes && ["r01", "r02", "r03", "r04", "r05", "r06", "r07", "r08", "r09", "r10", "r11", "r12", "r13", "r14"].indexOf(unit.code) > -1) {
-			return false;
+		if (!Config.LogOrgans) {
+			exceptions.push("dhn", "bey", "mbr");
 		}
-
-		if (!Config.LogMiddleRunes && ["r15", "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23"].indexOf(unit.code) > -1) {
-			return false;
+		if (!Config.LogLowRunes) {
+			exceptions.push("r01", "r02", "r03", "r04", "r05", "r06", "r07", "r08", "r09", "r10", "r11", "r12", "r13", "r14");
 		}
-
-		if (!Config.LogHighRunes && ["r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31", "r32", "r33"].indexOf(unit.code) > -1) {
-			return false;
+		if (!Config.LogMiddleRunes) {
+			exceptions.push("r15", "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23");
 		}
-
-		if (!Config.LogLowGems && ["gcv", "gcy", "gcb", "gcg", "gcr", "gcw", "skc", "gfv", "gfy", "gfb", "gfg", "gfr", "gfw", "skf", "gsv", "gsy", "gsb", "gsg", "gsr", "gsw", "sku"].indexOf(unit.code) > -1) {
-			return false;
+		if (!Config.LogHighRunes) {
+			exceptions.push("r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31", "r32", "r33");
 		}
-
-		if (!Config.LogHighGems && ["gzv", "gly", "glb", "glg", "glr", "glw", "skl", "gpv", "gpy", "gpb", "gpg", "gpr", "gpw", "skz"].indexOf(unit.code) > -1) {
-			return false;
+		if (!Config.LogLowGems) {
+			exceptions.push("gcv", "gcy", "gcb", "gcg", "gcr", "gcw", "skc", "gfv", "gfy", "gfb", "gfg", "gfr", "gfw", "skf", "gsv", "gsy", "gsb", "gsg", "gsr", "gsw", "sku");
 		}
-
-		for (i = 0; i < Config.SkipLogging.length; i++) {
-			if (Config.SkipLogging[i] === unit.classid || Config.SkipLogging[i] === unit.code) {
-				return false;
-			}
+		if (!Config.LogHighGems) {
+			exceptions.push("gzv", "gly", "glb", "glg", "glr", "glw", "skl", "gpv", "gpy", "gpb", "gpg", "gpr", "gpw", "skz");
+		}
+		if (exceptions.indexOf(unit.code) > -1) {
+			return false;
 		}
 
 		var lastArea, code, desc, sock, itemObj,
 			color = -1,
-			name = unit.fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<:;.*]|\/|\\/g, "").trim();
+			name = unit.fname ? unit.fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<:;.*]|\/|\\/g, "").trim() : this.getItemDesc(unit).split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<:;.*]|\/|\\/g, "").trim();
 
 		desc = this.getItemDesc(unit);
 		color = unit.getColor();
@@ -1702,7 +1696,7 @@ var Misc = {
 			textColor = 7;
 		}
 
-		if (action.match("kept", "i")) {
+		if (action.match(/kept/gi)) {
 			lastArea = DataFile.getStats().lastArea;
 
 			if (lastArea) {
@@ -1828,7 +1822,7 @@ var Misc = {
 
 				break;
 			case 7: // Unique
-				for (i = 0; i < 401; i += 1) {
+				for (var i = 0; i < 401; i += 1) {
 					if (unit.code === getBaseStat(17, i, 4).trim() && unit.fname.split("\n").reverse()[0].indexOf(getLocaleString(getBaseStat(17, i, 2))) > -1) {
 						code = getBaseStat(17, i, "invfile");
 
@@ -2476,10 +2470,11 @@ var Experience = {
 			runsToLevel = this.runsToLevel(),
 			totalRunsToLevel = this.totalRunsToLevel(),
 			getGameTime = this.getGameTime(),
-			timeToLevel = this.timeToLevel();
+			timeToLevel = this.timeToLevel(),
+			gameIP = me.gameserverip.split(".")[3];
 
 		//string = "[Game: " + me.gamename + (me.gamepassword ? "//" + me.gamepassword : "") + getGameTime + "] [Level: " + me.getStat(12) + " (" + progress + "%)] [XP: " + gain + "] [Games ETA: " + runsToLevel + "] [Time ETA: " + timeToLevel + "]";
-		string = "[Game: " + me.gamename + (me.gamepassword ? "//" + me.gamepassword : "") + getGameTime + "] [Level: " + me.getStat(12) + " (" + progress + "%)] [XP: " + gain + "] [Games ETA: " + runsToLevel + "]";
+		string = "[Game: " + me.gamename + (me.gamepassword ? "//" + me.gamepassword : "") + getGameTime + " IP:"+gameIP+"] [Level: " + me.getStat(12) + " (" + progress + "%)] [XP: " + gain + "] [Games ETA: " + runsToLevel + "]";
 
 		if (gain) {
 			D2Bot.printToConsole(string, ColorCodes.D2Bot.BLUE);

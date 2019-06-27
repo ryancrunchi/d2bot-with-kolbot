@@ -392,7 +392,9 @@ RuneLoop:
 
 			if (NTIP.CheckItem(items[0], this.pickitEntries)) {
 				Misc.itemLogger("Runeword Kept", items[0]);
-				Misc.logItem("Runeword Kept", items[0]);
+				if (Config.ItemInfo && Config.ItemInfoQuality.indexOf(7) > -1) {
+					Misc.logItem("Runeword Kept", items[0]);
+				}
 			}
 			else {
 				Misc.logItem("Made runeword (not keeping)", items[0]);

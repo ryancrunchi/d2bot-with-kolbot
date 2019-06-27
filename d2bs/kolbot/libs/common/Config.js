@@ -193,19 +193,19 @@ var Config = {
 		Exclude: []
 	},
 
-	ItemInfo: false,
-	ItemInfoQuality: [],
+	ItemInfo: true,
+	ItemInfoQuality: [1, 2, 3, 4, 5, 6, 7, 8],
 	SoldItemInfo: false,
 	SoldItemInfoQuality: [],
 
-	LogKeys: false,
+	LogKeys: true,
 	LogOrgans: true,
-	LogLowRunes: false,
-	LogMiddleRunes: false,
+	LogLowRunes: true,
+	LogMiddleRunes: true,
 	LogHighRunes: true,
-	LogLowGems: false,
-	LogHighGems: false,
-	SkipLogging: [],
+	LogLowGems: true,
+	LogHighGems: true,
+	SkipLogging: [4, 5, 6, 9, 22, 41, 76, 77, 78, 79, 80, 81],
 	ShowCubingInfo: true,
 
 	Cubing: false,

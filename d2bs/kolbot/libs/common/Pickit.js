@@ -392,37 +392,8 @@ MainLoop:
 					log += " (auto equip merc tier "+stats.tier+")";
 				}
 				print(printString);
-
-				if (this.ignoreLog.indexOf(stats.type) === -1) {
-					Misc.itemLogger(log, item);
-
-					if (["pk1", "pk2", "pk3"].indexOf(item.code) > -1 && !Config.LogKeys) {
-						break;
-					}
-
-					if (["dhn", "bey", "mbr"].indexOf(item.code) > -1 && !Config.LogOrgans) {
-						break;
-					}
-
-					if (["r01", "r02", "r03", "r04", "r05", "r06", "r07", "r08", "r09", "r10", "r11", "r12", "r13", "r14"].indexOf(item.code) > -1 && !Config.ShowLowRunes) {
-						break;
-					}
-
-					if (["r15", "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23"].indexOf(item.code) > -1 && !Config.ShowMiddleRunes) {
-						break;
-					}
-
-					if (["r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31", "r32", "r33"].indexOf(item.code) > -1 && !Config.ShowHighRunes) {
-						break;
-					}
-
-					if (["gcv", "gcy", "gcb", "gcg", "gcr", "gcw", "skc", "gfv", "gfy", "gfb", "gfg", "gfr", "gfw", "skf", "gsv", "gsy", "gsb", "gsg", "gsr", "gsw", "sku"].indexOf(item.code) > -1 && !Config.ShowLowGems) {
-						break;
-					}
-
-					if (["glv", "gly", "glb", "glg", "glr", "glw", "skl", "gpv", "gpy", "gpb", "gpg", "gpr", "gpw", "skz"].indexOf(item.code) > -1 && !Config.ShowHighGems) {
-						break;
-					}
+				Misc.itemLogger(log, item);
+				if (Config.ItemInfo && Config.ItemInfoQuality.indexOf(item.quality) > -1) {
 					Misc.logItem(log, item, keptLine);
 				}
 				break;
@@ -441,6 +412,7 @@ MainLoop:
 
 			case 5: // Crafting System
 				print(ColorCodes.LIGHT_GOLD + "Picked up " + stats.color + stats.name + ColorCodes.WHITE + " (ilvl " + stats.ilvl + ")" + " (Crafting System)");
+				Misc.itemLogger("Kept", item, "Crafting");
 				CraftingSystem.update(item);
 
 				break;
