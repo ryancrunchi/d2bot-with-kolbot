@@ -548,5 +548,9 @@ var Config = {
         Smurfette: "",
         BigSmurf: "",
         Smurfs: []
+    },
+    Pet: {
+    	Attack: false,
+    	Teleport: false
     }
 };

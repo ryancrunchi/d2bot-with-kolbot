@@ -4,8 +4,8 @@
 
 function Pet() {
 	var leader, leaderUnit, charClass, skill,
-		attack = false,
 		classes = ["amazon", "sorceress", "necromancer", "paladin", "barbarian", "druid", "assassin"];
+		var defaultTeleport = Pather.teleport;
 
 	// Get leader's Party Unit
 	this.getLeader = function (name) {
@@ -447,6 +447,7 @@ function Pet() {
 						Town.goToTown(leaderAct);
 					}
 				}
+				Town.doChores();
 			}
 			else {
 				// leader is not in town
@@ -465,7 +466,10 @@ function Pet() {
 				if (player) {
 					do {
 						if (player.name !== me.name) {
-							Pather.moveToUnit(player);
+							var distance = getDistance(me.x, me.y, player.x, player.y);
+							Pather.teleport = distance >= 30;
+							Pather.moveToUnit(player, 0, 0, Config.Pet.Attack);
+							Pather.teleport = true;
 
 							break;
 						}
@@ -473,15 +477,20 @@ function Pet() {
 				}
 			}
 
-			if (leaderUnit && getDistance(me.x, me.y, leaderUnit.x, leaderUnit.y) <= 100) {
-				if (getDistance(me.x, me.y, leaderUnit.x, leaderUnit.y) > 5) {
-					Pather.moveToUnit(leaderUnit);
+			if (leaderUnit) {
+				var distance = getDistance(me.x, me.y, leaderUnit.x, leaderUnit.y);
+				if (distance > 8) {
+					Pather.teleport = distance >= 30;
+					Pather.moveToUnit(leaderUnit, 0, 0, Config.Pet.Attack);
+					Pather.teleport = true;
 					this.pickPotions(20);
 				}
 			}
 
-			if (attack) {
-				Attack.clear(20, false, false, false, false);
+			if (Config.Pet.Attack) {
+				Pather.teleport = true;
+				Config.ClearType = 0;
+				Attack.clear(20);
 				this.pickPotions(20);
 			}
 
@@ -500,6 +509,7 @@ function Pet() {
 				case 1:
 					//say("Taking exit.");
 					delay(100);
+					Pather.teleport = true;
 					Pather.moveToExit(leader.area, true);
 
 					break;
