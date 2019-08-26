@@ -99,10 +99,11 @@
 [name] == boneknife && [quality] == unique # [fcr] > 0 # [tier] == 110
 [Name] == SwirlingCrystal && [Quality] == set # [skillcoldmastery] >= 1 # [tier] == 105 // Tal Rasha's Lidless Eye
 [Type] == Sword && [Quality] <= superior && [Flag] == runeword # [itemallskills] == 2 && [fcr] >= 25 && [fhr] == 55 && [vitality] == 22 # [tier] == 100	// Spirit
-[type] == orb && [quality] == rare && [flag] != ethereal # [fcr] == 20 && ([sorceressskills] > 1 && [maxmana] > 20 && [energy] > 10) # [tier] == 23
-[type] == orb && [quality] == rare && [flag] != ethereal # [skillwarmth] >= 2 && ([maxmana] > 0 && [fcr] > 0) && [fireskilltab] > 0 # [tier] == 22
-[type] == orb && [flag] != ethereal # [skillwarmth]+[skillfireball]+[skillfrozenorb] >= 5 && ([maxmana] > 0 || [fcr] > 0) # [tier] == 21
-[type] == orb && [flag] != ethereal # [skillwarmth]+[skillfireball] >= 4 && ([maxmana] > 0 || [fcr] > 0) # [tier] == 20
+[type] == orb && [quality] == rare && [flag] != ethereal # [fcr] == 20 && ([sorceressskills] > 1 && [maxmana] > 20 && [energy] > 10) # [tier] == 24
+[type] == orb && [quality] == rare && [flag] != ethereal # [skillwarmth] >= 2 && ([maxmana] > 0 && [fcr] > 0) && [fireskilltab] > 0 # [tier] == 23
+[type] == orb && [flag] != ethereal # [skillwarmth]+[skillfireball]+[skillfrozenorb] >= 5 && ([maxmana] > 0 || [fcr] > 0) # [tier] == 22
+[type] == orb && [flag] != ethereal # [skillwarmth]+[skillfireball] >= 4 && ([maxmana] > 0 || [fcr] > 0) # [tier] == 21
+[type] == orb && [flag] != ethereal # [sorceressskills] > 0 # [tier] == 20
 [name] == dagger && [flag] != ethereal && [quality] == unique # # [tier] == 19 // gull
 [type] == orb && [flag] != ethereal # ([skillwarmth] >= 3 || [skillfireball] >= 3) && ([maxmana] > 0 || [fcr] > 0) # [tier] == 18
 [type] == orb && [flag] != ethereal # [skillwarmth] >= 3 || [skillfireball] >= 3 # [tier] == 17
@@ -111,8 +112,9 @@
 [type] == orb && [flag] != ethereal # ([fireskilltab] >= 1 || [coldskilltab] >= 1 || [skillfireball] >= 1) && [maxmana] > 0 && [fireresist]+[coldresist]+[lightresist] > 0 # [tier] == 14
 [type] == orb && [flag] != ethereal # ([fireskilltab] >= 1 || [coldskilltab] >= 1 || [skillfireball] >= 1) && [maxmana] > 0 # [tier] == 13
 [type] == orb && [flag] != ethereal # [fireskilltab] >= 1 || [coldskilltab] >= 1 || [skillfireball] >= 1 # [tier] == 12
-([type] == wand || [Type] == orb) && [flag] != ethereal # [fcr] == 20 && [maxmana] >= 20 # [tier] == 11
-[type] == orb && [flag] != ethereal # [skillwarmth] >= 1 && ([maxmana] > 0 || [fcr] > 0) # [tier] == 10
+([Type] == scepter || [Type] == axe || [Type] == club || [Type] == sword || [Type] == hammer || [Type] == knife || [Type] == mace || [Type] == orb || [type] == wand) && [flag] != ethereal # [coldresist]+[lightresist]+[fireresist] >= 40 # [tier] == 11
+([type] == wand || [Type] == orb) && [flag] != ethereal # [fcr] == 20 && [maxmana] >= 20 # [tier] == 10
+[type] == orb && [flag] != ethereal # [skillwarmth] >= 1 && ([maxmana] > 0 || [fcr] > 0) # [tier] == 9
 ([Type] == scepter || [Type] == axe || [Type] == club || [Type] == sword || [Type] == hammer || [Type] == knife || [Type] == mace || [Type] == orb || [type] == wand) && [flag] != ethereal # [manaleech]+[itemmanaafterkill] >= 5 # [tier] == 8
 ([Type] == scepter || [Type] == axe || [Type] == club || [Type] == sword || [Type] == hammer || [Type] == knife || [Type] == mace || [Type] == orb || [type] == wand) && [flag] != ethereal # [manaleech]+[itemmanaafterkill] >= 3 # [tier] == 7
 [type] == orb && [flag] != ethereal # [skillwarmth] >= 1 # [tier] == 6

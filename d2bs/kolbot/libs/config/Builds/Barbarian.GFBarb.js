@@ -65,11 +65,17 @@ var AutoBuildTemplate = {
 
 			Config.BossPriority = false; // Set to true to attack Unique/SuperUnique monsters first when clearing
 
-			Config.FastPick = false; // Check and pick items between attacks
+			Config.FastPick = true; // Check and pick items between attacks
 
 			Config.UseMerc = me.getQuest(2, 0) || me.diff > 0;
 
 			Config.Cubing = me.getQuest(10, 0) || me.diff > 0;
+
+			Config.ClearType = 0; // Monster spectype to kill in level clear scripts (ie. Mausoleum). 0xF = skip normal, 0x7 = champions/bosses, 0 = all
+
+			Config.OpenChests = true;
+
+			Config.FindItem = false;
 
 			/*Scripts.Andariel = me.getQuest(7, 0) && Config.AutoSmurf.TeamSize < 2;
 			Scripts.Countess = me.getQuest(7, 0) && Config.AutoSmurf.TeamSize < 2;

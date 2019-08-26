@@ -1616,6 +1616,11 @@ var Misc = {
 			action = "Gambled";
 		}
 
+		let droppedPattern = /^Dropped/i;
+		if (droppedPattern.test(rawAction)) {
+			action = "Dropped";
+		}
+
 		switch (action) {
 		case "Sold":
 			if (Config.SoldItemInfoQuality.indexOf(unit.quality) === -1) {
@@ -2508,7 +2513,7 @@ var Packet = {
 
 			while (getTickCount() - tick < 5000) {
 				if (getUIFlag(0x08)) {
-					delay(Math.max(500, me.ping * 2));
+					delay(/*Math.max(500, */me.ping/* * 2)*/);
 
 					return true;
 				}
@@ -2521,9 +2526,9 @@ var Packet = {
 			}
 
 			sendPacket(1, 0x2f, 4, 1, 4, unit.gid);
-			delay(me.ping * 2);
+			delay(me.ping/* * 2*/);
 			sendPacket(1, 0x30, 4, 1, 4, unit.gid);
-			delay(me.ping * 2);
+			delay(me.ping/* * 2*/);
 			this.flash(me.gid);
 		}
 
@@ -2775,7 +2780,7 @@ CursorLoop:
 		return false;
 	},
 
-	flash: function (gid, wait = 300 + 2 * me.ping) {
+	flash: function (gid, wait = /*300 + 2 * */me.ping) {
 		sendPacket(1, 0x4b, 4, 0, 4, gid);
 
 		if (wait > 0) {

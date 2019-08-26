@@ -161,6 +161,7 @@ var Town = {
 		var npc = getInteractedNPC();
 
 		if (npc && npc.name.toLowerCase() !== this.tasks[me.act - 1][task]) {
+			print("Bad npc for "+task+" "+reason);
 			me.cancel();
 
 			npc = null;
@@ -184,6 +185,7 @@ var Town = {
 		}
 
 		if (!npc || npc.area !== me.area || (!getUIFlag(0x08) && !npc.openMenu())) {
+			print("Can't find npc");
 			return false;
 		}
 
@@ -192,12 +194,14 @@ var Town = {
 		case "Repair":
 		case "Gamble":
 			if (!getUIFlag(0x0C) && !npc.startTrade(task)) {
+				print("Can't open trade UI");
 				return false;
 			}
 
 			break;
 		case "Key":
 			if (!getUIFlag(0x0C) && !npc.startTrade(me.act === 3 ? "Repair" : "Shop")) {
+				print("Can't open trade UI for key");
 				return false;
 			}
 
@@ -306,14 +310,16 @@ var Town = {
 			return true;
 		}
 
-		if (me.diff === 0 && Pather.accessToAct(4) && me.act < 4) {
-			this.goToTown(4);
-		}
-		else if (me.diff === 0 && Pather.accessToAct(3) && me.act < 3) {
-			this.goToTown(3);
-		}
-		else if (me.diff === 0 && Pather.accessToAct(2) && me.act < 2) {
-			this.goToTown(2);
+		if (me.diff === 0) {
+			if (Pather.accessToAct(4) && me.act < 4) {
+				this.goToTown(4);
+			}
+			else if (Pather.accessToAct(3) && me.act < 3) {
+				this.goToTown(3);
+			}
+			else if (Pather.accessToAct(2) && me.act < 2) {
+				this.goToTown(2);
+			}
 		}
 
 		npc = this.initNPC("Shop", "buyPotions");
@@ -1093,13 +1099,11 @@ CursorLoop:
 			if (list.indexOf(items[i].gid) === -1) {
 				for (j = 0; j < 3; j += 1) {
 					if (items[i].getFlag(0x10)) {
-						break;
+						return items[i];
 					}
 
-					delay(100);
+					delay(me.ping);
 				}
-
-				return items[i];
 			}
 		}
 
@@ -1949,6 +1953,8 @@ MainLoop:
 					items[i].classid !== 174 && // Khalim's Will
 					items[i].classid !== 644 && // Malah's Potion
 					items[i].classid !== 646 && // Scroll of Resistance
+					/*items[i].classid !== 87 && // The Gidbinn
+					items[i].classid !== 88 && // Wirt's leg*/
 					//
 					(items[i].code !== 529 || !!me.findItem(518, 0, 3)) && // Don't throw scrolls if no tome is found (obsolete code?)
 					(items[i].code !== 530 || !!me.findItem(519, 0, 3)) && // Don't throw scrolls if no tome is found (obsolete code?)
@@ -2036,7 +2042,7 @@ MainLoop:
 			this.act[1].spot[NPC.Drognan] = [5097, 5035];
 			this.act[1].spot[NPC.Atma] = [5137, 5060];
 			this.act[1].spot[NPC.Warriv] = [5152, 5201];
-			this.act[1].spot.portalspot = [5168, 5060];
+			this.act[1].spot.portalspot = [5172, 5056];
 			this.act[1].spot.stash = [5124, 5076];
 			this.act[1].spot.waypoint = [5070, 5083];
 			this.act[1].initialized = true;

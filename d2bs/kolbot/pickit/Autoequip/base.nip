@@ -14,12 +14,12 @@
 [name] == khalim'sflail
 
 // white for runewords
-// [type] == helm && [quality] <= superior && [flag] != ethereal # [sockets] == 2 # [MaxQuantity] == 1  // lore
-// [type] == armor && [name] <= hardleatherarmor && [quality] <= superior && [flag] != ethereal # [sockets] == 2 # [MaxQuantity] == 1  // stealth
-// [type] == shield && [quality] <= superior && [flag] != ethereal # [sockets] == 2 # [MaxQuantity] == 1  // rhyme
-// ([Name] == LargeShield || [Name] == KiteShield) && [quality] <= superior && [flag] != ethereal # [sockets] == 3 # [MaxQuantity] == 1  // ancient's pledge
+[type] == helm && [quality] <= superior && [flag] != ethereal # [sockets] == 2 # [MaxQuantity] == 1  // lore
+[type] == armor && [name] <= hardleatherarmor && [quality] <= superior && [flag] != ethereal # [sockets] == 2 # [MaxQuantity] == 1  // stealth
+[type] == shield && [quality] <= superior && [flag] != ethereal # [sockets] == 2 # [MaxQuantity] == 1  // rhyme
+([Name] == LargeShield || [Name] == KiteShield) && [quality] <= superior && [flag] != ethereal # [sockets] == 3 # [MaxQuantity] == 1  // ancient's pledge
 [type] == polearm && [quality] <= superior # [sockets] == 4 # [MaxQuantity] == 1  // insight
-// ([name] == crystalsword || [name] == broadsword || [name] == longsword) && [quality] <= superior && [flag] != ethereal # [sockets] == 4 # [MaxQuantity] == 1  // spirit
+([name] == crystalsword || [name] == broadsword || [name] == longsword) && [quality] <= superior && [flag] != ethereal # [sockets] == 4 # [MaxQuantity] == 1  // spirit
 
 
 // gloves

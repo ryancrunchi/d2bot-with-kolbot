@@ -1,0 +1,4 @@
+[Type] == amulet && [Quality] >= rare # [sorceressskills] == 2 && ([fcr] >= 10 || [strength] >= 15) && [maxmana] >= 35
+// [Name] == SpiderwebSash && [Quality] == unique && [Flag] != ethereal # [EnhancedDefense] >= 90                       // Arachnid Mesh
+// [Name] == Gauntlets && [Quality] == unique && [Flag] != ethereal # [EnhancedDefense] >= 10 && [itemmaxmanapercent] == 40 // frostburn
+// [Type] == boots && [Quality] == crafted # [itemmaxmanapercent] >= 2 && [maxmana] >= 10 // && [manarecovery] >= 4

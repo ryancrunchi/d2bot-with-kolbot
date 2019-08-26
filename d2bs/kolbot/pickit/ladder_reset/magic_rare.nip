@@ -1,9 +1,8 @@
-// [type] != shield && [type] != auricshields && [quality] >= magic && [Flag] != ethereal # [paladinskills]+[palicombatskilltab]/2 >= 2
-
 // ##### Gloves ########################
 //// Prefix
 // max mana = 40
 // bow|java|martial sk = 2 || 3
+// max single res = 30
 //// Suffix
 // max ias = 20
 // max str = 15
@@ -11,68 +10,105 @@
 // max ll = 3
 // max ml = 3
 // self repair
-[Type] == gloves && [Quality] == rare && [Flag] != ethereal # [javelinandspearskilltab]+[bowandcrossbowskilltab]+[martialartsskilltab] == 2 && [IAS] == 20 && ([Strength] >= 10 || [Dexterity] >= 10)
-[Type] == gloves && [Quality] == rare && [Flag] != ethereal # [javelinandspearskilltab]+[bowandcrossbowskilltab]+[martialartsskilltab] == 2 && [IAS] == 20 && ([Strength] >= 10 || [Dexterity] >= 10)
+[Type] == gloves && [Quality] == magic && [Flag] != ethereal # [javelinandspearskilltab] == 3 && [IAS] == 20
+// [Type] == gloves && [Quality] == rare && [Flag] != ethereal # [FireResist]+[ColdResist]+[lightresist] >= 45
+// [Type] == gloves && [Quality] == rare && [Flag] != ethereal # [javelinandspearskilltab]+[bowandcrossbowskilltab] == 2 && [IAS] == 20 && ([Strength] >= 10 || [Dexterity] >= 10)
+[Type] == gloves && [Quality] == rare && [Flag] != ethereal # [javelinandspearskilltab]+[bowandcrossbowskilltab] == 2 && [IAS] == 20 && ([Strength] >= 10 || [Dexterity] >= 10) && (([FireResist] > 0 && [ColdResist] > 0) || ([FireResist] > 0 && [LightResist] > 0) || ([ColdResist] > 0 && [LightResist] > 0))
+[Type] == gloves && [Quality] == rare && [Flag] != ethereal # [javelinandspearskilltab]+[bowandcrossbowskilltab] == 2 && [IAS] == 20 && [Strength] == 15 && [Dexterity] == 15 && [FireResist]+[ColdResist]+[LightResist] > 0
+[Type] == gloves && [Quality] == rare && [Flag] == ethereal # [javelinandspearskilltab]+[bowandcrossbowskilltab] == 2 && [IAS] == 20 && ([Strength] >= 10 || [Dexterity] >= 10) && [itemreplenishdurability] > 0
+
 [Type] == gloves && [Quality] == rare && [Flag] != ethereal # [IAS] == 20 && [Strength]+[Dexterity] >= 20
-[Type] == gloves && [Quality] == rare && [Flag] != ethereal # [IAS] == 20 && [Strength]+[Dexterity] >= 25
-[Type] == gloves && [Quality] == rare && [Flag] != ethereal # [IAS] == 20 && [Strength]+[Dexterity] == 30
+[Type] == gloves && [Quality] == rare && [Flag] != ethereal # [IAS] == 20 && [Strength]+[Dexterity] >= 20 && [FireResist]+[ColdResist]+[LightResist] > 30
+// [Type] == gloves && [Quality] == rare && [Flag] != ethereal # [IAS] == 20 && [Strength]+[Dexterity] >= 25
+// [Type] == gloves && [Quality] == rare && [Flag] != ethereal # [IAS] == 20 && [Strength]+[Dexterity] == 30
 [Type] == gloves && [Quality] == rare && [Flag] != ethereal # [IAS] == 20 && [lifeleech] == 3 && ([strength] >= 10 || [Dexterity] >= 10)
-[Type] == gloves && [Quality] == rare && [Flag] == ethereal # [javelinandspearskilltab]+[bowandcrossbowskilltab]+[martialartsskilltab] == 2 && [IAS] == 20 && ([Strength] >= 10 || [Dexterity] >= 10) && [itemreplenishdurability] > 0
 
 
 // ##### Belts #########################
 //// Prefix
 // max mana = 30
+// max single res = 30
 //// Suffix
 // max str = 30
 // max life = 60 || 100
 // max fhr = 24
 // self repair
-(([Name] == PlatedBelt) || ([Type] == Belt && [Class] >= exceptional)) && [Quality] == rare && [Flag] != ethereal # [FHR] == 24 && [Strength]+[MaxHP] >= 70
-(([Name] == PlatedBelt) || ([Type] == Belt && [Class] >= exceptional)) && [Quality] == rare && [Flag] != ethereal # [FHR] == 24 && [Strength]+[MaxHP] == 90
-(([Name] == PlatedBelt) || ([Type] == Belt && [Class] >= exceptional)) && [Quality] == rare && [Flag] == ethereal # [FHR] == 24 && [Strength] >= 28 && [itemreplenishdurability] > 0
+// (([Name] == PlatedBelt) || ([Type] == Belt && [Class] >= exceptional)) && ([Quality] == rare || [Quality] == magic) && [Flag] != ethereal # [strreq] <= 60 && [dexreq] <= 60 && [FireResist]+[ColdResist]+[lightresist] >= 40
+(([Name] == PlatedBelt) || ([Type] == Belt && [Class] >= exceptional)) && [Quality] == rare && [Flag] != ethereal # [FHR] == 24 && [Strength] >= 20 && [MaxHP] >= 50
+(([Name] == PlatedBelt) || ([Type] == Belt && [Class] >= exceptional)) && [Quality] == rare && [Flag] != ethereal # [FHR] == 24 && [Strength] >= 25 && [MaxHP] >= 50
+// (([Name] == PlatedBelt) || ([Type] == Belt && [Class] >= exceptional)) && [Quality] == rare && [Flag] != ethereal # [FHR] == 24 && [Strength]+[MaxHP] == 90
+(([Name] == PlatedBelt) || ([Type] == Belt && [Class] >= exceptional)) && [Quality] == rare && [Flag] == ethereal # [FHR] == 24 && [Strength] >= 25 && [itemreplenishdurability] > 0
 
 
 // ##### Boots #########################
 //// Prefix
 // max mana = 40
-// max signle res = 40
+// max single res = 40
 //// Suffix
 // max dex = 9
 // max frw = 30
 // max fhr = 10
-[Type] == boots && [Quality] == rare && [Flag] != ethereal # [FRW] == 30 && [FHR] == 10 && [Dexterity] > 0 && [FireResist]+[LightResist]+[ColdResist] >= 60
-[Type] == boots && [Quality] == rare && [Flag] != ethereal # [FRW] == 30 && [FHR] == 10 && [FireResist]+[LightResist]+[ColdResist] >= 75
-[Type] == boots && [Quality] == rare && [Flag] != ethereal # [FRW] == 30 && [FHR] == 10 && [FireResist]+[LightResist]+[ColdResist] >= 90
-[Type] == boots && [Quality] == rare && [Flag] != ethereal # [FRW] == 30 && [FHR] == 10 && [FireResist]+[LightResist]+[ColdResist] == 120
-[Type] == boots && [Quality] == rare && [Flag] != ethereal # [FRW] == 30 && [FHR] == 10 && [FireResist]+[LightResist]+[ColdResist] == 120 && [dexterity] == 9
+// [Type] == boots && ([name] <= meshboots || [name] == wyrmhideboots) && [flag] != ethereal # [FireResist]+[LightResist]+[ColdResist] >= 45
+[Type] == boots && [Quality] == rare && [Flag] != ethereal # [FRW] == 30 && [FHR] == 10 && [Dexterity] > 0 && [FireResist]+[LightResist]+[ColdResist] >= 60 // dual res 30+  or  tri res 20+
+[Type] == boots && [Quality] == rare && [Flag] != ethereal # [FRW] == 30 && [FHR] == 10 && [FireResist]+[LightResist]+[ColdResist] >= 75 // dual res 37+ or tri res 25+
+// [Type] == boots && [Quality] == rare && [Flag] != ethereal # [FRW] == 30 && [FHR] == 10 && [FireResist]+[LightResist]+[ColdResist] >= 90 // tri res 30+
+// [Type] == boots && [Quality] == rare && [Flag] != ethereal # [FRW] == 30 && [FHR] == 10 && [FireResist]+[LightResist]+[ColdResist] == 120 // tri res 40
+// [Type] == boots && [Quality] == rare && [Flag] != ethereal # [FRW] == 30 && [FHR] == 10 && [FireResist]+[LightResist]+[ColdResist] == 120 && [dexterity] == 9
 
+// eth self rep
 [Type] == boots && [Quality] == rare && [Flag] == ethereal # [FRW] == 30 && [FHR] == 10 && [Dexterity] > 0 && [FireResist]+[LightResist]+[ColdResist] >= 60 && [itemreplenishdurability] > 0
 [Type] == boots && [Quality] == rare && [Flag] == ethereal # [FRW] == 30 && [FHR] == 10 && [FireResist]+[LightResist]+[ColdResist] >= 75 && [itemreplenishdurability] > 0
-[Type] == boots && [Quality] == rare && [Flag] == ethereal # [FRW] == 30 && [FHR] == 10 && [FireResist]+[LightResist]+[ColdResist] >= 90 && [itemreplenishdurability] > 0
-[Type] == boots && [Quality] == rare && [Flag] == ethereal # [FRW] == 30 && [FHR] == 10 && [FireResist]+[LightResist]+[ColdResist] == 120 && [itemreplenishdurability] > 0
+// [Type] == boots && [Quality] == rare && [Flag] == ethereal # [FRW] == 30 && [FHR] == 10 && [FireResist]+[LightResist]+[ColdResist] >= 90 && [itemreplenishdurability] > 0
+// [Type] == boots && [Quality] == rare && [Flag] == ethereal # [FRW] == 30 && [FHR] == 10 && [FireResist]+[LightResist]+[ColdResist] == 120 && [itemreplenishdurability] > 0
 
 
 // ##### Weapons #######################
 //// Prefix
-// max ed = 200 || 300
+// +all skills = 2 || 0   and   +skills tab = 2 || 3
+// max ed = 300
 // max ar = 300 || 450
-// max ar/dmg per lvl = 16.5/0.5
+// max ar/max per lvl = 16.5/0.5 (fool's prefix)
 // max ar/ed = 250/150 || 300/200
 //// Suffix
 // self repair
 // max sox = 2 || 4
+// max ias = 20 (all) / 40 (melee)
+// max min dmg = 20
+// max max dmg = 20 || 63
+// max ll = 5 (all) / 9 (melee)
+
 // [Type] == Javelin && [Quality] == magic # [warcriesskilltab] == 3
-[Name] == GreaterTalons && [Quality] == magic && [Class] >= exceptional # ([Sockets] == 0 || [Sockets] == 2) && ([assassinskills]+[skilllightningsentry] == 5 || [trapsskilltab]+[skilllightningsentry] == 6 || [assassinskills]+[skillvenom] == 5 || [ShadowDisciplinesSkillTab]+[skillvenom] == 6)
+[Name] == GreaterTalons && [Quality] == magic # ([Sockets] == 0 || [Sockets] == 2) && ([assassinskills]+[skilllightningsentry] == 5 || [trapsskilltab]+[skilllightningsentry] == 6 || [assassinskills]+[skillvenom] == 5 || [ShadowDisciplinesSkillTab]+[skillvenom] == 6)
 [Type] == AssassinClaw && [Quality] == rare # [Sockets] == 2 && [assassinskills]+[skilllightningsentry] == 5 && [ias] >= 20
 [Type] == AssassinClaw && [Quality] == rare # ([assassinskills] >= 1 || [trapsskilltab] >= 1) && [ias] >= 30 && [enhanceddamage] >= 100 && [itemtohitperlevel] > 0 && [itemmaxdamageperlevel] > 0
-[Type] == AmazonJavelin && [Quality] == magic # ([amazonskills]+[javelinandspearskilltab] == 5 && [ias] == 40) || ([amazonskills]+[javelinandspearskilltab] == 6 && [ias] >= 30)
-[Type] == AmazonJavelin && [Quality] == rare # [amazonskills]+[javelinandspearskilltab] == 4 && [ias] == 40
-([Type] == scepter || [Type] == axe || [Type] == club || [Type] == sword || [Type] == hammer || [Type] == knife || [Type] == mace) && [Quality] == rare && [Flag] != ethereal # [ias] >= 30 && [EnhancedDamage] >= 190 && [itemtohitperlevel] > 0 && [itemmaxdamageperlevel] > 0 && [Sockets] == 2
-([Type] == scepter || [Type] == axe || [Type] == club || [Type] == sword || [Type] == hammer || [Type] == knife || [Type] == mace) && [Quality] == rare && [Flag] == ethereal # [ias] >= 30 && [EnhancedDamage] >= 190 && [itemtohitperlevel] > 0 && [itemmaxdamageperlevel] > 0 && [itemreplenishdurability] > 0
-([Name] == 280 || [Name] == swirlingcrystal || [Name] == dimensionalshard) && [Quality] == magic # ([Sockets] == 0 || [Sockets] == 2) && ([sorceressskills]+[skillfrozenorb] == 5 || [coldskilltab]+[skillfrozenorb] == 6 || [sorceressskills]+[skillblizzard] == 5 || [coldskilltab]+[skillblizzard] == 6 || [sorceressskills]+[skillfireball] == 5 || [fireskilltab]+[skillfireball] == 6 || [sorceressskills]+[skilllightning] == 5 || [lightningskilltab]+[skilllightning] == 6) && [fcr] == 20
+
+[Type] == AmazonJavelin && [Quality] == magic && [flag] != ethereal # [amazonskills]+[javelinandspearskilltab]*[ias] >= 180 // 5/40 or 6/30 or 6/40
+[Type] == AmazonJavelin && [Quality] == rare && [flag] != ethereal # [amazonskills]+[javelinandspearskilltab] == 4 && [ias] == 40 // 4/40
+[Type] == AmazonJavelin && [Quality] == rare # [amazonskills]+[javelinandspearskilltab] == 4 && [ias] >= 30 && ([itemreplenishquantity] > 0 || [itemreplenishdurability] > 0) // 4/30 or 4/40 self rep
+[Type] == AmazonJavelin && [Quality] == rare && [flag] == ethereal # [amazonskills]+[javelinandspearskilltab] == 4 && [ias] >= 30 && ([itemreplenishquantity] > 0 || [itemreplenishdurability] > 0) // 4/30 or 4/40 eth self rep
+
+([Name] == 280 || [Name] == swirlingcrystal || [Name] == dimensionalshard) && [Quality] == magic # [Sockets] != 1 && ([sorceressskills]+[skillfrozenorb] == 5 || [coldskilltab]+[skillfrozenorb] == 6 || [sorceressskills]+[skillblizzard] == 5 || [coldskilltab]+[skillblizzard] == 6 || [sorceressskills]+[skillfireball] == 5 || [fireskilltab]+[skillfireball] == 6 || [sorceressskills]+[skilllightning] == 5 || [lightningskilltab]+[skilllightning] == 6) && [fcr] == 20
 [Type] == sorceressitem && [Quality] == rare # [Sockets] == 2 && ([sorceressskills]+[skillfrozenorb] == 5 || [coldskilltab]+[skillfrozenorb] == 5 || [sorceressskills]+[skillblizzard] == 5 || [coldskilltab]+[skillblizzard] == 5 || [sorceressskills]+[skillfireball] == 5 || [fireskilltab]+[skillfireball] == 5 || [sorceressskills]+[skilllightning] == 5 || [lightningskilltab]+[skilllightning] == 5) && [fcr] == 20
 
+[type] == orb && [quality] == rare # [sorceressskills] == 2 && [fcr] == 20 && [Sockets] == 2 && [skillfireball]+[skillfiremastery] == 6
+[type] == orb && [quality] == rare # [sorceressskills] == 2 && [fcr] == 20 && [Sockets] == 2 && [skillfireball]+[skillmeteor] == 6
+[type] == orb && [quality] == rare # [sorceressskills] == 2 && [fcr] == 20 && [Sockets] == 2 && [skillblizzard]+[skillcoldmastery] == 6
+[type] == orb && [quality] == rare # [sorceressskills] == 2 && [fcr] == 20 && [Sockets] == 2 && [skillfrozenorb]+[skillcoldmastery] == 6
+[type] == orb && [quality] == rare # [sorceressskills] == 2 && [fcr] == 20 && [Sockets] == 2 && [skilllightning]+[skilllightningmastery] == 6
+
+[type] == orb && [quality] == magic # [fcr] == 20 && ([sorceressskills] == 2 || [fireskilltab] == 3) && [skillfireball]+[skillfiremastery] == 6
+[type] == orb && [quality] == magic # [fcr] == 20 && ([sorceressskills] == 2 || [fireskilltab] == 3) && [skillfireball]+[skillmeteor] == 6
+[type] == orb && [quality] == magic # [fcr] == 20 && ([sorceressskills] == 2 || [coldskilltab] == 3) && [skillblizzard]+[skillcoldmastery] == 6
+[type] == orb && [quality] == magic # [fcr] == 20 && ([sorceressskills] == 2 || [coldskilltab] == 3) && [skillfrozenorb]+[skillcoldmastery] == 6
+[type] == orb && [quality] == magic # [fcr] == 20 && ([sorceressskills] == 2 || [lightningskilltab] == 3) && [skilllightning]+[skilllightningmastery] == 6
+
+// ([type] == sword || [type] == axe) && [quality] == rare && [Class] == elite && [flag] == ethereal # [enhanceddamage] >= 250 && [itemtohitperlevel] >= 1 || [enhanceddamage] >= 400
+([Type] == scepter || [Type] == axe || [Type] == club || [Type] == sword || [Type] == hammer || [Type] == knife || [Type] == mace) && [quality] == rare && [flag] == ethereal # [ias] > 0 && ([enhanceddamage] >= 250 && [itemtohitperlevel] > 0 || [enhanceddamage] >= 350)
+([Type] == scepter || [Type] == axe || [Type] == club || [Type] == sword || [Type] == hammer || [Type] == knife || [Type] == mace) && [quality] == rare && [flag] == ethereal # [ias] > 0 && ([enhanceddamage] >= 250 && [itemtohitperlevel] > 0 || [enhanceddamage] >= 350) && [itemreplenishdurability] > 0
+([Type] == scepter || [Type] == axe || [Type] == club || [Type] == sword || [Type] == hammer || [Type] == knife || [Type] == mace) && [quality] == rare && [flag] == ethereal # [ias] >= 30 && ([enhanceddamage] >= 250 && [itemtohitperlevel] > 0 || [enhanceddamage] >= 350)
+([Type] == scepter || [Type] == axe || [Type] == club || [Type] == sword || [Type] == hammer || [Type] == knife || [Type] == mace) && [quality] == rare && [flag] == ethereal # [ias] >= 30 && ([enhanceddamage] >= 250 && [itemtohitperlevel] > 0 || [enhanceddamage] >= 350) && [sockets] == 2
+
+[Type] == scepter && [Quality] == magic && [Flag] != ethereal # [palicombatskilltab]+[skillfistoftheheavens] == 6
 
 // ##### Shields #######################
 // max FBR = 30
@@ -83,7 +119,6 @@
 // max @ = 20 || 30
 // [Name] == Monarch && [Quality] == magic && [Flag] != ethereal # [Sockets] == 4 && [FBR] >= 15
 [Name] == Monarch && [Quality] == magic && [Flag] != ethereal # [Sockets] == 4 && [FBR] == 30
-[Name] == Ward && [Quality] == magic && [Flag] != ethereal # [Sockets] == 4 && [FBR] == 30
 ([Name] == TowerShield || [Name] == KiteShield) && [Quality] == magic && [Flag] != ethereal # [Sockets] == 3 && [FBR] == 30
 [Type] == shield && [quality] == rare && [Flag] != ethereal # [Sockets] == 2 && [FBR] == 30 && [FHR] == 17 && [FireResist]+[LightResist]+[ColdResist] >= 50
 [Type] == shield && [quality] == rare && [Flag] == ethereal # [Sockets] == 2 && [FBR] == 30 && [FHR] == 17 && [itemreplenishdurability] > 0
@@ -95,10 +130,30 @@
 // max sockets = 2 || 4
 [Type] == armor && [Quality] == magic # [Sockets] == 4 && [FHR] == 24
 [Type] == armor && [Quality] == magic # [Sockets] == 4 && [maxhp] >= 90
-[Type] == armor && [Quality] == magic # [Sockets] == 4 && [maxhp] == 100
+// [Type] == armor && [Quality] == magic # [Sockets] == 4 && [maxhp] == 100
+
+// rare
+// prefixes
+//   ed = 10 - 200
+//   mana = 1 - 40
+//   single res = 5 - 40
+//   sockets = 0 - 2
+// suffixes
+//   str = 1 - 20
+//   dex = 1 - 9
+//   life = 1 - 60
+//   fhr = 10 | 17 | 24
+//   req = -20 | -30
+//   self rep
+// [Type] == armor && [flag] != ethereal # [strreq] <= 70 && [dexreq] <= 70 && [FireResist]+[ColdResist]+[lightresist] >= 60
+[Type] == armor && [Quality] == rare && [Class] == elite && [flag] == ethereal # [Sockets] == 2 && [enhanceddefense] >= 180 && [mana] >= 30 && [itemreplenishdurability] > 0 && (([strength]-1)/19 + ([dexterity]-1)/8 + ([fhr]-10)/14 + ([maxhp]-1)/59 > 1)
 
 
 // ##### Helms #########################
+// rare
+// prefixes
+//   single res = 30
+// [Type] == helm && [Quality] == rare && [flag] != ethereal # [FireResist]+[ColdResist]+[lightresist] >= 45
 [Type] == helm && [Quality] == rare # [Sockets] == 2 && [itemtohitpercentperlevel] > 0 && [maxhp] > 0 && [enhanceddefense] > 0 && ([fhr] == 10 || [itemtohitpercent] > 0)
 [Type] == primalhelm && [Quality] == rare # [BarbarianSkills]+[SkillBattleOrders] == 5 && [itemtohitpercentperlevel] > 0 && [fhr] == 10
 [Type] == primalhelm && [Quality] == magic # [BarbarianSkills]+[SkillBattleOrders] == 5 || [WarCriesSkillTab]+[SkillBattleOrders] == 6
@@ -126,18 +181,25 @@
 // max FRW = 30
 
 [Type] == circlet && [Quality] == magic && [Flag] != ethereal # [Sockets] == 3 && ([FRW] == 30 || [MaxHP] >= 90 || [Strength] >= 20 || [Dexterity] >= 20 || [FCR] == 20)
-[Type] == circlet && [Quality] == magic && [Flag] != ethereal # ([poisonandboneskilltab] == 3 || [fireskilltab] == 3 || [lightningskilltab] == 3 || [coldskilltab] == 3) && [FCR] == 20
+[Type] == circlet && [Quality] == magic && [Flag] != ethereal # [trapsskilltab]+[necromancersummoningskilltab]+[poisonandboneskilltab]+[fireskilltab]+[lightningskilltab]+[coldskilltab]+[palicombatskilltab]+[elementalskilltab] == 3 && ([FCR] == 20 || [MaxHP] >= 80)
 [Type] == circlet && [Quality] == magic && [Flag] != ethereal # [itemaddclassskills] == 2 && [FCR] == 20
-[Type] == circlet && [Quality] == magic && [Flag] != ethereal # ([necromancersummoningskilltab] == 3 || [palicombatskilltab] == 3 || [trapsskilltab] == 3 || [poisonandboneskilltab] == 3 || [fireskilltab] == 3 || [lightningskilltab] == 3 || [coldskilltab] == 3 || [elementalskilltab] == 3) && [maxhp] >= 80
-[Type] == circlet && [Quality] == magic && [Flag] != ethereal # [amazonskills] == 2 && [FRW] == 30
+[Type] == circlet && [Quality] == magic && [Flag] != ethereal # ([amazonskills] == 2 || [javelinandspearskilltab] == 3) && [FRW] == 30
+
+// [Type] == circlet && [Quality] == rare # [FireResist]+[ColdResist]+[lightresist] >= 60
 
 [Type] == circlet && [Quality] == rare # [paladinskills] == 2 && (([FCR] == 20 && [maxhp] > 0 && [dexterity] >= 10) || ([itemtohitpercentperlevel] > 0 && [FRW] == 30)) && [Sockets] == 2
+
 [Type] == circlet && [Quality] == rare # ([sorceressskills] == 2 || [fireskilltab] == 2 || [lightningskilltab] == 2 || [coldskilltab] == 2) && [FCR] == 20 && [maxmana] > 0 && [strength] >= 10 && [Sockets] == 2
+
 [Type] == circlet && [Quality] == rare # ([necromancerskills] == 2 || [poisonandboneskilltab] == 2) && [FCR] == 20 && [dexterity] >= 15 && [maxhp] > 0 && [Sockets] == 2
+
 [Type] == circlet && [Quality] == rare # ([assassinskills] == 2 || [trapsskilltab] == 2) && (([FCR] == 20 && [strength] >= 15 && [maxhp] > 0) || ([itemtohitpercentperlevel] > 0 && [frw] == 30 && [maxhp] > 0)) && [Sockets] == 2
+
 [Type] == circlet && [Quality] == rare # [druidskills] == 2 && [FCR] == 20 && [dexterity] >= 15 && [maxhp] > 0 && [Sockets] == 2
 [Type] == circlet && [Quality] == rare # ([druidskills] == 2 || [shapeshiftingskilltab] == 2) && [itemtohitpercentperlevel] > 0 && [frw] == 30 && [maxhp] > 0 && [Sockets] == 2
+
 [Type] == circlet && [Quality] == rare # [barbarianskills] == 2 && [dexterity] >= 10 && [itemtohitpercentperlevel] > 0 && [Sockets] == 2
+
 [Type] == circlet && [Quality] == rare # [amazonskills] == 2 && (([FCR] == 20 && [strength]+[dexterity] >= 20 && [maxhp] > 0) || ([Frw] == 30 && [dexterity] >= 20)) && [Sockets] == 2
 
 
@@ -155,7 +217,10 @@
 // max ll = 9
 // max ml = 9
 // max fcr = 10
-[Type] == ring && [Quality] == magic # [ItemMagicBonus] >= 38
+// [Type] == ring && [Quality] == magic # [ItemMagicBonus] >= 38
+[Type] == ring && [Quality] == magic # [ItemMagicBonus] == 40
+
+// [Type] == ring # [coldresist]+[lightresist]+[FireResist] > 30
 // [Type] == ring && [Quality] == rare  && [Flag] != identified               // unid rare rings
 // [Type] == ring && [Quality] == rare # [Dexterity]+[strength] >= 20 && [manaleech] > 0 && [lifeleech] > 5
 // [Type] == ring && [Quality] == rare # [strength] >= 18 && ([maxhp] >= 35 || [maxmana] >= 80)
@@ -164,15 +229,18 @@
 // [Type] == ring && [Quality] == rare # [Dexterity]+[strength] >= 15 && ([maxhp] >= 25 || [maxmana] >= 50) && [tohit] >= 100
 // [Type] == ring && [Quality] == rare # [FCR] == 10 && ([Dexterity] >= 10 || [strength] >= 10) && ([maxhp] >= 25 || [maxmana] >= 50) && ([FireResist] >= 10 || [LightResist] >= 10 || [ColdResist] >= 10)
 // [Type] == ring && [Quality] == rare # [FCR] == 10 && [tohit] >= 80 && ([maxhp] >= 25 || [maxmana] >= 50) && ([FireResist] >= 10 || [LightResist] >= 10 || [ColdResist] >= 10)
-[Type] == ring && [Quality] == rare # [strength] >= 15 && [lightresist]+[fireresist]+[coldresist] >= 40
-[Type] == ring && [Quality] == rare # [FCR] == 10 && [maxmana]+[MaxHP] >= 100
-[Type] == ring && [Quality] == rare # [FCR] == 10 && [Strength] >= 15 && ([FireResist] >= 15 || [LightResist] >= 15 || [ColdResist] >= 15) && [MaxHP] >= 20
-[Type] == ring && [Quality] == rare # [FCR] == 10 && [Strength]+[Dexterity] >= 25 && [FireResist]+[LightResist]+[ColdResist]+[PoisonResist] >= 30
-[Type] == ring && [Quality] == rare # [FCR] == 10 && [Strength]+[Dexterity] >= 30 && [FireResist]+[LightResist]+[ColdResist]+[PoisonResist] >= 30
-[Type] == ring && [Quality] == rare # [ToHit] >= 100 && [Strength]+[Dexterity] >= 25 && [LifeLeech] >= 7
-[Type] == ring && [Quality] == rare # [ToHit] >= 100 && [Strength]+[Dexterity] >= 30 && [LifeLeech] >= 7
-[Type] == ring && [Quality] == rare # [ToHit] >= 100 && ([Strength] >= 18 || [Dexterity] >= 12) && [LifeLeech] >= 7 && [ManaLeech] > 0
-[Type] == ring && [Quality] == rare # [ToHit] >= 100 && ([Strength] >= 15 || [Dexterity] >= 10) && [LifeLeech] >= 7 && [FireResist]+[LightResist]+[ColdResist]+[PoisonResist] >= 36
+// [Type] == ring && [Quality] == rare # [FCR] == 10 && [Strength]+[Dexterity]+[FireResist]+[LightResist]+[ColdResist]+[MaxHP] > 0
+// [Type] == ring && [Quality] == rare # [strength] >= 15 && [lightresist]+[fireresist]+[coldresist] >= 40
+[Type] == ring && [Quality] == rare # [FCR] == 10 && [Strength]+[dexterity] >= 20 && [maxmana] > 0 && [lightresist]+[fireresist]+[coldresist] > 0
+[Type] == ring && [Quality] == rare # [FCR] == 10 && [Strength] >= 15 && [MaxHP] > 0 && [maxmana] > 0 && [lightresist]+[fireresist]+[coldresist] > 0
+[Type] == ring && [Quality] == rare # [FCR] == 10 && [maxmana]+[MaxHP] >= 100 && [Strength]+[dexterity] > 0
+[Type] == ring && [Quality] == rare # [FCR] == 10 && [Strength] >= 15 && [MaxHP] >= 30 && [FireResist]+[LightResist]+[ColdResist] >= 34
+[Type] == ring && [Quality] == rare # [ToHit] >= 100 && [Strength]+[Dexterity] >= 25 && [LifeLeech] >= 7 && [FireResist]+[LightResist]+[ColdResist] > 0
+// [Type] == ring && [Quality] == rare # [ToHit] >= 100 && [Strength]+[Dexterity] >= 30 && [LifeLeech] >= 7 && [FireResist]+[LightResist]+[ColdResist] > 0
+[Type] == ring && [Quality] == rare # [ToHit] >= 100 && ([Strength] >= 15 || [Dexterity] >= 10) && [LifeLeech] >= 7 && [ManaLeech] > 0
+[Type] == ring && [Quality] == rare # [ToHit] >= 100 && ([Strength] >= 15 || [Dexterity] >= 10) && [LifeLeech] >= 7 && [FireResist]+[LightResist]+[ColdResist] >= 27
+[Type] == ring && [Quality] == rare # [ToHit] >= 70 && [MaxHP] > 0 && [ToHit]+[MaxHP] > 100 && [Strength] >= 15 && [Dexterity] >= 10 && [FireResist] > 0 && [LightResist] > 0 && [ColdResist] > 0
+[type] == ring && [quality] == rare # [itemlevelreq] <= 9 && [ToHit] >= 80 && [strength] >= 2 && [dexterity] >= 2 && [hpregen] >= 5
 
 
 // ##### Amulets #######################
@@ -198,15 +266,19 @@
 // max ml = 9
 // [Type] == amulet && [Quality] >= magic # [ItemGoldBonus] >= 70
 // [Type] == amulet && [Quality] >= magic # [ItemGoldBonus] == 80
+// [Type] == amulet # [fireresist]+[coldresist]+[lightresist] >= 60
 [Type] == amulet && [Quality] == rare # [itemaddclassskills] == 2 && [FCR] == 10 && ([strength] >= 20 || [dexterity] >= 12) && [maxhp] >= 40 && [maxmana] > 0 && [fireresist]+[coldresist]+[lightresist] > 0
-[Type] == amulet && [Quality] == rare # [itemaddclassskills] == 2 && [FCR] == 10 && ([strength] >= 25 || [dexterity] >= 15) && [maxhp] >= 50 && [maxmana] >= 50 && [fireresist]+[coldresist]+[lightresist] >= 30
-[Type] == amulet && [Quality] == rare # [itemaddclassskills] == 2 && [FCR] == 10 && ([strength] >= 25 || [dexterity] >= 15) && [maxhp] >= 50 && [maxmana] >= 50 && [fireresist]+[coldresist]+[lightresist] >= 50
+// [Type] == amulet && [Quality] == rare # [itemaddclassskills] == 2 && [FCR] == 10 && ([strength] >= 25 || [dexterity] >= 15) && [maxhp] >= 50 && [maxmana] >= 50 && [fireresist]+[coldresist]+[lightresist] >= 30
+// [Type] == amulet && [Quality] == rare # [itemaddclassskills] == 2 && [FCR] == 10 && ([strength] >= 25 || [dexterity] >= 15) && [maxhp] >= 50 && [maxmana] >= 50 && [fireresist]+[coldresist]+[lightresist] >= 50
+[Type] == amulet && [Quality] == rare # [paladinskills] == 2 && [dexterity] >= 5 && [strength] >= 5 && [maxhp] > 0 && [fireresist]+[coldresist]+[lightresist] > 0
 [Type] == amulet && [Quality] == rare # [paladinskills] == 2 && [FCR] == 10 && [dexterity] >= 10 && [maxhp] >= 30
-[Type] == amulet && [Quality] == rare # [paladinskills] == 2 && [FCR] == 10 && [dexterity] >= 15 && [maxhp] >= 50 && [fireresist]+[coldresist]+[lightresist] > 0
-[Type] == amulet && [Quality] == rare # [paladinskills] == 2 && [FCR] == 10 && [dexterity] >= 15 && [maxhp] >= 50 && [fireresist]+[coldresist]+[lightresist] >= 50
+// [Type] == amulet && [Quality] == rare # [paladinskills] == 2 && [FCR] == 10 && [dexterity] >= 15 && [maxhp] >= 50 && [fireresist]+[coldresist]+[lightresist] > 0
+// [Type] == amulet && [Quality] == rare # [paladinskills] == 2 && [FCR] == 10 && [dexterity] >= 15 && [maxhp] >= 50 && [fireresist]+[coldresist]+[lightresist] >= 50
+[Type] == amulet && [Quality] == rare # [sorceressskills] == 2 && [FCR] == 10 && [strength] >= 15 && [maxhp] > 0 && [fireresist]+[coldresist]+[lightresist] >= 50
 [Type] == amulet && [Quality] == rare # [sorceressskills] == 2 && [FCR] == 10 && [strength] >= 20 && [maxmana] >= 50
-[Type] == amulet && [Quality] == rare # [sorceressskills] == 2 && [FCR] == 10 && [strength] >= 20 && [maxmana] >= 70 && [fireresist]+[coldresist]+[lightresist] > 0
-[Type] == amulet && [Quality] == rare # [sorceressskills] == 2 && [FCR] == 10 && [strength] >= 20 && [maxmana] >= 70 && [fireresist]+[coldresist]+[lightresist] >= 50
+// [Type] == amulet && [Quality] == rare # [sorceressskills] == 2 && [FCR] == 10 && [strength] >= 20 && [maxmana] >= 70 && [fireresist]+[coldresist]+[lightresist] > 0
+// [Type] == amulet && [Quality] == rare # [sorceressskills] == 2 && [FCR] == 10 && [strength] >= 20 && [maxmana] >= 70 && [fireresist]+[coldresist]+[lightresist] >= 50
+[type] == amulet && [quality] == rare # [itemlevelreq] <= 9 && [strength] >= 5 && [dexterity] >= 5 && [hpregen] >= 5 && ([ToHit] > 0 || [MaxHP] > 0)
 
 
 // ##### Jewels ########################
@@ -262,6 +334,8 @@
 // psn dmg = 50
 // [name] == smallcharm && [quality] == magic # [itemgoldbonus] == 10
 [name] == smallcharm && [quality] == magic # [itemmagicbonus] == 7
+[name] == smallcharm && [quality] == magic # [itemmagicbonus] == 7 && [maxmana] > 12
+[name] == smallcharm && [quality] == magic # [itemmagicbonus] == 7 && ([fireresist] == 5 && [lightresist] == 5 || [fireresist] == 11 || [lightresist] == 11 || [coldresist] == 11 || [maxmana] == 17)
 [name] == smallcharm && [quality] == magic # [fireresist]+[lightresist]+[coldresist] == 15
 [name] == smallcharm && [quality] == magic # [maxdamage] == 3 && [tohit]+[maxhp] >= 34
 [name] == smallcharm && [quality] == magic # [maxhp] == 20 && [maxdamage] == 3 && [tohit] == 20
@@ -269,53 +343,51 @@
 [name] == smallcharm && [quality] == magic # [maxhp] >= 18 && ([fireresist] == 5 && [lightresist] == 5 || [fireresist] == 11 || [lightresist] == 11 || [coldresist] == 11)
 [name] == smallcharm && [quality] == magic # [maxhp] == 20 && ([fireresist] == 5 && [lightresist] == 5 || [fireresist] == 11 || [lightresist] == 11 || [coldresist] == 11)
 [name] == smallcharm && [quality] == magic # [maxhp]+[maxmana] >= 35
-[name] == smallcharm && [quality] == magic # [maxhp]+[maxmana] == 37
+// [name] == smallcharm && [quality] == magic # [maxhp]+[maxmana] == 37
 [name] == smallcharm && [quality] == magic # [fhr] == 5 && ([tohit] == 36 || [maxdamage] == 3 && [ToHit] >= 17)
-[name] == smallcharm && [quality] == magic # [fhr] == 5 && ([tohit] == 36 || [maxdamage] == 3 && [ToHit] == 20)
-[name] == smallcharm && [quality] == magic # [fhr] == 5 && ([fireresist] == 5 && [lightresist] == 5 || [fireresist] == 11 || [lightresist] == 11 || [coldresist] == 11)
-[name] == smallcharm && [quality] == magic # [fhr] == 5 && [maxmana] == 17
+// [name] == smallcharm && [quality] == magic # [fhr] == 5 && ([tohit] == 36 || [maxdamage] == 3 && [ToHit] == 20)
+[name] == smallcharm && [quality] == magic # [fhr] == 5 && ([fireresist] == 5 && [lightresist] == 5 || [fireresist] == 11 || [lightresist] == 11 || [coldresist] == 11 || [maxmana] == 17)
 [name] == smallcharm && [quality] == magic # [frw] == 3 && ([tohit] == 36 || [maxdamage] == 3 && [ToHit] >= 17)
-[name] == smallcharm && [quality] == magic # [frw] == 3 && ([fireresist] == 5 && [lightresist] == 5 || [fireresist] == 11 || [lightresist] == 11 || [coldresist] == 11)
-[name] == smallcharm && [quality] == magic # [frw] == 3 && [maxmana] == 17
-[name] == smallcharm && [quality] == magic # [itemmagicbonus] == 7 && ([fireresist] == 5 && [lightresist] == 5 || [fireresist] == 11 || [lightresist] == 11 || [coldresist] == 11)
-[name] == smallcharm && [quality] == magic # [itemmagicbonus] == 7 && [maxmana] == 17
+[name] == smallcharm && [quality] == magic # [frw] == 3 && ([fireresist] == 5 && [lightresist] == 5 || [fireresist] == 11 || [lightresist] == 11 || [coldresist] == 11 || [maxmana] == 17)
 [name] == smallcharm && [quality] == magic # [lightmaxdam] == 99 || [firemindam] == 26 && [firemaxdam] == 42 || [coldmindam] == 15 && [coldmaxdam] == 29
 [name] == smallcharm && [quality] == magic # [poisonmaxdam] == 291 || [poisonmaxdam] == 338 || [poisonmaxdam] == 351 || [poisonmaxdam] == 385 // 313, 330, 377, 451
 [name] == smallcharm && [quality] == magic # [poisonmaxdam] >= 205 && ([maxhp] == 20 || [frw] == 3)
 [name] == smallcharm && [quality] == magic # [itemgoldbonus] == 10 && ([poisonmaxdam] == 299 || [maxdamage] == 3 && [tohit] == 20 || [maxmana] == 17 || [fireresist] == 11 || [fireresist] == 5 && [lightresist] == 5)
 
+[name] == smallcharm && [quality] == magic # [maxhp] >= 13 && [maxhp] <= 15 && [maxmana] >= 9 && [maxmana] <= 12 && [maxhp]+[maxmana] >= 24 && [maxhp]+[maxmana] <= 27
+[name] == smallcharm && [quality] == magic # [maxhp] == 15 && [maxmana] == 7
 
 // ##### Medium Charms ##################
 // max life = 35
 // max dmg / ar = 6/48
 // max ar solo = 77
-[Name] == largecharm && [Quality] == magic # [maxdamage] == 6 && [tohit] >= 40
-[Name] == largecharm && [Quality] == magic # [maxdamage] == 6 && [tohit] == 48
-[Name] == largecharm && [Quality] == magic # [maxdamage] == 6 && [tohit] >= 21 && [maxhp] >= 26
-[Name] == largecharm && [Quality] == magic # [maxdamage] == 6 && [tohit] == 48 && [maxhp] >= 26
+// [Name] == largecharm && [Quality] == magic # [maxdamage] == 6 && [tohit] >= 40
+// [Name] == largecharm && [Quality] == magic # [maxdamage] == 6 && [tohit] == 48
+// [Name] == largecharm && [Quality] == magic # [maxdamage] == 6 && [tohit] >= 21 && [maxhp] >= 26
+// [Name] == largecharm && [Quality] == magic # [maxdamage] == 6 && [tohit] == 48 && [maxhp] >= 26
 [Name] == largecharm && [Quality] == magic # [maxdamage] == 6 && [tohit] >= 40 && [maxhp] == 35
-[Name] == largecharm && [Quality] == magic # [maxdamage] == 6 && [tohit] == 48 && [maxhp] >= 30
-[Name] == largecharm && [Quality] == magic # [maxdamage] == 6 && [tohit] == 48 && [maxhp] == 35
+// [Name] == largecharm && [Quality] == magic # [maxdamage] == 6 && [tohit] == 48 && [maxhp] >= 30
+// [Name] == largecharm && [Quality] == magic # [maxdamage] == 6 && [tohit] == 48 && [maxhp] == 35
 
 
 // ##### Grand Charms ##################
 [Name] == GrandCharm && [Quality] == magic # [fireresist] == 15 && [lightresist] == 15
-[Name] == GrandCharm && [Quality] == magic # [fireresist] == 15 && [lightresist] == 15 && [maxhp] > 0
-[Name] == GrandCharm && [Quality] == magic # [fireresist] == 15 && [lightresist] == 15 && [maxhp] >= 30
+// [Name] == GrandCharm && [Quality] == magic # [fireresist] == 15 && [lightresist] == 15 && [maxhp] > 0
+// [Name] == GrandCharm && [Quality] == magic # [fireresist] == 15 && [lightresist] == 15 && [maxhp] >= 30
 // [Name] == GrandCharm && [Quality] == magic # [MaxDamage] >= 9 && [maxhp] > 20
 [Name] == GrandCharm && [Quality] == magic # [MaxDamage] >= 9 && [tohit] >= 60 && [maxhp] > 30
-[Name] == GrandCharm && [Quality] == magic # [MaxDamage] >= 9 && [tohit] >= 60 && [maxhp] >= 35
+// [Name] == GrandCharm && [Quality] == magic # [MaxDamage] >= 9 && [tohit] >= 60 && [maxhp] >= 35
 // [Name] == GrandCharm && [Quality] == magic # [tohit] >= 100 && [maxhp] > 0
 // [Name] == GrandCharm && [Quality] == magic # [tohit] >= 100 && [maxhp] >= 35
 [Name] == GrandCharm && [Quality] == magic # [tohit] >= 120 && [maxhp] >= 35
-[Name] == GrandCharm && [Quality] == magic # [palicombatskilltab] == 1
-[Name] == GrandCharm && [Quality] == magic # [warcriesskilltab] == 1
+// [Name] == GrandCharm && [Quality] == magic # [palicombatskilltab] == 1
+// [Name] == GrandCharm && [Quality] == magic # [warcriesskilltab] == 1
 [Name] == GrandCharm && [Quality] == magic # [itemaddskilltab] == 1 && [maxhp] >= 40
-[Name] == GrandCharm && [Quality] == magic # [palicombatskilltab] == 1 || [javelinandspearskilltab] == 1 || [fireskilltab] == 1 || [coldskilltab] == 1 || [lightningskilltab] == 1 || [poisonandboneskilltab] == 1 || [elementalskilltab] == 1 || [trapsskilltab] == 1
+// [Name] == GrandCharm && [Quality] == magic # [palicombatskilltab] == 1 || [javelinandspearskilltab] == 1 || [fireskilltab] == 1 || [coldskilltab] == 1 || [lightningskilltab] == 1 || [poisonandboneskilltab] == 1 || [elementalskilltab] == 1 || [trapsskilltab] == 1
 [Name] == GrandCharm && [Quality] == magic # ([palicombatskilltab] == 1 || [javelinandspearskilltab] == 1 || [fireskilltab] == 1 || [coldskilltab] == 1 || [lightningskilltab] == 1 || [poisonandboneskilltab] == 1 || [elementalskilltab] == 1 || [trapsskilltab] == 1) && ([fhr] == 12 || [dexterity] == 6 || [strength] == 6)
-[Name] == GrandCharm && [Quality] == magic # ([palicombatskilltab] == 1 || [javelinandspearskilltab] == 1 || [fireskilltab] == 1 || [coldskilltab] == 1 || [lightningskilltab] == 1 || [poisonandboneskilltab] == 1 || [elementalskilltab] == 1 || [trapsskilltab] == 1) && [maxhp] > 0
-[Name] == GrandCharm && [Quality] == magic # ([palicombatskilltab] == 1 || [javelinandspearskilltab] == 1 || [fireskilltab] == 1 || [coldskilltab] == 1 || [lightningskilltab] == 1 || [poisonandboneskilltab] == 1 || [elementalskilltab] == 1 || [trapsskilltab] == 1) && [maxhp] >= 20
+// [Name] == GrandCharm && [Quality] == magic # [maxhp] > 0 && ([palicombatskilltab] == 1 || [javelinandspearskilltab] == 1 || [fireskilltab] == 1 || [coldskilltab] == 1 || [lightningskilltab] == 1 || [poisonandboneskilltab] == 1 || [elementalskilltab] == 1 || [trapsskilltab] == 1)
+// [Name] == GrandCharm && [Quality] == magic # [maxhp] >= 20 && ([palicombatskilltab] == 1 || [javelinandspearskilltab] == 1 || [fireskilltab] == 1 || [coldskilltab] == 1 || [lightningskilltab] == 1 || [poisonandboneskilltab] == 1 || [elementalskilltab] == 1 || [trapsskilltab] == 1)
 [Name] == GrandCharm && [Quality] == magic # [maxhp] >= 30 && ([palicombatskilltab] == 1 || [javelinandspearskilltab] == 1 || [fireskilltab] == 1 || [coldskilltab] == 1 || [lightningskilltab] == 1 || [poisonandboneskilltab] == 1 || [elementalskilltab] == 1 || [trapsskilltab] == 1)
-[Name] == GrandCharm && [Quality] == magic # [maxhp] >= 39 && ([palicombatskilltab] == 1 || [javelinandspearskilltab] == 1 || [fireskilltab] == 1 || [coldskilltab] == 1 || [lightningskilltab] == 1 || [poisonandboneskilltab] == 1 || [elementalskilltab] == 1 || [trapsskilltab] == 1)
-[Name] == GrandCharm && [Quality] == magic # [maxhp] >= 40 && ([palicombatskilltab] == 1 || [javelinandspearskilltab] == 1 || [fireskilltab] == 1 || [coldskilltab] == 1 || [lightningskilltab] == 1 || [poisonandboneskilltab] == 1 || [elementalskilltab] == 1 || [trapsskilltab] == 1)
-[Name] == GrandCharm && [Quality] == magic # [maxhp] == 45 && ([palicombatskilltab] == 1 || [javelinandspearskilltab] == 1 || [fireskilltab] == 1 || [coldskilltab] == 1 || [lightningskilltab] == 1 || [poisonandboneskilltab] == 1 || [elementalskilltab] == 1 || [trapsskilltab] == 1)
+// [Name] == GrandCharm && [Quality] == magic # [maxhp] >= 39 && ([palicombatskilltab] == 1 || [javelinandspearskilltab] == 1 || [fireskilltab] == 1 || [coldskilltab] == 1 || [lightningskilltab] == 1 || [poisonandboneskilltab] == 1 || [elementalskilltab] == 1 || [trapsskilltab] == 1)
+// [Name] == GrandCharm && [Quality] == magic # [maxhp] >= 40 && ([palicombatskilltab] == 1 || [javelinandspearskilltab] == 1 || [fireskilltab] == 1 || [coldskilltab] == 1 || [lightningskilltab] == 1 || [poisonandboneskilltab] == 1 || [elementalskilltab] == 1 || [trapsskilltab] == 1)
+// [Name] == GrandCharm && [Quality] == magic # [maxhp] == 45 && ([palicombatskilltab] == 1 || [javelinandspearskilltab] == 1 || [fireskilltab] == 1 || [coldskilltab] == 1 || [lightningskilltab] == 1 || [poisonandboneskilltab] == 1 || [elementalskilltab] == 1 || [trapsskilltab] == 1)

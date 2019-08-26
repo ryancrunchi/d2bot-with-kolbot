@@ -480,10 +480,10 @@ function LoadConfig() {
 	Config.PrimarySlot = -1; // Set to use specific weapon slot as primary weapon slot: -1 = disabled, 0 = slot I, 1 = slot II
 
 	// Speedup config. Full packet casting is not recommended for melee skills.
-	Config.FCR = 255; // 0 - disable, 1 to 255 - set value of Faster Cast Rate.
+	Config.FCR = 0; // 0 - disable, 1 to 255 - set value of Faster Cast Rate.
 	Config.FHR = 255; // 0 - disable, 1 to 255 - set value of Faster Hit Recovery.
 	Config.FBR = 255; // 0 - disable, 1 to 255 - set value of Faster Block Recovery.
-	Config.IAS = 255; // 0 - disable, 1 to 255 - set value of Increased Attack Speed.
+	Config.IAS = 0; // 0 - disable, 1 to 255 - set value of Increased Attack Speed.
 	Config.PacketCasting = 0; // 0 = disable, 1 = packet teleport, 2 = full packet casting.
 	Config.WaypointMenu = true;
 
@@ -517,9 +517,9 @@ function LoadConfig() {
 	 * Skills MUST be POSITIVE numbers. For reference see http://pastebin.com/baShRwWM
 	 */
 	Config.AttackSkill[0] = -1; // Preattack skill.
-	Config.AttackSkill[1] = -1; // Primary skill to bosses.
+	Config.AttackSkill[1] = 0; // Primary skill to bosses.
 	Config.AttackSkill[2] = -1; // Primary untimed skill to bosses. Keep at -1 if Config.AttackSkill[1] is untimed skill.
-	Config.AttackSkill[3] = -1; // Primary skill to others.
+	Config.AttackSkill[3] = 0; // Primary skill to others.
 	Config.AttackSkill[4] = -1; // Primary untimed skill to others. Keep at -1 if Config.AttackSkill[3] is untimed skill.
 	Config.AttackSkill[5] = -1; // Secondary skill if monster is immune to primary.
 	Config.AttackSkill[6] = -1; // Secondary untimed skill if monster is immune to primary untimed.

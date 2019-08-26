@@ -73,24 +73,15 @@ function DiabloHelper() {
 	};
 
 	this.getBoss = function (name) {
-		var i, boss, glow;
-
-		while (true) {
-			if (!this.preattack(name)) {
-				delay(500);
-			}
-
+		var i, boss,
 			glow = getUnit(2, 131);
-
-			if (glow) {
-				break;
-			}
-		}
 
 		for (i = 0; i < 16; i += 1) {
 			boss = getUnit(1, name);
 
 			if (boss) {
+				this.chaosPreattack(name, 6);
+
 				return Attack.clear(40, 0, name, this.sort);
 			}
 
@@ -110,7 +101,7 @@ function DiabloHelper() {
 		}
 
 		if (!this.getBoss(getLocaleString(2851))) {
-			throw new Error("Failed to kill Vizier");
+			return false;
 		}
 
 		if (Config.FieldID) {
@@ -124,13 +115,13 @@ function DiabloHelper() {
 		this.followPath(this.seisLayout === 1 ? this.starToSeisA : this.starToSeisB, this.sort);
 
 		if (this.seisLayout === 1) {
-			Pather.moveTo(7771, 5196);
+			Pather.moveTo(7771, 5200);
 		} else {
-			Pather.moveTo(7798, 5186);
+			Pather.moveTo(7798, 5190);
 		}
 
 		if (!this.getBoss(getLocaleString(2852))) {
-			throw new Error("Failed to kill de Seis");
+			return false;
 		}
 
 		if (Config.FieldID) {
@@ -142,15 +133,19 @@ function DiabloHelper() {
 
 	this.infectorSeal = function () {
 		this.followPath(this.infLayout === 1 ? this.starToInfA : this.starToInfB, this.sort);
-
 		if (this.infLayout === 1) {
-			delay(1);
+			if (me.classid == 1) {
+				Pather.moveTo(7874, 5296);
+			}
+			else {
+				delay(500);
+			}
 		} else {
 			Pather.moveTo(7928, 5295); // temp
 		}
 
 		if (!this.getBoss(getLocaleString(2853))) {
-			throw new Error("Failed to kill Infector");
+			return false;
 		}
 
 		if (Config.FieldID) {
@@ -288,6 +283,54 @@ function DiabloHelper() {
 		}
 
 		return false;
+	};
+
+	this.chaosPreattack = function (name, amount) {
+		var i, n, target, positions;
+
+		if (amount <= 0) {
+			return;
+		}
+
+		switch (me.classid) {
+		case 0:
+			break;
+		case 2:
+			break;
+		case 1:
+		case 3:
+			target = getUnit(1, name);
+
+			if (!target) {
+				return;
+			}
+
+			positions = [[6, 11], [0, 8], [8, -1], [-9, 2], [0, -11], [8, -8]];
+			if (me.classid == 1) {
+				positions = [[10, 15], [0, 12], [10, -5], [-11, 6], [0, -15], [10, -12]].concat(positions);
+			}
+
+			for (i = 0; i < positions.length && target.mode != 0 && target.mode != 12; i += 1) {
+				if (Attack.validSpot(target.x + positions[i][0], target.y + positions[i][1])) { // check if we can move there
+					Pather.moveTo(target.x + positions[i][0], target.y + positions[i][1]);
+					Skill.setSkill(Config.AttackSkill[2], 0);
+
+					for (n = 0; n < amount; n += 1) {
+						Skill.cast(Config.AttackSkill[1], 1, target.x, target.y);
+					}
+
+					break;
+				}
+			}
+
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 6:
+			break;
+		}
 	};
 
 	this.followPath = function (path) {
@@ -498,7 +541,7 @@ CSLoop:
 
 	switch (me.classid) {
 	case 1:
-		Pather.moveTo(7793, 5291);
+		Pather.moveTo(7793, 5298);
 
 		break;
 	default:

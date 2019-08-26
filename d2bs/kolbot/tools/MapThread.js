@@ -396,6 +396,12 @@ var Hooks = {
 				name = "Star";
 
 				break;
+
+			case 114:
+				unit = getPresetUnit(me.area, 2, UniqueObjectIds.ICECAVETORCH2);
+				name = "Anya";
+
+				break;
 			case 111: // Frigid Highlands
 			case 112: // Arreat Plateau
 			case 117: // Frozen Tundra
@@ -407,6 +413,23 @@ var Hooks = {
 				unit = getPresetUnit(me.area, 2, 462);
 				name = "Nihlathak";
 
+				break;
+			case 133: // Matron's Den
+				unit = getPresetUnit(me.area, UnitType.OBJECT, UniqueObjectIds.SPARKLYCHEST);
+				name = "Lilith";
+
+				break;
+			case 134: // Fogotten Sands
+				unit = getPresetUnit(me.area, 1, UnitClassID.UBER_DURIEL);
+				name = "Uber Duriel";
+
+				break;
+			case 135: // Furnace of Pain
+				unit = getPresetUnit(me.area, UnitType.OBJECT, UniqueObjectIds.SPARKLYCHEST);
+				name = "Uber Izual";
+
+				break;
+			case 136: // Uber Tristram
 				break;
 			}
 

@@ -18,7 +18,7 @@ function AutoSmurf() {
 		tombsLvl = 24,
 		mephLvl = 24,
 		diaLvl = 30,
-		baalLvl = 41+Config.AutoSmurf.TeamSize;
+		baalLvl = 38+Config.AutoSmurf.TeamSize;
  // -------- Nightmare Difficulty ----------
 	var mephLvlnm = baalLvl,
 		diaLvlnm = 54,
@@ -39,6 +39,8 @@ function AutoSmurf() {
 		readyCount = 0,
 		iAmReady,
 		teamIsReady,
+		myQuests = [],
+		teamQuests = [],
 		teamWaypoints = [], // Needs to be a global variable.
 		myWaypoints = [], // Needs to be a global variable.
 		waypointsToShare = {}, // Needs to be a global variable.
@@ -257,6 +259,33 @@ function AutoSmurf() {
 				Messaging.sendToList(Config.AutoSmurf.AllTeamProfiles, "need cube");
 			}
 		}
+//---------------------Assembling myQuests & Saying In Game---------------------
+		var myQuestsString = "Quests: ";
+		var modes = [0,2,3,4,5,6,7,8,9,10,12];
+		for (var i=0; i<=40; i++) {
+			for (var m = 0; m < modes.length; m++) {
+				if (me.getQuest(i, modes[m])) {
+					myQuests.push({"id":i, "mode":modes[m]});
+				}
+			}
+		}
+		myQuestsString += JSON.stringify(myQuests);
+		print("myQuests : " + JSON.stringify(myQuests));
+		Messaging.sendToList(Config.AutoSmurf.AllTeamProfiles, myQuestsString);
+
+		print("Waiting team quests");
+		var waitQuests = 0;
+		while (teamQuests.length !== Config.AutoSmurf.TeamSize-1) { // Wait for everyone's Quests data to be shared and recorded (excluding my own). This will ensure all verbal communications have been processed before proceeding.
+			delay(250);
+
+			if (waitQuests % 20 == 0) { // Check for Team Members every 5 seconds.
+				this.teamInGame();
+			}
+
+			waitQuests += 1;
+		}
+
+
 //---------------------Assembling myWaypoints & Saying In Game---------------------
 		var myWaypointsString = "Have: "; // Does not need to be a global variable.
 
@@ -268,7 +297,7 @@ function AutoSmurf() {
 			}
 		}
 
-//		print("myWaypoints length: " + myWaypoints.length); // Should be 34 in Expansion and 26 in Classic.
+		print("myWaypoints : " + myWaypoints); // Should be 34 in Expansion and 26 in Classic.
 
 		for (var i = 0 ; i < myWaypoints.length ; i += 1) {
 			myWaypointsString += myWaypoints[i];
@@ -276,9 +305,10 @@ function AutoSmurf() {
 
 		Messaging.sendToList(Config.AutoSmurf.AllTeamProfiles, myWaypointsString); // Announce my Waypoint possession values.
 //---------------------End Announcing myWaypoints---------------------
+		print("Waiting team waypoints");
 		var j = 0;
 
-		while (teamWaypoints.length !== Config.AutoSmurf.TeamSize - 1) { // Wait for everyone's Waypoint data to be shared and recorded (excluding my own). This will ensure all verbal communications have been processed before proceeding.
+		while (teamWaypoints.length !== Config.AutoSmurf.TeamSize-1) { // Wait for everyone's Waypoint data to be shared and recorded (excluding my own). This will ensure all verbal communications have been processed before proceeding.
 			delay(250);
 
 			if (j % 20 == 0) { // Check for Team Members every 5 seconds.
@@ -318,7 +348,7 @@ function AutoSmurf() {
 					}
 				} else { 	// I don't have the waypoint. Add it to a list of waypoints to receive.
 					for (var j = 0 ; j < teamWaypoints.length ; j += 1) { 	// Loop thru the list of Team Members.
-						if (Number(teamWaypoints[j][i + 1])) { 				// This Team Member has the Waypoint (skip Team Member's name by using i + 1).
+						if (Number(teamWaypoints[j][i + 1]) && Pather.accessToAct(this.actForWaypoint(i))) { 				// This Team Member has the Waypoint (skip Team Member's name by using i + 1).
 							waypointsToReceive.push(i); 					// Add the waypointAreas index value to the receive list.
 
 							break; // Only need to add to the receive list once.
@@ -328,106 +358,108 @@ function AutoSmurf() {
 			}
 		}
 //---------------------Process Give/Receive Lists---------------------
-		print("Start sharing Waypoints.");
+		if (startSharing) {
+			print("Start sharing Waypoints.");
 
-		for (i in waypointsToShare) {
-			print("Current waypointsToShare element: " + i);
+			for (i in waypointsToShare) {
+				print("Current waypointsToShare element: " + i);
 
-			while (waypointsToReceive.length) {
-				print("waypointsToReceive: " + waypointsToReceive[0]);
+				while (waypointsToReceive.length) {
+					print("waypointsToReceive: " + waypointsToReceive[0]);
 
-				if (Number(i) < waypointsToReceive[0]) { // Convert waypointsToShare element to a number (it is a string at this point) and compare it to the number in waypointsToReceive[0].
-					break; // Exit while loop because we need to share a Waypoint before receiving this one (waypointsToShare element is a lower waypointAreas index than the lowest waypointAreas index in the waypointsToReceive array).
+					if (Number(i) < waypointsToReceive[0]) { // Convert waypointsToShare element to a number (it is a string at this point) and compare it to the number in waypointsToReceive[0].
+						break; // Exit while loop because we need to share a Waypoint before receiving this one (waypointsToShare element is a lower waypointAreas index than the lowest waypointAreas index in the waypointsToReceive array).
+					}
+
+					this.receiveWaypoint(waypointsToReceive.shift()); // Cut the lowest waypointAreas index from the waypointsToReceive array.
 				}
+
+				if (!me.findItem(518)) { // No Tome of Town Portal.
+					if (me.area !== 1) {
+						Pather.useWaypoint(1);
+					}
+
+					Town.move("akara");
+
+					var akara = getUnit(1, "akara");
+
+					if (akara) {
+						akara.startTrade();
+
+						var scroll = akara.getItem(529);
+
+						scroll.buy(); // Buy Scroll of Town Portal from Akara.
+
+						me.cancel();
+					}
+				}
+
+				Pather.useWaypoint(waypointAreas[i]); // Go to the Waypoint that needs to be given to other players.
+
+				var portal = getUnit(2, 59); // A Town Portal at this stage means someone else is already sharing the Waypoint.
+
+				if (!portal) { // Don't share this Waypoint if someone else is already.
+					var player,
+						playerList = waypointsToShare[i],
+						finishedPlayerCount = Config.AutoSmurf.TeamSize - playerList.length;
+
+					print("Sharing a Waypoint in area: " + waypointAreas[i]);
+
+					print("playerList.length: " + playerList.length + " finishedPlayerCount: " + finishedPlayerCount);
+
+					if (me.findItem(518)) {
+						Pather.makePortal(); // SiC-666 TODO: Buy more scrolls if needed. Pather will throw an error if there are no scrolls in Tomb.
+					} else {
+						scroll = me.findItem(529);
+
+						if (scroll) {
+							scroll.interact(); // Use a Scroll of Town Portal.
+						}
+					}
+
+					for (var j = 0 ; j <100 ; j += 1 ) { //Here is some wrong, it is too long time to wait. Dark-f < 720 ; j += 1) { // Wait up to 3 minutes Team Members to grab the Waypoint.
+						if (playerList.length === 0){ //Dark-f: && Misc.getNearbyPlayerCount() <= finishedPlayerCount) {
+							break;
+						}
+
+						delay(250);
+
+						if (j % 20 == 0) { // Check for Team Members every 5 seconds.
+							this.teamInGame();
+						}
+
+						player = getUnit(0); // Get nearby player unit.
+
+						do {
+							if (player.name !== me.name) {
+								//print("player name is" + player.name);
+								if (playerList.indexOf(player.name) > -1) { // Player's name is on the list of players needing this Waypoint.
+									playerList.splice(playerList.indexOf(player.name), 1); // Remove player's name from the list.
+								}
+							}
+						} while (player.getNext()); // Loop thru all nearby player units.
+					}
+				}
+			}
+
+			print("Done sharing Waypoints. Start receiving Waypoints.");
+
+			print("waypointsToReceive.length: " + waypointsToReceive.length);
+
+			while (waypointsToReceive.length) { // Receive any remaining Waypoints.
+				print("waypointsToReceive: " + waypointsToReceive[0]);
 
 				this.receiveWaypoint(waypointsToReceive.shift()); // Cut the lowest waypointAreas index from the waypointsToReceive array.
 			}
 
-			if (!me.findItem(518)) { // No Tome of Town Portal.
-				if (me.area !== 1) {
-					Pather.useWaypoint(1);
-				}
+			if (me.area !== whereIwas) { // Did share/receive something.
+				Pather.useWaypoint(whereIwas); // All done sharing/receiving! Return to original town.
 
-				Town.move("akara");
-
-				var akara = getUnit(1, "akara");
-
-				if (akara) {
-					akara.startTrade();
-
-					var scroll = akara.getItem(529);
-
-					scroll.buy(); // Buy Scroll of Town Portal from Akara.
-
-					me.cancel();
-				}
+				delay(5000); // Allow the Waypointer Giver a moment to come back to Town.
 			}
 
-			Pather.useWaypoint(waypointAreas[i]); // Go to the Waypoint that needs to be given to other players.
-
-			var portal = getUnit(2, 59); // A Town Portal at this stage means someone else is already sharing the Waypoint.
-
-			if (!portal) { // Don't share this Waypoint if someone else is already.
-				var player,
-					playerList = waypointsToShare[i],
-					finishedPlayerCount = Config.AutoSmurf.TeamSize - playerList.length;
-
-				print("Sharing a Waypoint in area: " + waypointAreas[i]);
-
-				print("playerList.length: " + playerList.length + " finishedPlayerCount: " + finishedPlayerCount);
-
-				if (me.findItem(518)) {
-					Pather.makePortal(); // SiC-666 TODO: Buy more scrolls if needed. Pather will throw an error if there are no scrolls in Tomb.
-				} else {
-					scroll = me.findItem(529);
-
-					if (scroll) {
-						scroll.interact(); // Use a Scroll of Town Portal.
-					}
-				}
-
-				for (var j = 0 ; j <100 ; j += 1 ) { //Here is some wrong, it is too long time to wait. Dark-f < 720 ; j += 1) { // Wait up to 3 minutes Team Members to grab the Waypoint.
-					if (playerList.length === 0){ //Dark-f: && Misc.getNearbyPlayerCount() <= finishedPlayerCount) {
-						break;
-					}
-
-					delay(250);
-
-					if (j % 20 == 0) { // Check for Team Members every 5 seconds.
-						this.teamInGame();
-					}
-
-					player = getUnit(0); // Get nearby player unit.
-
-					do {
-						if (player.name !== me.name) {
-							//print("player name is" + player.name);
-							if (playerList.indexOf(player.name) > -1) { // Player's name is on the list of players needing this Waypoint.
-								playerList.splice(playerList.indexOf(player.name), 1); // Remove player's name from the list.
-							}
-						}
-					} while (player.getNext()); // Loop thru all nearby player units.
-				}
-			}
+			print("Done receiving Waypoints.");
 		}
-
-		print("Done sharing Waypoints. Start receiving Waypoints.");
-
-		print("waypointsToReceive.length: " + waypointsToReceive.length);
-
-		while (waypointsToReceive.length) { // Receive any remaining Waypoints.
-			print("waypointsToReceive: " + waypointsToReceive[0]);
-
-			this.receiveWaypoint(waypointsToReceive.shift()); // Cut the lowest waypointAreas index from the waypointsToReceive array.
-		}
-
-		if (me.area !== whereIwas) { // Did share/receive something.
-			Pather.useWaypoint(whereIwas); // All done sharing/receiving! Return to original town.
-
-			delay(5000); // Allow the Waypointer Giver a moment to come back to Town.
-		}
-
-		print("Done receiving Waypoints.");
 //---------------------End Waypoint Sharing---------------------
 		if(boing ===1 && !boBarb){ //being bo
 			this.beBo();
@@ -816,6 +848,34 @@ function AutoSmurf() {
 		return false;
 	};
 
+	this.teamQuest = function(id, mode = 0) {
+		print("Checking party for quest "+id+", "+mode);
+		var myQuest = me.getQuest(id, mode);
+		if (!myQuest) {
+			print("    I do not have quest "+id+", "+mode);
+			return false;
+		}
+		// print(JSON.stringify(teamQuests));
+		var globalFound = false;
+		for (var i = 0; i < teamQuests.length && !globalFound; i++) {
+			var member = teamQuests[i].nick;
+			var memberQuests = teamQuests[i].quests;
+			print(member+" : "+JSON.stringify(memberQuests));
+			var found = false;
+			for (var q = 0; q < memberQuests.length && !found; q++) {
+				var quest = memberQuests[q];
+				if (quest.id == id && quest.mode == mode) {
+					found = true;
+				}
+			}
+			if (!found) {
+				print("    "+member + " does not have quest "+id+", "+mode);
+			}
+			globalFound = found;
+		}
+		return globalFound || myQuest;
+	};
+
 	this.partyAct = function () { // Cycles thru getParty() and returns the lowest Act (i.e., 1-5) the partied characters are in. Quits if noone is partied. Returns false is someone isn't in a Town.
 		var i, player, myPartyID, area,
 			lowestAct = 5;
@@ -947,6 +1007,20 @@ function AutoSmurf() {
 			if (i === 19 && goldPile) {
 				Pickit.pickItem(goldPile);
 			}
+		}
+	};
+
+	this.actForWaypoint = function(waypoint) {
+		if (waypoint < 8) { // Go to the correct Town as determined by the waypointAreas index value.
+			return 1;
+		} else if (waypoint < 16) {
+			return 2;
+		} else if (waypoint < 24) {
+			return 3;
+		} else if (waypoint < 26) {
+			return 4;
+		} else {
+			return 5;
 		}
 	};
 
@@ -1402,7 +1476,7 @@ function AutoSmurf() {
 				print("nextAreaIndex = " + nextAreaIndex);
 				print("Next location name = " + getArea(areaIDs[nextAreaIndex]).name);
 
-				if (Pather.teleport === true && me.charlvl >= 18) { // If allowed to teleport (determined by the switch above), skip killing monsters.
+				if (Pather.teleport && me.charlvl >= 18) { // If allowed to teleport (determined by the switch above), skip killing monsters.
 					Config.ClearType = false;
 				}
 
@@ -2274,7 +2348,7 @@ function AutoSmurf() {
 
 		print("den");
 
-		if (!me.getQuest(1, 1)) { // Haven't cleared the Den yet.
+		if (!this.teamQuest(1, 1)) { // Haven't cleared the Den yet.
 			this.teamInGame();
 
 			if (me.diff === 0) { // All characters grab Cold Plains Waypoint in Normal. Only the Teleporting Sorc grabs it in Nightmare and Hell.
@@ -2307,7 +2381,7 @@ function AutoSmurf() {
 
 					delay(me.ping * 2 + 250);
 
-					if (me.getQuest(1, 1)) { // Den is cleared. Return to Akara for a Reward.
+					if (this.teamQuest(1, 1)) { // Den is cleared. Return to Akara for a Reward.
 						break;
 					}
 				}
@@ -2364,7 +2438,7 @@ function AutoSmurf() {
 
 					delay(me.ping * 2 + 250);
 
-					if (me.getQuest(1, 1)) { // Den is cleared. Return to Akara for a Reward.
+					if (this.teamQuest(1, 1)) { // Den is cleared. Return to Akara for a Reward.
 						break;
 					}
 				}
@@ -2375,10 +2449,10 @@ function AutoSmurf() {
 		}
 		
 		if (me.inTown) {
-			if (!me.getQuest(1, 1)) {
+			if (!this.teamQuest(1, 1)) {
 				var j = 0;
 
-				while (!me.getQuest(1, 1) && !me.getQuest(1, 0)) { // Meant to make sorc wait for all the immune monsters to be killed before talking to Akara in hell difficulty.
+				while (!this.teamQuest(1, 1) && !this.teamQuest(1, 0)) { // Meant to make sorc wait for all the immune monsters to be killed before talking to Akara in hell difficulty.
 					delay(250);
 
 					if (j % 20 == 0) { // Check for Team Members every 5 seconds.
@@ -2413,6 +2487,8 @@ function AutoSmurf() {
 
 		Precast.doPrecast(true);
 
+		Pahter.teleport = false;
+
 		this.clearToExit(3, 9, Config.ClearType);
 
 		this.waitForPartyMembers();
@@ -2438,12 +2514,14 @@ function AutoSmurf() {
 			Town.doChores();
 		}
 
-		if (!me.getQuest(2, 1)) {
+		if (!this.teamQuest(2, 1)) {
 			Pather.useWaypoint(3);
 
 			this.waitForPartyMembers();
 
 			Precast.doPrecast(true);
+
+			Pather.teleport = false;
 
 			this.clearToExit(3, 17, true);
 
@@ -2484,7 +2562,7 @@ function AutoSmurf() {
 		print("cain");
 		Town.doChores();
 		this.teamInGame();
-		if (!me.getQuest(4, 1) ) { // not rescues Cain
+		if (!this.teamQuest(4, 1) ) { // not rescues Cain
 			if(me.diff === 0) {
 				this.travel(0);
 			} else {
@@ -2492,7 +2570,7 @@ function AutoSmurf() {
 					this.travel(0);
 			}
 			//if (!me.getQuest(4, 4) && !me.getQuest(4, 3) && !me.getItem(524) && !me.getItem(525) && teamScroll !== 1) { //4,4redportal already open ; 4,3 holding scroll
-			if (!me.getQuest(4, 4) && !me.getQuest(4, 3) ) {
+			if (!this.teamQuest(4, 4) && !this.teamQuest(4, 3) ) {
 				if(!me.getItem(524)) { 	// Scroll of Inifuss	
 					if(!me.inTown){
 						Town.goToTown();
@@ -2529,6 +2607,7 @@ function AutoSmurf() {
 						this.getQuestItem(524, 30);
 						Pather.usePortal(null, null);						
 					} else {
+						this.getQuestItem(524, 30);
 						delay(1000);
 						if(!Pather.usePortal(null, null)){
 							Town.goToTown();
@@ -2582,7 +2661,7 @@ function AutoSmurf() {
 				Attack.clear(20);
 			}
 			Attack.clear(20);
-			if (!me.getQuest(4, 4) ) {		 //redportal already open
+			if (!this.teamQuest(4, 4) ) {		 //redportal already open
 				stoneA = getUnit(2, 17);
 				stoneB = getUnit(2, 18);
 				stoneC = getUnit(2, 19);
@@ -2677,6 +2756,7 @@ function AutoSmurf() {
 
 		Precast.doPrecast(true);
 		this.Bo();
+		Pather.teleport = me.diff > 0 || Config.AutoSmurf.TeamSize < 2;
 		Pather.moveToPreset(me.area, 1, 737, 0, 0, true, true);
 
 		try{
@@ -2745,13 +2825,13 @@ function AutoSmurf() {
 		Town.repair();
 		this.teamInGame();
 
-		if (me.getQuest(6, 0) && !me.getQuest(7, 0)) {
+		if (this.teamQuest(6, 0) && !this.teamQuest(7, 0)) {
 			this.changeAct(2);
 
 			return true;
 		}
 
-		if (!me.getQuest(6, 1)) {
+		if (!this.teamQuest(6, 1)) {
 			if(!me.inTown){
 				Town.goToTown();
 			}
@@ -3361,7 +3441,7 @@ function AutoSmurf() {
 		Town.doChores();
 		this.teamInGame();
 
-		if (!me.getQuest(9, 1)) {
+		if (!this.teamQuest(9, 1)) {
 			if (teleportingSorc) {
 				Pather.teleport = true;
 				Config.ClearType = false;
@@ -3464,7 +3544,7 @@ function AutoSmurf() {
 
 		Pather.teleport = true;
 
-		if (!me.getQuest(14, 1) && !me.getQuest(14, 3) && !me.getQuest(14, 4)) {
+		if (!this.teamQuest(14, 1) && !this.teamQuest(14, 3) && !this.teamQuest(14, 4)) {
 			if(!me.inTown){
 				Town.goToTown();
 			}
@@ -5801,6 +5881,18 @@ function AutoSmurf() {
 				teamWaypoints.push(msg); // Record the Team Member's list of Waypoint possession values. SiC-666 TODO: Should we check to make sure this character's waypoints hasn't been previously recorded?
 
 				break;
+			case (msg.match("Quests: ") ? msg : null):
+				try {
+					var quests = JSON.parse(msg.split("Quests: ")[1]);
+					var questsData = {"nick": nick, "quests": quests};
+					teamQuests.push(questsData);
+					print("Received quests :\n    "+JSON.stringify(questsData));
+				}
+				catch (e) {
+					print(e);
+				}
+
+				break;
 			}			
 		}
 	});
@@ -5811,6 +5903,7 @@ function AutoSmurf() {
 		clickParty(getParty(me.name), 3); // Leave party so the others will wait for me.
 	}
 */
+
 	this.checkRole();
 
 	var tick = getTickCount();
@@ -5827,33 +5920,35 @@ function AutoSmurf() {
 		}
 	}
 	this.start();
+
+	print("party has done andy ? "+this.teamQuest(7, 0));
 	
     //act1
-    if (!me.getQuest(7, 0)) { // Andariel is not done.
+    if (!this.teamQuest(7)) { // Andariel is not done.
         Town.goToTown(1);
  
         //den
-        if (!me.getQuest(1, 0)) {
+        if (!this.teamQuest(1)) {
             this.den();
         }
  
         if (me.diff === 0) { // Normal difficulty.
             //cave
-            if (!me.getQuest(2, 0) && me.getQuest(1, 0) && !this.partyLevel(caveLvl)) { // Haven't killed Blood Raven, have completed the Den of Evil and the party hasn't reached the caveLvl requirement.
+            if (!this.teamQuest(2) && this.teamQuest(1) && !this.partyLevel(caveLvl)) { // Haven't killed Blood Raven, have completed the Den of Evil and the party hasn't reached the caveLvl requirement.
 				this.cave();
             }
             //blood raven
-            if (!me.getQuest(2, 0) && me.getQuest(1, 0) && this.partyLevel(caveLvl)) { // Haven't killed Blood Raven, have completed the Den of Evil and the party has reached the caveLvl requirement.
+            if (!this.teamQuest(2) && this.teamQuest(1) && this.partyLevel(caveLvl)) { // Haven't killed Blood Raven, have completed the Den of Evil and the party has reached the caveLvl requirement.
 				this.blood();
             }
 
             //cain
-            if (!me.getQuest(4, 0) && this.partyLevel(caveLvl)) { // Haven't completed The Search for Cain and the party has reached the caveLvl requirement.
+            if (!this.teamQuest(4) && this.partyLevel(caveLvl)) { // Haven't completed The Search for Cain and the party has reached the caveLvl requirement.
 				this.cain(); // Only rescues cain SiC-666 TODO: this is redundant, should grab the questing from autoladderreset or something to consolidate.
             }
 
             //trist
-            if (me.getQuest(4, 0) && !this.partyLevel(tristLvl)) { // Have completed The Search for Cain and the party hasn't reached the tristLvl requirement
+            if (this.teamQuest(4) && !this.partyLevel(tristLvl)) { // Have completed The Search for Cain and the party hasn't reached the tristLvl requirement
                 
 				this.trist();
 				/* When the partyLevel is less than the tristLvl, the game must quit.
@@ -5867,20 +5962,20 @@ function AutoSmurf() {
         }
 		
 		if (me.diff > 0) { // Nightmare & Hell difficulty.
-			if (!me.getQuest(4, 0)) { 	// Haven't completed The Search for Cain and the party has reached the caveLvl requirement.
+			if (!this.teamQuest(4, 0)) { 	// Haven't completed The Search for Cain and the party has reached the caveLvl requirement.
 				this.cain(); 			// Only rescues cain
             }
 		}
 		
 		//andy
-		if (!me.getQuest(7, 0) && ((me.diff === 0 && this.partyLevel(tristLvl)) || (me.diff !== 0))) {
+		if (!this.teamQuest(7) && ((me.diff === 0 && this.partyLevel(tristLvl)) || (me.diff !== 0))) {
 			
 			this.andy();
 		}
 	}
 
 	//act2
-	if (!me.getQuest(15, 0) && me.getQuest(7, 0)) { // Duriel is not done and Andariel is.
+	if (!this.teamQuest(15) && this.teamQuest(7)) { // Duriel is not done and Andariel is.
 		
 		Town.goToTown(2);
 		
@@ -5892,14 +5987,14 @@ function AutoSmurf() {
 				this.cube();
 			}
 
-			if ((!me.getItem(521) && !me.getItem(91) && !me.getQuest(10, 0)) || !me.getQuest(11, 0)) { // No Amulet of the Viper/Horadric Staff and Horadric Staff quest (staff placed in orifice) is incomplete or The Tainted Sun quest is incomplete.
+			if ((!me.getItem(521) && !me.getItem(91) && !this.teamQuest(10, 0)) || !this.teamQuest(11, 0)) { // No Amulet of the Viper/Horadric Staff and Horadric Staff quest (staff placed in orifice) is incomplete or The Tainted Sun quest is incomplete.
 				if(me.charlvl >= baalLvl && me.charlvl <= diaLvlnm)
 					this.hireMerc(1);				
 				Messaging.sendToList(Config.AutoSmurf.AllTeamProfiles, "amulet");
 				this.amulet();
 			}
 
-			if (!me.getQuest(13, 0) && me.getQuest(11 , 0) || !Pather.useWaypoint(46, true)) { // Summoner quest incomplete but The Tainted Sun is complete.
+			if (!this.teamQuest(13, 0) && this.teamQuest(11 , 0) || !Pather.useWaypoint(46, true)) { // Summoner quest incomplete but The Tainted Sun is complete.
 				this.travel(4); // Travel to all waypoints up to and including Arcane Sanctuary if I don't have them.
 				
 				Messaging.sendToList(Config.AutoSmurf.AllTeamProfiles, "summoner");
@@ -5913,7 +6008,7 @@ function AutoSmurf() {
 				this.tombs(); // Clears to the chest in all of Tal Rashas Tomb's (except for the one with the Orifice). Will quit() at the end if the team hasn't reached tombsLvl requirement.
 			}
 
-			if (!me.getItem(92) && !me.getItem(91) && !me.getQuest(10, 0)) { // No Staff of Kings nor Horadric Staff and Horadric Staff quest (staff placed in orifice) not complete.
+			if (!me.getItem(92) && !me.getItem(91) && !this.teamQuest(10, 0)) { // No Staff of Kings nor Horadric Staff and Horadric Staff quest (staff placed in orifice) not complete.
 				
 				this.staff();
 			}
@@ -5922,12 +6017,12 @@ function AutoSmurf() {
 				this.cubeStaff();
 			}
 
-			if (!me.getQuest(9, 0)){ // && me.diff <= 2) { // Haven't finished Radament's Lair.
+			if (!this.teamQuest(9, 0)){ // && me.diff <= 2) { // Haven't finished Radament's Lair.
 				Messaging.sendToList(Config.AutoSmurf.AllTeamProfiles, "radament");				
 				this.radament();
 			}
 
-			if (!me.getQuest(14, 0) && (this.partyLevel(tombsLvl) || me.diff !== 0)) { // Haven't completed Duriel and team has reached level goal or this isn't normal difficulty.
+			if (!this.teamQuest(14, 0) && (this.partyLevel(tombsLvl) || me.diff !== 0)) { // Haven't completed Duriel and team has reached level goal or this isn't normal difficulty.
 				Messaging.sendToList(Config.AutoSmurf.AllTeamProfiles, "duriel");
 				
 				this.duriel();
@@ -5988,9 +6083,9 @@ function AutoSmurf() {
 	}
 
 	//act3
-	if (!me.getQuest(23, 0) && me.getQuest(15, 0)) { // "Able to go to Act IV" (AKA haven't gone thru red portal to Act 4) is not done and Duriel is.
+	if (!this.teamQuest(23, 0) && this.teamQuest(15, 0)) { // "Able to go to Act IV" (AKA haven't gone thru red portal to Act 4) is not done and Duriel is.
 		Town.goToTown(3);
-		if (me.getQuest(22, 0)) {
+		if (this.teamQuest(22, 0)) {
 			// meph is done, but you did not go through red portal ???
 			this.mephisto(true);
 		}
@@ -6003,24 +6098,24 @@ function AutoSmurf() {
 				this.figurine();
 			}
 
-			if (!me.getQuest(17, 0)) { // Haven't completed Lam Esen's Tome.
+			if (!this.teamQuest(17, 0)) { // Haven't completed Lam Esen's Tome.
 				
 				this.lamEsen();
 			}
 
-			if (!me.getItem(553) && !me.getItem(174) && !me.getQuest(18, 0)) { // Don't have Eye and don't have Khalim's Will and haven't completed Khalim's Will.
+			if (!me.getItem(553) && !me.getItem(174) && !this.teamQuest(18, 0)) { // Don't have Eye and don't have Khalim's Will and haven't completed Khalim's Will.
 				this.eye();
 			}
 
-			if (!me.getItem(554) && !me.getItem(174) && !me.getQuest(18, 0)) { // Don't have Heart and don't have Khalim's Will and haven't completed Khalim's Will.
+			if (!me.getItem(554) && !me.getItem(174) && !this.teamQuest(18, 0)) { // Don't have Heart and don't have Khalim's Will and haven't completed Khalim's Will.
 				this.heart();
 			}
 
-			if (!me.getItem(555) && !me.getItem(174) && !me.getQuest(18, 0)) { // Don't have Brain and don't have Khalim's Will and haven't completed Khalim's Will.
+			if (!me.getItem(555) && !me.getItem(174) && !this.teamQuest(18, 0)) { // Don't have Brain and don't have Khalim's Will and haven't completed Khalim's Will.
 				this.brain();
 			}
 
-			if (me.getItem(174) || (me.getItem(553) && me.getItem(554) && me.getItem(555)) || !me.getQuest(20, 0) || !me.getQuest(21, 0)) { // Have Khalim's Will or have Eye, Heart, and Brain, or Golden Bird isn't complete, or The Blackened Temple isn't complete.
+			if (me.getItem(174) || (me.getItem(553) && me.getItem(554) && me.getItem(555)) || !this.teamQuest(20, 0) || !this.teamQuest(21, 0)) { // Have Khalim's Will or have Eye, Heart, and Brain, or Golden Bird isn't complete, or The Blackened Temple isn't complete.
 			//if (!me.getQuest(21, 0)) { // Have Khalim's Will or have Eye, Heart, and Brain, or Golden Bird isn't complete, or The Blackened Temple isn't complete.
 				Messaging.sendToList(Config.AutoSmurf.AllTeamProfiles, "travincal");
 				this.travincal();
@@ -6032,7 +6127,7 @@ function AutoSmurf() {
 				this.figurine();
 			}
 
-			if (!me.getQuest(23, 0) && me.getQuest(18, 0) && me.getQuest(21, 0) ) { //no matter Golden bird && me.getQuest(20, 0)) { // Haven't been "Able to go to Act IV" yet and have completed Khalim's Will (AKA the stairs to Durance of Hate Level 1 are open), The Blackened Temple (AKA everyone can enter a Durance Of Hate Level 3 Town Portal), and Golden Bird.
+			if (!this.teamQuest(23, 0) && this.teamQuest(18, 0) && this.teamQuest(21, 0) ) { //no matter Golden bird && me.getQuest(20, 0)) { // Haven't been "Able to go to Act IV" yet and have completed Khalim's Will (AKA the stairs to Durance of Hate Level 1 are open), The Blackened Temple (AKA everyone can enter a Durance Of Hate Level 3 Town Portal), and Golden Bird.
 				Messaging.sendToList(Config.AutoSmurf.AllTeamProfiles, "mephisto");
 				
 				this.travel(7); // Travel to Durance Of Hate Level 2 Waypoint if I don't have it.
@@ -6086,7 +6181,7 @@ function AutoSmurf() {
 	//act4
 	var runDiablo = 0; // Dark-f: for running baal
 
-	if (me.getQuest(23, 0) && (!me.getQuest(28, 0) || !this.partyLevel(diaLvl) || (me.diff === 1 && !this.partyLevel(diaLvlnm)))) { // Have been to Act 4 and Diablo is not done or haven't reached the difficulty specific level requirement.
+	if (this.teamQuest(23, 0) && (!this.teamQuest(28, 0) || !this.partyLevel(diaLvl) || (me.diff === 1 && !this.partyLevel(diaLvlnm)))) { // Have been to Act 4 and Diablo is not done or haven't reached the difficulty specific level requirement.
 		Town.goToTown(4);
 
 		if (teleportingSorc) { // I am the Teleporting Sorc
@@ -6109,7 +6204,7 @@ function AutoSmurf() {
 			this.travel(8);	// Travel to all waypoints up to and including River of Flame if I don't have them.
 		}
 
-		if (!me.getQuest(25, 0) || me.getQuest(25, 1)) { // The Fallen Angel is not done or it has been started.
+		if (!this.teamQuest(25, 0) || this.teamQuest(25, 1)) { // The Fallen Angel is not done or it has been started.
 			this.izual();
 		}
 		
@@ -6119,10 +6214,10 @@ function AutoSmurf() {
 	}
 
 	//act5
-	if(me.gametype === 1 && teleportingSorc && me.getQuest(39, 0) && !getWaypoint(38) ) {
+	if(me.gametype === 1 && teleportingSorc && this.teamQuest(39, 0) && !getWaypoint(38) ) {
 		Pather.getWP(129, false);
 	}
-	if (me.gametype === 1 && me.getQuest(39, 0) && ((me.diff == 1 && !this.partyLevel(baalLvlnm)) || me.diff == 2)) { //Dark-f
+	if (me.gametype === 1 && this.teamQuest(39, 0) && ((me.diff == 1 && !this.partyLevel(baalLvlnm)) || me.diff == 2)) { //Dark-f
 		if (teleportingSorc) { 
 			D2Bot.printToConsole("I'm the leader, changed script.");
 			OnOff.enable("Config.MFLeader");
@@ -6151,7 +6246,7 @@ function AutoSmurf() {
 	}
 
 	//if (me.gametype === 1 && me.getQuest(28, 0) && ((me.diff === 0 && this.partyLevel(diaLvl)) || (me.diff === 1 && this.partyLevel(diaLvlnm)) || me.diff == 2)) { // Am an expansion character, Diablo is done, and the party has reached the difficulty specific diaLvl requirement or it's Hell difficulty.
-	if (me.gametype === 1 && me.getQuest(28, 0)){ //Dark-f
+	if (me.gametype === 1 && this.teamQuest(28, 0)){ //Dark-f
 		Town.goToTown(5);
 		if(!me.getQuest(37,1) && teleportingSorc){
 			this.travel(9);

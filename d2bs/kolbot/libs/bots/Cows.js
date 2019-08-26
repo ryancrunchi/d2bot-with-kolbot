@@ -39,6 +39,8 @@ function Cows() {
 			Pather.makePortal();
 			say("cows");
 		}
+		
+		Precast.doPrecast(false);
 
 		var room, result, myRoom,
 			rooms = this.buildCowRooms();
@@ -72,9 +74,22 @@ function Cows() {
 
 				king = getPresetUnit(me.area, 1, 773);
 				if (king) {
-					var distance = getDistance(me, king);
-					print("Found king at "+distance);
-					if (distance > 80) {
+					var kingUnit = getUnit(1, 773);
+					if (kingUnit) {
+						var kingLife = kingUnit.hp*100 / 128;
+						if (kingLife <= 20) {
+							print("King almost dead, returning ("+kingLife+" hp)");
+							return false;
+						}
+						var distance = getDistance(me.x, me.y, kingUnit.x, kingUnit.y);
+						print("Found king at "+kingUnit.x+","+kingUnit.y+" ("+kingLife+" hp) ("+distance+" far)");
+						if (distance > 100) {
+							if (!Attack.clear(30)) {
+								return false;
+							}
+						}
+					}
+					else {
 						if (!Attack.clear(30)) {
 							return false;
 						}
@@ -243,7 +258,6 @@ function Cows() {
 	}
 	
 	Pather.usePortal(39);
-	Precast.doPrecast(false);
 	this.clearCowLevel();
 
 	return true;

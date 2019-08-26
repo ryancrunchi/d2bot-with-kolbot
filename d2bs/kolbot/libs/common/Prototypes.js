@@ -653,11 +653,7 @@ Unit.prototype.getStatEx = function (id, subid) {
 				return this.getStat(31);
 			}
 
-			if (!this.desc) {
-				this.desc = this.description;
-			}
-
-			temp = this.desc.split("\n");
+			temp = this.description.split("\n");
 			regex = new RegExp("\\+\\d+ " + getLocaleString(3481).replace(/^\s+|\s+$/g, ""));
 
 			for (i = 0; i < temp.length; i += 1) {
@@ -693,8 +689,8 @@ Unit.prototype.getStatEx = function (id, subid) {
 			temp = [0, 1, 2, 8, 9, 10, 16, 17, 18, 24, 25, 26, 32, 33, 34, 40, 41, 42, 48, 49, 50];
 
 			for (i = 0; i < temp.length; i += 1) {
-				if (this.getStat(188, temp[i])) {
-					return this.getStat(188, temp[i]);
+				if (this.getStat(Stats.ITEM_ADDSKILL_TAB, temp[i])) {
+					return this.getStat(Stats.ITEM_ADDSKILL_TAB, temp[i]);
 				}
 			}
 
@@ -733,11 +729,7 @@ Unit.prototype.getStatEx = function (id, subid) {
 				break;
 			}
 
-			if (!this.desc) {
-				this.desc = this.description;
-			}
-
-			temp = this.desc.split("\n");
+			temp = this.description.split("\n");
 
 			for (i = 0; i < temp.length; i += 1) {
 				if (temp[i].match(getLocaleString(3520).replace(/^\s+|\s+$/g, ""), "i")) {
@@ -751,11 +743,7 @@ Unit.prototype.getStatEx = function (id, subid) {
 				break;
 			}
 
-			if (!this.desc) {
-				this.desc = this.description;
-			}
-
-			temp = this.desc.split("\n");
+			temp = this.description.split("\n");
 
 			for (i = 0; i < temp.length; i += 1) {
 				if (temp[i].match(getLocaleString(10038).replace(/^\s+|\s+$/g, ""), "i")) {

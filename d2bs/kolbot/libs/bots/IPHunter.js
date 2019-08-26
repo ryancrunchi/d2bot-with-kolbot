@@ -7,6 +7,8 @@
 function IPHunter() {
 	var ip = Number(me.gameserverip.split(".")[3]);
 
+	print("IP: "+ip);
+
 	if (Config.IPHunter.IPList.indexOf(ip) > -1) {
 		print("IP found!");
 		me.maxgametime = 0;

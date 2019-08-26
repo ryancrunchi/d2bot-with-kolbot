@@ -397,7 +397,7 @@ RuneLoop:
 				}
 			}
 			else {
-				Misc.logItem("Made runeword (not keeping)", items[0]);
+				Misc.logItem("------ Made runeword (not keeping)", items[0]);
 			}
 		}
 
@@ -438,8 +438,8 @@ RuneLoop:
 				}
 
 				print(ColorCodes.DARK_GOLD + "Runewords: " + ColorCodes.WHITE + "Rerolling runeword: " + base.fname.split("\n").reverse().join(" ").replace(/ÿc[0-9!"+<;.*]/, ""));
-				//D2Bot.printToConsole("Rerolling runeword: " + base.fname.split("\n").reverse().join(" ").replace(/\xFFc[0-9!"+<;.*]/, ""), ColorCodes.D2Bot.GREEN);
-				Misc.logItem("Rerolling runeword", base);
+				D2Bot.printToConsole("Rerolling runeword: " + base.fname.split("\n").reverse().join(" ").replace(/\xFFc[0-9!"+<;.*]/, ""), ColorCodes.D2Bot.GREEN);
+				//Misc.logItem("Rerolling runeword", base);
 				transmute();
 				delay(500);
 

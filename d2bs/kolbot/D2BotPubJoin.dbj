@@ -44,24 +44,28 @@ var StarterConfig = {
 */
 
 var IncludeFilter = [
+	// ["baal"],
 	["dia", "baal"],
 	["diablo", "baal"],
 	["dia", "ball"],
-	["diablo", "ball"],
+	["diablo", "ball"]
 ];
 
 var ExcludeFilter = [
+	// ["dia"],
+	["anci"],
 	["baal q"],
-	["o rush"],
 	["rush"],
 	["quest"],
 	["for q"],
-	["kill"]
+	["4 q"],
+	["kill"],
+	["help"]
 ];
 
 // If game elapsed time is more than this value, bot won't join.
 // Set to -1 to not check elapsed time.
-var maxElapsedTime = 90;
+var maxElapsedTime = 120;
 
 // ###############################################################################
 

@@ -83,13 +83,6 @@ function LoadConfig() {
 	Scripts.Hephasto = false;
 	Scripts.Vizier = false; // Intended for classic sorc, kills Vizier only.
 	Scripts.FastDiablo = false;
-	Scripts.Diablo = false;
-		Config.Diablo.WalkClear = false; // Disable teleport while clearing to protect leechers
-		Config.Diablo.Entrance = false; // Start from entrance
-		Config.Diablo.SealWarning = "";
-		Config.Diablo.EntranceTP = "";
-		Config.Diablo.StarTP = "";
-		Config.Diablo.DiabloMsg = "";
 	Scripts.SealLeader = false; // Clear a safe spot around seals and invite leechers in. Leechers should run SealLeecher script. Don't run with Diablo or FastDiablo.
 
 	// *** act 5 ***
@@ -100,7 +93,7 @@ function LoadConfig() {
 	Scripts.Nihlathak = false;
 		Config.Nihlathak.ViperQuit = false; // End script if Tomb Vipers are found.
 	Scripts.Eldritch = false;
-		Config.Eldritch.OpenChest = true;
+		Config.Eldritch.OpenChest = false;
 		Config.Eldritch.KillShenk = true;
 		Config.Eldritch.KillDacFarren = false;
 	Scripts.Eyeback = false;
@@ -114,6 +107,17 @@ function LoadConfig() {
 	Scripts.Snapchip = false;
 		Config.Snapchip.ClearIcyCellar = true;
 	Scripts.Worldstone = false;
+
+	
+	Scripts.Diablo = false;
+		Config.Diablo.WalkClear = false; // Disable teleport while clearing to protect leechers
+		Config.Diablo.Entrance = false; // Start from entrance
+		Config.Diablo.SealWarning = "";
+		Config.Diablo.EntranceTP = "";
+		Config.Diablo.StarTP = "";
+		Config.Diablo.DiabloMsg = "";
+
+	
 	Scripts.Baal = false;
 		Config.Baal.HotTPMessage = "";
 		Config.Baal.SafeTPMessage = "";
@@ -131,11 +135,21 @@ function LoadConfig() {
 	Config.QuitList = ["MF-Pala"]; // List of character names to quit with. Example: Config.QuitList = ["MySorc", "MyDin"];
 	Config.QuitListMode = 1; // 0 = use character names; 1 = use profile names (all profiles must run on the same computer).
 
+	Scripts.ChestMania = false; // Open chests in configured areas. See sdk/areas.txt
+		Config.ChestMania.Act1 = [13, 14, 15/*, 16, 18, 19*/]; // List of act 1 areas to open chests in
+		Config.ChestMania.Act2 = [55, 59, 65, 66, 67, 68, 69, 70, 71, 72]; // List of act 2 areas to open chests in
+		Config.ChestMania.Act3 = [79, 80, 81, 92, 93, 84, 85, 90]; // List of act 3 areas to open chests in
+		Config.ChestMania.Act4 = []; // List of act 4 areas to open chests in
+		Config.ChestMania.Act5 = [115, 116, 119, 125, 126, 127]; // List of act 5 areas to open chests in
+
+	Scripts.Pet = false;
+		Config.Pet.Attack = true;
+		Config.Pet.Teleport = false;
 	Scripts.TristramLeech = false; // Enters Tristram, attempts to stay close to the leader and will try and help kill.
 	Scripts.TravincalLeech = false; // Enters portal at back of Travincal.
 		Config.TravincalLeech.Helper = true; // If set to true the character will teleport to the stairs and help attack.
 	Scripts.MFHelper = true; // Run the same MF run as the MFLeader. Leader must have Config.MFLeader = true
-		Config.MFHelper.HealBetweenCommands = false; // If set to true, the helper will heal (if needed based on Config.HealHP and Config.HealMP) to NPC between leader's commands.
+		Config.MFHelper.HealBetweenCommands = true; // If set to true, the helper will heal (if needed based on Config.HealHP and Config.HealMP) to NPC between leader's commands.
 	Scripts.Wakka = false; // Walking chaos leecher with auto leader assignment, stays at safe distance from the leader
 	Scripts.SealLeecher = false; // Enter safe portals to Chaos. Leader should run SealLeader.
 	Scripts.DiabloHelper = true; // Chaos helper, kills monsters and doesn't open seals on its own.
@@ -198,12 +212,6 @@ function LoadConfig() {
 		Config.ShopBot.ScanIDs = [];
 		Config.ShopBot.CycleDelay = 0; // Delay between shopping cycles in milliseconds, might help with crashes.
 		Config.ShopBot.QuitOnMatch = false; // Leave game as soon as an item is shopped.
-	Scripts.ChestMania = false; // Open chests in configured areas. See sdk/areas.txt
-		Config.ChestMania.Act1 = [13, 14, 15, 16, 18, 19]; // List of act 1 areas to open chests in
-		Config.ChestMania.Act2 = [55, 59, 65, 66, 67, 68, 69, 70, 71, 72]; // List of act 2 areas to open chests in
-		Config.ChestMania.Act3 = [79, 80, 81, 92, 93, 84, 85, 90]; // List of act 3 areas to open chests in
-		Config.ChestMania.Act4 = []; // List of act 4 areas to open chests in
-		Config.ChestMania.Act5 = [115, 116, 119, 125, 126, 127]; // List of act 5 areas to open chests in
 	Scripts.ClearAnyArea = false; // Clear any area. Uses Config.ClearType to determine which type of monsters to kill.
 		Config.ClearAnyArea.AreaList = []; // List of area ids to clear. See sdk/areas.txt
 
@@ -221,7 +229,7 @@ function LoadConfig() {
 		Config.BaalAssistant.WaitForSafeTP = false; // Set to true to wait for a safe TP message (defined in SafeTPMessage)
 		Config.BaalAssistant.DollQuit = false; // Quit on dolls. (Hardcore players?)
 		Config.BaalAssistant.SoulQuit = false; // Quit on Souls. (Hardcore players?)
-		Config.BaalAssistant.KillBaal = true; // Set to true to kill baal, if you set to false you MUST configure Config.QuitList or Config.BaalAssistant.NextGameMessage or the bot will wait indefinitely. 
+		Config.BaalAssistant.KillBaal = true; // Set to true to kill baal, if you set to false you MUST configure Config.QuitList or Config.BaalAssistant.NextGameMessage or the bot will wait indefinitely.
 		Config.BaalAssistant.HotTPMessage = ["Hot"]; // Configure safe TP messages.
 		Config.BaalAssistant.SafeTPMessage = ["Safe", "Clear"]; // Configure safe TP messages.
 		Config.BaalAssistant.BaalMessage = ["Baal"]; // Configure baal messages, this is a precautionary measure.
@@ -230,17 +238,17 @@ function LoadConfig() {
 	// Town settings
 	Config.HealHP = 90; // Go to a healer if under designated percent of life.
 	Config.HealMP = 50; // Go to a healer if under designated percent of mana.
-	Config.HealStatus = false; // Go to a healer if poisoned or cursed
+	Config.HealStatus = true; // Go to a healer if poisoned or cursed
 	Config.UseMerc = true; // Use merc. This is ignored and always false in d2classic.
 	Config.MercWatch = false; // Instant merc revive during battle.
 
 	// Potion settings
-	Config.UseHP = 80; // Drink a healing potion if life is under designated percent.
+	Config.UseHP = 70; // Drink a healing potion if life is under designated percent.
 	Config.UseRejuvHP = 45;  // Drink a rejuvenation potion if life is under designated percent.
 	Config.UseMP = 20; // Drink a mana potion if mana is under designated percent.
 	Config.UseRejuvMP = -1; // Drink a rejuvenation potion if mana is under designated percent.
-	Config.UseMercHP = -1; // Give a healing potion to your merc if his/her life is under designated percent.
-	Config.UseMercRejuv = -1; // Give a rejuvenation potion to your merc if his/her life is under designated percent.
+	Config.UseMercHP = 60; // Give a healing potion to your merc if his/her life is under designated percent.
+	Config.UseMercRejuv = 20; // Give a rejuvenation potion to your merc if his/her life is under designated percent.
 	Config.HPBuffer = 0; // Number of healing potions to keep in inventory.
 	Config.MPBuffer = 0; // Number of mana potions to keep in inventory.
 	Config.RejuvBuffer = 0; // Number of rejuvenation potions to keep in inventory.
@@ -258,10 +266,10 @@ function LoadConfig() {
 	 * 1 = item is unlocked and will be dropped, stashed or sold.
 	 * If you don't change the default values, the bot won't stash items.
 	 */
-	Config.Inventory[0] = [1,1,1,1,1,1,1,1,0,0];
-	Config.Inventory[1] = [1,1,1,1,1,1,1,1,0,0];
-	Config.Inventory[2] = [1,1,1,1,1,1,1,1,0,0];
-	Config.Inventory[3] = [1,1,1,1,1,1,1,1,0,0];
+	Config.Inventory[0] = [1,1,1,1,1,1,0,0,0,0];
+	Config.Inventory[1] = [1,1,1,1,1,1,0,0,0,0];
+	Config.Inventory[2] = [1,1,1,1,1,1,0,0,0,0];
+	Config.Inventory[3] = [1,1,1,1,1,1,0,0,0,0];
 
 	Config.StashGold = 100000; // Minimum amount of gold to stash.
 
@@ -277,8 +285,8 @@ function LoadConfig() {
 	/* Minimum amount of potions. If we have less, go to vendor to purchase more.
 	 * Set rejuvenation columns to 0, because they can't be bought.
 	 */
-	Config.MinColumn[0] = 1;
-	Config.MinColumn[1] = 1;
+	Config.MinColumn[0] = 2;
+	Config.MinColumn[1] = 2;
 	Config.MinColumn[2] = 0;
 	Config.MinColumn[3] = 0;
 
@@ -293,6 +301,8 @@ function LoadConfig() {
 	Config.PickitFiles.push("ladder_reset/craft.nip");
 	Config.PickitFiles.push("ladder_reset/runewords.nip");
 
+	Config.PickitFiles.push("temp_need.nip");
+
 	// Config.PickitFiles.push("advance/normal.nip");
 	// Config.PickitFiles.push("advance/magic_rare.nip");
 	// Config.PickitFiles.push("advance/set.nip");
@@ -305,12 +315,12 @@ function LoadConfig() {
 	Config.FastPick = true; // Check and pick items between attacks
 
 	// Additional item info log settings. All info goes to \logs\ItemLog.txt
-	Config.ItemInfo = true; // Log stashed, skipped (due to no space) or sold items.
-	Config.ItemInfoQuality = [5, 6, 7, 8]; // The quality of sold items to log. See NTItemAlias.dbl for values. Example: Config.ItemInfoQuality = [6, 7, 8];
+	// Config.ItemInfo = true; // Log kept items.
+	// Config.ItemInfoQuality = [1, 2, 3, 4, 5, 6, 7, 8]; // The quality of kept items to log. See NTItemAlias.dbl for values. Example: Config.ItemInfoQuality = [6, 7, 8];
 
 	// Log item sold
 	Config.SoldItemInfo = true;
-	Config.SoldItemInfoQuality = [5, 7, 8]; // The quality of sold items to log
+	Config.SoldItemInfoQuality = [7, 8]; // The quality of sold items to log
 
 	// Item identification settings
 	Config.CainID.Enable = false; // Identify items at Cain
@@ -321,11 +331,13 @@ function LoadConfig() {
 	Config.DroppedItemsAnnounce.Quality = []; // Quality of item to announce. See NTItemAlias.dbl for values. Example: Config.DroppedItemsAnnounce.Quality = [6, 7, 8];
 
 	// Manager Item Log Screen
-	Config.ShowLowRunes = true; // show/hide low runes (El - Dol) on the item log screen
-	Config.ShowMiddleRunes = true; // show/hide middle runes (Hel - Mal) on the item log screen
-	Config.ShowHighRunes = true; // show/hide high runes (Ist - Zod) on the item log screen
-	Config.ShowLowGems = false; // show/hide low gems (chipped, flawed, normal) on the item log screen
-	Config.ShowHighGems = false; // show/hide high gems (flawless, perfect) on the item log screen
+	Config.LogKeys = true;
+	Config.LogOrgans = true;
+	Config.LogLowRunes = true; // show/hide low runes (El - Dol) on the item log screen
+	Config.LogMiddleRunes = true; // show/hide middle runes (Hel - Mal) on the item log screen
+	Config.LogHighRunes = true; // show/hide high runes (Ist - Zod) on the item log screen
+	Config.LogLowGems = false; // show/hide low gems (chipped, flawed, normal) on the item log screen
+	Config.LogHighGems = false; // show/hide high gems (flawless, perfect) on the item log screen
 	Config.ShowCubingInfo = true; // show/hide the cubing messages on console and item log screen
 	// Repair settings
 	Config.CubeRepair = false; // Repair weapons with Ort and armor with Ral rune. Don't use it if you don't understand the risk of losing items.
@@ -391,17 +403,18 @@ function LoadConfig() {
 	// Config.Recipes.push([Recipe.Rune, "Ort Rune"]); // Upgrade Ort to Amn
 	// Config.Recipes.push([Recipe.Rune, "Amn Rune"]); // Upgrade Amn to Sol
 	// Config.Recipes.push([Recipe.Rune, "Lem Rune"]); // Upgrade Lem to Pul
-	//Config.Recipes.push([Recipe.Rune, "Pul Rune"]); // Upgrade Pul to Um
-	//Config.Recipes.push([Recipe.Rune, "Um Rune"]); // Upgrade Um to Mal
-	//Config.Recipes.push([Recipe.Rune, "Mal Rune"]); // Upgrade Mal to Ist
+	Config.Recipes.push([Recipe.Rune, "Pul Rune"]); // Upgrade Pul to Um
+	Config.Recipes.push([Recipe.Rune, "Um Rune"]); // Upgrade Um to Mal
+	Config.Recipes.push([Recipe.Rune, "Mal Rune"]); // Upgrade Mal to Ist
 	//Config.Recipes.push([Recipe.Rune, "Ist Rune"]); // Upgrade Ist to Gul
 	Config.Recipes.push([Recipe.Rune, "Gul Rune"]); // Upgrade Gul to Vex
+	Config.Recipes.push([Recipe.Rune, "Sur Rune"]); // Upgrade Sur to Ber
 
 	// Config.Recipes.push([Recipe.Blood.Amulet]); // Craft Blood Amulet
 	// Config.Recipes.push([Recipe.Caster.Amulet]); // Craft Caster Amulet
 
 	// Config.Recipes.push([Recipe.Blood.Ring]); // Craft Blood Ring
-	// Config.Recipes.push([Recipe.Caster.Ring]); // Craft Caster Ring
+	Config.Recipes.push([Recipe.Caster.Ring]); // Craft Caster Ring
 
 	//Config.Recipes.push([Recipe.Blood.Helm, "Armet"]); // Craft Blood Armet
 
@@ -429,7 +442,9 @@ function LoadConfig() {
 	 * Use Roll.Eth, Roll.NonEth or Roll.All to determine what kind of base item to roll - ethereal, non-ethereal or all.
 	 */
 	//Config.Recipes.push([Recipe.Socket.Weapon, "Thresher", Roll.Eth]); // Socket ethereal Thresher
+	Config.Recipes.push([Recipe.Socket.Weapon, "Colossus Voulge", Roll.Eth]); // Socket ethereal Colossus Voulge
 	Config.Recipes.push([Recipe.Socket.Weapon, "Cryptic Axe", Roll.Eth]); // Socket ethereal Cryptic Axe
+	Config.Recipes.push([Recipe.Socket.Weapon, "Great Poleaxe", Roll.Eth]); // Socket ethereal Great Poleaxe
 
 	Config.Recipes.push([Recipe.Socket.Armor, "Ornate Plate", Roll.Eth]); // Socket ethereal Great Hauberk
 	Config.Recipes.push([Recipe.Socket.Armor, "Dusk Shroud", Roll.Eth]); // Socket ethereal Great Hauberk
@@ -448,8 +463,8 @@ function LoadConfig() {
 	Config.Recipes.push([Recipe.Socket.Armor, "Shadow Plate", Roll.Eth]); // Socket ethereal Shadow Plate
 	Config.Recipes.push([Recipe.Socket.Armor, "Sacred Armor", Roll.Eth]); // Socket ethereal Sacred Armor
 
-	Config.Recipes.push([Recipe.Socket.Shield, "Sacred Targe", Roll.Eth]); // Socket ethereal Kurast Shield
-	Config.Recipes.push([Recipe.Socket.Shield, "Sacred Rondache", Roll.Eth]); // Socket ethereal Kurast Shield
+	Config.Recipes.push([Recipe.Socket.Shield, "Sacred Targe", Roll.Eth]); // Socket ethereal Sacred Targe
+	Config.Recipes.push([Recipe.Socket.Shield, "Sacred Rondache", Roll.Eth]); // Socket ethereal Sacred Rondache
 	Config.Recipes.push([Recipe.Socket.Shield, "Kurast Shield", Roll.Eth]); // Socket ethereal Kurast Shield
 	Config.Recipes.push([Recipe.Socket.Shield, "Zakarum Shield", Roll.Eth]); // Socket ethereal Zakarum Shield
 	Config.Recipes.push([Recipe.Socket.Shield, "Vortex Shield", Roll.Eth]); // Socket ethereal Vortex Shield
@@ -457,7 +472,7 @@ function LoadConfig() {
 	Config.Recipes.push([Recipe.Unique.Armor.ToExceptional, "Heavy Gloves", Roll.NonEth]); // Upgrade Bloodfist to Exceptional
 	Config.Recipes.push([Recipe.Unique.Armor.ToExceptional, "Light Gauntlets", Roll.NonEth]); // Upgrade Magefist to Exceptional
 	Config.Recipes.push([Recipe.Unique.Armor.ToExceptional, "Boots", Roll.NonEth]); // Upgrade Hotspur to Exceptional
-	// Config.Recipes.push([Recipe.Unique.Armor.ToExceptional, "Light Plated Boots", Roll.NonEth]); // Upgrade Goblin toes to Exceptional
+	Config.Recipes.push([Recipe.Unique.Armor.ToExceptional, "Light Plated Boots", Roll.NonEth]); // Upgrade Goblin toes to Exceptional
 	Config.Recipes.push([Recipe.Unique.Armor.ToElite, "Sharkskin Gloves", Roll.NonEth]); // Upgrade Bloodfist or Grave Palm to Elite
 	Config.Recipes.push([Recipe.Unique.Armor.ToElite, "Battle Gauntlets", Roll.NonEth]); // Upgrade Magefist or Lavagout to Elite
 	Config.Recipes.push([Recipe.Unique.Armor.ToElite, "War Boots", Roll.NonEth]); // Upgrade Gore Rider to Elite
@@ -475,22 +490,22 @@ function LoadConfig() {
 	// Config.Runewords.push([Runeword.Treachery, "Mage Plate"]);
 	// Config.Runewords.push([Runeword.Treachery, "Archon Plate"]);
 	// Config.Runewords.push([Runeword.Treachery, "Dusk Shroud"]);
-	Config.Runewords.push([Runeword.Treachery, "Ornate Plate", Roll.Eth]);
-	Config.Runewords.push([Runeword.Treachery, "Dusk Shroud", Roll.Eth]);
-	Config.Runewords.push([Runeword.Treachery, "Wyrmhide", Roll.Eth]);
-	Config.Runewords.push([Runeword.Treachery, "Scarab Husk", Roll.Eth]);
-	Config.Runewords.push([Runeword.Treachery, "Wire Fleece", Roll.Eth]);
-	Config.Runewords.push([Runeword.Treachery, "Diamond Mail", Roll.Eth]);
-	Config.Runewords.push([Runeword.Treachery, "Loricated Mail", Roll.Eth]);
-	Config.Runewords.push([Runeword.Treachery, "Great Hauberk", Roll.Eth]);
-	Config.Runewords.push([Runeword.Treachery, "Boneweave", Roll.Eth]);
-	Config.Runewords.push([Runeword.Treachery, "Balrog Skin", Roll.Eth]);
-	Config.Runewords.push([Runeword.Treachery, "Archon Plate", Roll.Eth]);
-	Config.Runewords.push([Runeword.Treachery, "Kraken Shell", Roll.Eth]);
-	Config.Runewords.push([Runeword.Treachery, "Hellforge Plate", Roll.Eth]);
-	Config.Runewords.push([Runeword.Treachery, "Lacquered Plate", Roll.Eth]);
-	Config.Runewords.push([Runeword.Treachery, "Shadow Plate", Roll.Eth]);
-	Config.Runewords.push([Runeword.Treachery, "Sacred Armor", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Ornate Plate", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Dusk Shroud", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Wyrmhide", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Scarab Husk", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Wire Fleece", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Diamond Mail", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Loricated Mail", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Great Hauberk", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Boneweave", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Balrog Skin", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Archon Plate", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Kraken Shell", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Hellforge Plate", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Lacquered Plate", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Shadow Plate", Roll.Eth]);
+	// Config.Runewords.push([Runeword.Treachery, "Sacred Armor", Roll.Eth]);
 		Config.KeepRunewords.push("[Type] == armor # [assassinskills] == 2 && [ias] == 45");
 
 	// Config.Runewords.push([Runeword.Treachery, "Mage Plate"]);
@@ -524,17 +539,19 @@ function LoadConfig() {
 	// Config.Runewords.push([Runeword.Insight, "Poleaxe", Roll.Eth]);
 	// Config.Runewords.push([Runeword.Insight, "Halberd", Roll.Eth]);
 	// Config.Runewords.push([Runeword.Insight, "Partizan", Roll.Eth]);
-	// Config.Runewords.push([Runeword.Insight, "Colossus Voulge", Roll.Eth]);
-	// Config.Runewords.push([Runeword.Insight, "Thresher", Roll.Eth]); // Make Insight Thresher
+	Config.Runewords.push([Runeword.Insight, "Colossus Voulge", Roll.Eth]);
+	Config.Runewords.push([Runeword.Insight, "Thresher", Roll.Eth]); // Make Insight Thresher
 	Config.Runewords.push([Runeword.Insight, "Cryptic Axe", Roll.Eth]); // Make Insight Cryptic Axe
-		Config.KeepRunewords.push("[type] == polearm # [meditationaura] >= 12");
+		// Config.KeepRunewords.push("[type] == polearm # [meditationaura] >= 12");
+		Config.KeepRunewords.push("[type] == polearm # [meditationaura] == 17");
+		// Config.KeepRunewords.push("[type] == polearm # [meditationaura] == 17 && [enhanceddamage] == 260 && [itemtohitpercent] == 250");
 
 	// Config.Runewords.push([Runeword.Grief, "Phase Blade", Roll.NonEth]);
 		Config.KeepRunewords.push("[Name] == PhaseBlade # [ias] >= 30 && [itemignoretargetac] > 0 && [itemdamagedemonperlevel] > 0");
 
 	// Config.Runewords.push([Runeword.Spirit, "Long Sword"]); // Make Spirit Crystal Sword
 	// Config.Runewords.push([Runeword.Spirit, "Crystal Sword"]); // Make Spirit Crystal Sword
-	// Config.Runewords.push([Runeword.Spirit, "Monarch"]); // Make Spirit Monarch
+	Config.Runewords.push([Runeword.Spirit, "Monarch"]); // Make Spirit Monarch
 	// Make Spirit any pala shield for bo
 	// Config.Runewords.push([Runeword.Spirit, "Targe"]);
 	// Config.Runewords.push([Runeword.Spirit, "Rondache"]);
@@ -551,11 +568,11 @@ function LoadConfig() {
 	// Config.Runewords.push([Runeword.Spirit, "Kurast Shield"]);
 	// Config.Runewords.push([Runeword.Spirit, "Zakarum Shield"]);
 	// Config.Runewords.push([Runeword.Spirit, "Vortex Shield"]);
-		Config.KeepRunewords.push("[type] == auricshields # [fcr] >= 25 # [maxquantity] == 1"); // Pala shield spirit for bo
-		// Config.KeepRunewords.push("[type] == shield || [type] == auricshields || [type] == sword # [fcr] >= 25 # [maxquantity] == 1"); // Any Spirit
-		// Config.KeepRunewords.push("[type] == shield || [type] == auricshields || [type] == sword # [fcr] == 35");
-		Config.KeepRunewords.push("[type] == shield || [type] == auricshields || [type] == sword # [fcr] == 35 && [maxmana] == 112");
-		Config.KeepRunewords.push("[type] == shield || [type] == auricshields || [type] == sword # [fcr] == 35 && [maxmana] == 112 && [itemabsorbmagic] == 8");
+		// Config.KeepRunewords.push("[type] == auricshields # [fcr] >= 25 # [maxquantity] == 1"); // Pala shield spirit for bo
+		// Config.KeepRunewords.push("[type] == sword # [fcr] >= 25 # [maxquantity] == 1"); // Any Spirit
+		// Config.KeepRunewords.push("[type] == shield # [fcr] == 35");
+		Config.KeepRunewords.push("[type] == shield # [fcr] == 35 && [maxmana] == 112");
+		// Config.KeepRunewords.push("[type] == shield || [type] == auricshields || [type] == sword # [fcr] == 35 && [maxmana] == 112 && [itemabsorbmagic] == 8");
 
 	// Public game options
 
@@ -617,7 +634,7 @@ function LoadConfig() {
 	Config.MFSwitch = 0; // MF weapon slot: 0 = slot I, 1 = slot II
 
 	// Speedup config. Full packet casting is not recommended for melee skills.
-	Config.FCR = 255;//200; // 0 - disable, 1 to 255 - set value of Faster Cast Rate.
+	Config.FCR = 0;//200; // 0 - disable, 1 to 255 - set value of Faster Cast Rate.
 	Config.FHR = 255;//142; // 0 - disable, 1 to 255 - set value of Faster Hit Recovery.
 	Config.FBR = 255;//200; // 0 - disable, 1 to 255 - set value of Faster Block Recovery.
 	Config.IAS = 0;//255; // 0 - disable, 1 to 255 - set value of Increased Attack Speed.
@@ -640,7 +657,7 @@ function LoadConfig() {
 	// Monster skip config
 	// Skip immune monsters. Possible options: "fire", "cold", "lightning", "poison", "physical", "magic".
 	// You can combine multiple resists with "and", for example - "fire and cold", "physical and cold and poison"
-	Config.SkipImmune = ["fire and cold and physical"];
+	Config.SkipImmune = ["physical and lightning"];
 	// Skip enchanted monsters. Possible options: "extra strong", "extra fast", "cursed", "magic resistant", "fire enchanted", "lightning enchanted", "cold enchanted", "mana burn", "teleportation", "spectral hit", "stone skin", "multiple shots".
 	// You can combine multiple enchantments with "and", for example - "cursed and extra fast", "mana burn and extra strong and lightning enchanted"
 	Config.SkipEnchant = [];
@@ -653,13 +670,13 @@ function LoadConfig() {
 	 * To disable an attack, set it to -1
 	 * Skills MUST be POSITIVE numbers. For reference see http://pastebin.com/baShRwWM
 	 */
-	Config.AttackSkill[0] = 56; // Preattack skill.
-	Config.AttackSkill[1] = 64; // Primary skill to bosses.
-	Config.AttackSkill[2] = 47; // Primary untimed skill to bosses. Keep at -1 if Config.AttackSkill[1] is untimed skill.
-	Config.AttackSkill[3] = 64; // Primary skill to others.
-	Config.AttackSkill[4] = 47; // Primary untimed skill to others. Keep at -1 if Config.AttackSkill[3] is untimed skill.
-	Config.AttackSkill[5] = 56; // Secondary skill if monster is immune to primary.
-	Config.AttackSkill[6] = 64; // Secondary untimed skill if monster is immune to primary untimed.
+	Config.AttackSkill[0] = Skills.NONE; // Preattack skill.
+	Config.AttackSkill[1] = Skills.Sorceress.LIGHTNING; // Primary skill to bosses.
+	Config.AttackSkill[2] = Skills.NONE; // Primary untimed skill to bosses. Keep at -1 if Config.AttackSkill[1] is untimed skill.
+	Config.AttackSkill[3] = Skills.Sorceress.CHAIN_LIGHTNING; // Primary skill to others.
+	Config.AttackSkill[4] = Skills.NONE; // Primary untimed skill to others. Keep at -1 if Config.AttackSkill[3] is untimed skill.
+	Config.AttackSkill[5] = Skills.NONE; // Secondary skill if monster is immune to primary.
+	Config.AttackSkill[6] = Skills.NONE; // Secondary untimed skill if monster is immune to primary untimed.
 
 	// Low mana skills - these will be used if main skills can't be cast.
 	Config.LowManaSkill[0] = -1; // Timed low mana skill.
@@ -675,10 +692,10 @@ function LoadConfig() {
 	};
 
 	Config.Dodge = true; // Move away from monsters that get too close. Don't use with short-ranged attacks like Poison Dagger.
-	Config.DodgeRange = 12; // Distance to keep from monsters.
+	Config.DodgeRange = 8; // Distance to keep from monsters.
 	Config.DodgeHP = 100; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
 	Config.BossPriority = true; // Set to true to attack Unique/SuperUnique monsters first when clearing
-	Config.ClearType = 0xF; // Monster spectype to kill in level clear scripts (ie. Mausoleum). 0xF = skip normal, 0x7 = champions/bosses, 0 = all
+	Config.ClearType = 0x7; // Monster spectype to kill in level clear scripts (ie. Mausoleum). 0xF = skip normal, 0x7 = champions/bosses, 0 = all
 	Config.TeleStomp = true; // Use merc to attack bosses if they're immune to attacks, but not to physical damage
 
 	// Wereform setup. Make sure you read Templates/Attacks.txt for attack skill format.
@@ -694,6 +711,9 @@ function LoadConfig() {
         "Izual", "Hephasto the Armorer", "Diablo", // Act 4 "Infector of Souls", "Lord De Seis", "Venom Lord", "Doom Knight", "Oblivion Knight", 
         "Nihlathak", "Lister the Tormenter", "Talic", "Korlic", "Madawc", "Eldritch the Rectifier", "Shenk the Overseer", "Pindleskin", 105, 381, 557, 558, "Baal" // Act 5
     ];
+    /*for (var i=0; i<1000; i++) {
+    	Config.StaticList.push(i);
+    }*/
 
 	/* AutoSkill builds character based on array defined by the user and it replaces AutoBuild's skill system.
 	 * AutoSkill will automatically spend skill points and it can also allocate any prerequisite skills as required.

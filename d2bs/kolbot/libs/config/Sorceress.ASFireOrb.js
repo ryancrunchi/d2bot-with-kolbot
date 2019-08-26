@@ -25,7 +25,7 @@ function LoadConfig() {
 		Config.BattleOrders.Getters = []; // List of players to wait for before casting Battle Orders (mode 0). All players must be in the same area as the BOer.
 
 	// Team MF system
-	Config.MFLeader = true; // Set to true if you have one or more MFHelpers. Opens TP and gives commands when doing normal MF runs.
+	Config.MFLeader = false; // Set to true if you have one or more MFHelpers. Opens TP and gives commands when doing normal MF runs.
 
 	// Boss/area scripts
 
@@ -47,9 +47,9 @@ function LoadConfig() {
 	Scripts.Treehead = false;
 	Scripts.Smith = false;
 	Scripts.BoneAsh = false;
-	Scripts.Countess = true;
+	Scripts.Countess = false;
 		Config.Countess.KillGhosts = false;
-	Scripts.Andariel = true;
+	Scripts.Andariel = false;
 
 	// *** act 2 ***
 	Scripts.Radament = false;
@@ -71,7 +71,7 @@ function LoadConfig() {
 	Scripts.Endugu = false;
 	Scripts.Travincal = false;
 		Config.Travincal.PortalLeech = false; // Set to true to open a portal for leechers.
-	Scripts.Mephisto = true;
+	Scripts.Mephisto = false;
 		Config.Mephisto.MoatTrick = false;
 		Config.Mephisto.KillCouncil = false;
 		Config.Mephisto.TakeRedPortal = true;
@@ -82,7 +82,7 @@ function LoadConfig() {
 	Scripts.Hephasto = false;
 	Scripts.Vizier = false; // Intended for classic sorc, kills Vizier only.
 	Scripts.FastDiablo = false;
-	Scripts.Diablo = true;
+	Scripts.Diablo = false;
 		Config.Diablo.Entrance = true; // Start from entrance
 		Config.Diablo.SealWarning = "";
 		Config.Diablo.EntranceTP = "";
@@ -97,7 +97,7 @@ function LoadConfig() {
 		Config.Pindleskin.ViperQuit = false; // End script if Tomb Vipers are found.
 	Scripts.Nihlathak = false;
 		Config.Nihlathak.ViperQuit = false; // End script if Tomb Vipers are found.
-	Scripts.Eldritch = true;
+	Scripts.Eldritch = false;
 		Config.Eldritch.OpenChest = true;
 		Config.Eldritch.KillShenk = true;
 		Config.Eldritch.KillDacFarren = false;
@@ -112,7 +112,7 @@ function LoadConfig() {
 	Scripts.Snapchip = false;
 		Config.Snapchip.ClearIcyCellar = true;
 	Scripts.Worldstone = false;
-	Scripts.Baal = true;
+	Scripts.Baal = false;
 		Config.Baal.HotTPMessage = "";
 		Config.Baal.SafeTPMessage = "";
 		Config.Baal.BaalMessage = "";
@@ -126,7 +126,7 @@ function LoadConfig() {
 	*/
 
 	Config.Leader = ""; // Leader's ingame character name. Leave blank to try auto-detection (works in AutoBaal, Wakka, MFHelper)
-	Config.QuitList = [""]; // List of character names to quit with. Example: Config.QuitList = ["MySorc", "MyDin"];
+	Config.QuitList = ["ASBarb"]; // List of character names to quit with. Example: Config.QuitList = ["MySorc", "MyDin"];
 	Config.QuitListMode = 1; // 0 = use character names; 1 = use profile names (all profiles must run on the same computer).
 
 	Scripts.TristramLeech = false; // Enters Tristram, attempts to stay close to the leader and will try and help kill.
@@ -229,7 +229,7 @@ function LoadConfig() {
 	Config.HealHP = 90; // Go to a healer if under designated percent of life.
 	Config.HealMP = 50; // Go to a healer if under designated percent of mana.
 	Config.HealStatus = true; // Go to a healer if poisoned or cursed
-	Config.UseMerc = true; // Use merc. This is ignored and always false in d2classic.
+	Config.UseMerc = false; // Use merc. This is ignored and always false in d2classic.
 	Config.MercWatch = false; // Instant merc revive during battle.
 
 	// Potion settings
@@ -269,16 +269,16 @@ function LoadConfig() {
 	 */
 	Config.BeltColumn[0] = "hp";
 	Config.BeltColumn[1] = "mp";
-	Config.BeltColumn[2] = "rv";
-	Config.BeltColumn[3] = "rv";
+	Config.BeltColumn[2] = "mp";
+	Config.BeltColumn[3] = "mp";
 
 	/* Minimum amount of potions. If we have less, go to vendor to purchase more.
 	 * Set rejuvenation columns to 0, because they can't be bought.
 	 */
 	Config.MinColumn[0] = 1;
 	Config.MinColumn[1] = 1;
-	Config.MinColumn[2] = 0;
-	Config.MinColumn[3] = 0;
+	Config.MinColumn[2] = 1;
+	Config.MinColumn[3] = 1;
 
 	// Pickit config. Default folder is kolbot/pickit.
 	// Config.PickitFiles.push("kolton.nip");
@@ -298,6 +298,8 @@ function LoadConfig() {
 	// Config.PickitFiles.push("advance/craft.nip");
 	// Config.PickitFiles.push("advance/runewords.nip");
 	// Config.PickitFiles.push("advance/spirit_packs.nip");
+
+	Config.LowGold = 10000;
 
 	Config.PickRange = 40; // Pick radius
 	Config.FastPick = false; // Check and pick items between attacks
@@ -418,28 +420,28 @@ function LoadConfig() {
 	 */
 	Config.MakeRunewords = true; // Set to true to enable runeword making/rerolling
 
-	// Config.Runewords.push([Runeword.Lore, "Cap"]);
-	// Config.Runewords.push([Runeword.Lore, "Mask"]);
-	// Config.Runewords.push([Runeword.Lore, "Bone Helm"]);
-	// Config.Runewords.push([Runeword.Lore, "Death Mask"]);
-	// Config.Runewords.push([Runeword.Lore, "Grim Helm"]);
-	// Config.Runewords.push([Runeword.Lore, "Shako"]);
-	// Config.Runewords.push([Runeword.Lore, "Helm"]);
+	Config.Runewords.push([Runeword.Lore, "Cap"]);
+	Config.Runewords.push([Runeword.Lore, "Mask"]);
+	Config.Runewords.push([Runeword.Lore, "Bone Helm"]);
+	Config.Runewords.push([Runeword.Lore, "Death Mask"]);
+	Config.Runewords.push([Runeword.Lore, "Grim Helm"]);
+	Config.Runewords.push([Runeword.Lore, "Shako"]);
+	Config.Runewords.push([Runeword.Lore, "Helm"]);
 		Config.KeepRunewords.push("[type] == helm # [itemallskills] == 1 && [energy] == 10");
 
-	// Config.Runewords.push([Runeword.Stealth, "Quilted Armor"]);
-	// Config.Runewords.push([Runeword.Stealth, "Leather Armor"]);
-	// Config.Runewords.push([Runeword.Stealth, "Hard Leather Armor"]);
+	Config.Runewords.push([Runeword.Stealth, "Quilted Armor"]);
+	Config.Runewords.push([Runeword.Stealth, "Leather Armor"]);
+	Config.Runewords.push([Runeword.Stealth, "Hard Leather Armor"]);
 		Config.KeepRunewords.push("[type] == armor # [frw] == 25 && [fcr] == 25 && [fhr] == 25");
 
-	// Config.Runewords.push([Runeword.AncientsPledge, "Large Shield"]);
-	// Config.Runewords.push([Runeword.AncientsPledge, "Kite Shield"]);
+	Config.Runewords.push([Runeword.AncientsPledge, "Large Shield"]);
+	Config.Runewords.push([Runeword.AncientsPledge, "Kite Shield"]);
 		Config.KeepRunewords.push("[type] == shield # [lightresist] == 48");
 
-	// Config.Runewords.push([Runeword.Rhyme, "Small Shield"]);
-	// Config.Runewords.push([Runeword.Rhyme, "Large Shield"]);
-	// Config.Runewords.push([Runeword.Rhyme, "Kite Shield"]);
-	// Config.Runewords.push([Runeword.Rhyme, "Barbed Shield"]);
+	Config.Runewords.push([Runeword.Rhyme, "Small Shield"]);
+	Config.Runewords.push([Runeword.Rhyme, "Large Shield"]);
+	Config.Runewords.push([Runeword.Rhyme, "Kite Shield"]);
+	Config.Runewords.push([Runeword.Rhyme, "Barbed Shield"]);
 		Config.KeepRunewords.push("[type] == shield # [fbr] == 40 && [lightresist] == 25");
 
 	Config.Runewords.push([Runeword.Insight, "becdecorbin"]);
@@ -451,17 +453,17 @@ function LoadConfig() {
 	Config.Runewords.push([Runeword.Insight, "Cryptic Axe"]); // Make Insight Cryptic Axe
 		Config.KeepRunewords.push("[type] == polearm # [meditationaura] >= 12");
 
-	// Config.Runewords.push([Runeword.Spirit, "Broad Sword"]); // Make Spirit Broad Sword
-	// Config.Runewords.push([Runeword.Spirit, "Long Sword"]); // Make Spirit Long Sword
-	// Config.Runewords.push([Runeword.Spirit, "Crystal Sword"]); // Make Spirit Crystal Sword
-	// Config.Runewords.push([Runeword.Spirit, "Monarch"]); // Make Spirit Monarch
-	//Config.Runewords.push([Runeword.Spirit, "Sacred Targe"]); // Make Spirit Sacred Targe
+	Config.Runewords.push([Runeword.Spirit, "Broad Sword"]); // Make Spirit Broad Sword
+	Config.Runewords.push([Runeword.Spirit, "Long Sword"]); // Make Spirit Long Sword
+	Config.Runewords.push([Runeword.Spirit, "Crystal Sword"]); // Make Spirit Crystal Sword
+	Config.Runewords.push([Runeword.Spirit, "Monarch"]); // Make Spirit Monarch
+	Config.Runewords.push([Runeword.Spirit, "Sacred Targe"]); // Make Spirit Sacred Targe
 		Config.KeepRunewords.push("[type] == shield || [type] == auricshields || [type] == sword # [fcr] >= 25");
 
 	// Public game options
 
 	// If Config.Leader is set, the bot will only accept invites from leader. If Config.PublicMode is not 0, Baal and Diablo script will open Town Portals.
-	Config.PublicMode = 0; // 1 = invite and accept, 2 = accept only, 3 = invite only, 0 = disable
+	Config.PublicMode = 1; // 1 = invite and accept, 2 = accept only, 3 = invite only, 0 = disable
 	// Party message settings. Each setting represents an array of messages that will be randomly chosen.
 	// $name, $level, $class and $killer are replaced by the player's name, level, class and killer
 	Config.Greetings = []; // Example: ["Hello, $name (level $level $class)"]
@@ -476,8 +478,8 @@ function LoadConfig() {
 	Config.MinGameTime = 60; // Min game time in seconds. Bot will TP to town and stay in game if the run is completed before.
 	Config.MaxGameTime = 1200; // Maximum game time in seconds. Quit game when limit is reached.
 	Config.TeleSwitch = false; // Switch to slot II when teleporting more than 1 node.
-	Config.OpenChests = false; // Open chests. Controls key buying.
-	Config.MiniShopBot = true; // Scan items in NPC shops.
+	Config.OpenChests = true; // Open chests. Controls key buying.
+	Config.MiniShopBot = false; // Scan items in NPC shops.
 	Config.PacketShopping = false; // Use packets to shop. Improves shopping speed.
 	Config.TownCheck = true; // Go to town if out of potions
 	Config.LogExperience = true; // Print experience statistics in the manager.
@@ -492,9 +494,9 @@ function LoadConfig() {
 	Config.MFSwitch = 0; // MF weapon slot: 0 = slot I, 1 = slot II
 
 	// Speedup config. Full packet casting is not recommended for melee skills.
-	Config.FCR = 200;//200; // 0 - disable, 1 to 255 - set value of Faster Cast Rate.
-	Config.FHR = 142;//142; // 0 - disable, 1 to 255 - set value of Faster Hit Recovery.
-	Config.FBR = 200;//200; // 0 - disable, 1 to 255 - set value of Faster Block Recovery.
+	Config.FCR = 0;//200; // 0 - disable, 1 to 255 - set value of Faster Cast Rate.
+	Config.FHR = 255;//142; // 0 - disable, 1 to 255 - set value of Faster Hit Recovery.
+	Config.FBR = 255;//200; // 0 - disable, 1 to 255 - set value of Faster Block Recovery.
 	Config.IAS = 0;//255; // 0 - disable, 1 to 255 - set value of Increased Attack Speed.
 	Config.PacketCasting = 0; // 0 = disable, 1 = packet teleport, 2 = full packet casting.
 	Config.WaypointMenu = true; // Set to true for Single and private realms
@@ -582,7 +584,7 @@ function LoadConfig() {
 		Config.AutoSmurf.TeamSize = 1;
 		Config.AutoSmurf.TeleportingSorc = "BooZ";
 		Config.AutoSmurf.BoBarb = "";
-		Config.AutoSmurf.NonSorcChar = [];
+		Config.AutoSmurf.NonSorcChar = [/*"Chibradin"*/];
       	Config.AutoSmurf.AllTeamProfiles = ["ASFireOrb"];
 
 

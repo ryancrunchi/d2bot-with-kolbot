@@ -29,11 +29,11 @@
 // max cb = 10
 // max ll = 3
 // max life = 20
-[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 5 && [LifeLeech] >= 3 && [IAS] == 20 && [Dexterity] >= 10
-[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 5 && [LifeLeech] >= 3 && [IAS] == 20 && ([Strength] >= 10 || [Dexterity] >= 10)
-[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 5 && [LifeLeech]+[ManaLeech] > 3 && [IAS] == 20 && ([Strength] >= 10 || [Dexterity] >= 10)
-[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 5 && [LifeLeech] >= 3 && [Strength]/2+[Dexterity]/2 >= 12
-[Type] == gloves && [Quality] == crafted # [ItemCrushingBlow] >= 5 && [LifeLeech] >= 3 && [Strength]+[Dexterity] == 30
+[Type] == gloves && [Quality] == crafted # [IAS] == 20 && [ItemCrushingBlow] >= 5 && [LifeLeech] >= 3 && [Dexterity] >= 10
+[Type] == gloves && [Quality] == crafted # [IAS] == 20 && [ItemCrushingBlow] >= 5 && [LifeLeech] >= 3 && ([Strength] >= 10 || [Dexterity] >= 10)
+[Type] == gloves && [Quality] == crafted # [IAS] == 20 && [ItemCrushingBlow] >= 5 && [LifeLeech]+[ManaLeech] > 3 && ([Strength] >= 10 || [Dexterity] >= 10)
+[Type] == gloves && [Quality] == crafted # [IAS] == 20 && [ItemCrushingBlow] >= 5 && [LifeLeech] >= 3 && [Strength]/2+[Dexterity]/2 >= 12
+[Type] == gloves && [Quality] == crafted # [IAS] == 20 && [ItemCrushingBlow] >= 5 && [LifeLeech] >= 3 && [Strength]+[Dexterity] == 30
 
 
 // ##### Boots #########################
@@ -72,8 +72,8 @@
 [Type] == belt && [Quality] == crafted # [FCR] == 10 && [FHR] == 24 && [Strength] >= 21 && [MaxHP]+[MaxMana] >= 60
 
 // blood
-[Type] == belt && [Quality] == crafted # [FHR] >= 17 && [Strength] >= 25 && [MaxHP] >= 60 && [ItemOpenWounds] >= 7 && [LifeLeech] == 3 && ([MaxMana] >= 0 || [ColdResist] >= 20 || [LightResist] >= 20 || [FireResist] >= 20 || [EnhancedDefense] >= 180)
-[Type] == belt && [Quality] == crafted # [FHR] == 24 && [Strength] >= 21 && [MaxHP] >= 60 && [ItemOpenWounds] >= 7 && [LifeLeech] >= 2 && ([MaxMana] >= 0 || [ColdResist] >= 20 || [LightResist] >= 20 || [FireResist] >= 20 || [EnhancedDefense] >= 180)
+// [Type] == belt && [Quality] == crafted # [FHR] >= 17 && [Strength] >= 28 && [MaxHP] >= 60 && [ItemOpenWounds] >= 7 && [LifeLeech] == 3 && ([MaxMana] >= 0 || [ColdResist]+[LightResist]+[FireResist] >= 20 || [EnhancedDefense] >= 180)
+[Type] == belt && [Quality] == crafted # [FHR] == 24 && [Strength] >= 21 && [MaxHP] >= 60 && [ItemOpenWounds] >= 7 && [LifeLeech] >= 2 && ([MaxMana] >= 0 || [ColdResist]+[LightResist]+[FireResist] >= 20 || [EnhancedDefense] >= 180)
 
 
 // ##### Rings #########################
@@ -90,6 +90,7 @@
 // max ll = 9 (12 blood)
 // max ml = 9
 // max fcr = 10
+// [Type] == ring && [Quality] == crafted # [FCR] == 10 && [Strength]+[Dexterity]+[FireResist]+[LightResist]+[ColdResist]+[MaxHP] > 0
 [Type] == ring && [Quality] == crafted # [FCR] == 10 && [Strength] >= 10 && ([FireResist] >= 15 || [LightResist] >= 15 || [ColdResist] >= 15) && [MaxHP] >= 20
 [Type] == ring && [Quality] == crafted # [FCR] == 10 && [Strength]+[Dexterity] >= 25 && [FireResist]+[LightResist]+[ColdResist]+[PoisonResist] >= 30
 [Type] == ring && [Quality] == crafted # [FCR] == 10 && [Strength]+[Dexterity] >= 30 && [FireResist]+[LightResist]+[ColdResist]+[PoisonResist] >= 30
@@ -115,8 +116,12 @@
 // max ll = 9 (13 blood)
 // max ml = 9
 // CASTER
-[Type] == amulet && [Quality] == crafted # [FCR] >= 15 && [itemaddsorceressskills] == 2 && ([FireResist] >= 33 || [LightResist] >= 33 || [ColdResist] >= 33 || [PoisonResist] >= 33) && [MaxMana] > 42 && [MaxHP] > 50
-[Type] == amulet && [Quality] == crafted # [FCR] == 20 && [ItemAddClassSkills] == 2 && [FireResist]+[LightResist]+[ColdResist]+[PoisonResist] >= 60 && ([MaxMana] >= 100 || [MaxHP] >= 40 || [Strength] >= 20 || [Dexterity] >= 15)
+// [Type] == amulet && [Quality] == crafted # [FCR] >= 18 && [strength]+[dexterity]+[FireResist]+[LightResist]+[ColdResist]+[MaxHP] > 0
+[Type] == amulet && [Quality] == crafted # [itemaddsorceressskills] == 2 && [FCR] >= 15 && [strength] >= 15 && ([FireResist] > 0 || [LightResist] > 0 || [ColdResist] > 0) && [MaxHP] > 0
+[Type] == amulet && [Quality] == crafted # [FCR] >= 15 && [itemaddsorceressskills] == 2 && ([FireResist] > 0 || [LightResist] > 0 || [ColdResist] > 0) && [MaxHP] >= 30
+[Type] == amulet && [Quality] == crafted # [FCR] >= 10 && [ItemAddClassSkills] == 2 && [FireResist]+[LightResist]+[ColdResist] >= 50 && ([Strength] >= 25 || [Dexterity] >= 18) && ([MaxMana] >= 90 || [MaxHP] >= 50)
+[Type] == amulet && [Quality] == crafted # [FCR] >= 18 && [ItemAddClassSkills] == 2 && [FireResist]+[LightResist]+[ColdResist] >= 45 && ([Strength] >= 20 || [Dexterity] >= 15) && ([MaxMana] >= 80 || [MaxHP] >= 40)
+[Type] == amulet && [Quality] == crafted # [FCR] == 20 && [ItemAddClassSkills] == 2 && [FireResist]+[LightResist]+[ColdResist] >= 45 && ([MaxMana] >= 80 || [MaxHP] >= 40 || [Strength] >= 20 || [Dexterity] >= 15)
 //BLOOD
-[Type] == amulet && [Quality] == crafted # [LifeLeech] >= 10 && [ItemAddClassSkills] == 2 && [FireResist]+[LightResist]+[ColdResist]+[PoisonResist] > 60 && ([ManaLeech] >= 7 || [MaxHP] >= 60 || [Strength] >= 15 || [Dexterity] >= 10)
+[Type] == amulet && [Quality] == crafted # [LifeLeech] >= 10 && [ItemAddClassSkills] == 2 && [FireResist]+[LightResist]+[ColdResist] >= 45 && ([ManaLeech] >= 7 || [MaxHP] >= 60 || [Strength] >= 20 || [Dexterity] >= 10)
 [Type] == amulet && [Quality] == crafted # [LifeLeech] >= 10 && [ItemAddClassSkills] == 2 && [Strength]+[Dexterity] >= 35

@@ -964,9 +964,9 @@ IngredientLoop:
 
 						switch (result.result) {
 						case 0:
-							Misc.itemLogger("Dropped", items[j], "doCubing");
-							if (Config.SoldItemInfo && Config.SoldItemInfoQuality.indexOf(items[j].quality) > -1) {
-								Misc.logItem("------ Dropped", items[j]);
+							Misc.itemLogger("Cubing Dropped", items[j], "doCubing");
+							if (Config.SoldItemInfo/* && Config.SoldItemInfoQuality.indexOf(items[j].quality) > -1*/) {
+								Misc.logItem("------ Cubing Dropped", items[j]);
 							}
 							items[j].drop();
 

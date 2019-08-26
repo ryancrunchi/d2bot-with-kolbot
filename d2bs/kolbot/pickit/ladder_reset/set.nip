@@ -102,9 +102,9 @@
 // [Name] == MythicalSword && [Quality] == set // Bul-Kathos' Tribal Guardian
 
 // ##### Cow King's Leathers ###########
-// [Name] == WarHat && [Quality] == set // Cow King's Horns
-// [Name] == StuddedLeather && [Quality] == set // Cow King's Hide
-// [Name] == HeavyBoots && [Quality] == set # [Dexterity] == 20 && [ItemMagicBonus] == 25 // Cow King's Hooves
+[Name] == WarHat && [Quality] == set # # [MaxQuantity] == 1 // Cow King's Horns
+[Name] == StuddedLeather && [Quality] == set # # [MaxQuantity] == 1 // Cow King's Hide
+[Name] == HeavyBoots && [Quality] == set # [Dexterity] == 20 && [ItemMagicBonus] == 25 # [MaxQuantity] == 1 // Cow King's Hooves
 
 // ##### The Disciple ##################
 // [Type] == amulet && [Quality] == set # [ItemAllSkills] == 1 && [ColdResist] == 18 // Telling of Beads
@@ -158,7 +158,7 @@
 // [Name] == ElderStaff && [Quality] == set // Naj's Puzzler
 
 // ##### Orphan's Call #################
-// [Name] == WingedHelm && [Quality] == set // Guillaume's Face
+// [Name] == WingedHelm && [Quality] == set # # [MaxQuantity] == 1 // Guillaume's Face
 // [Name] == RoundShield && [Quality] == set // Whistan's Guard
 // [Name] == SharkskinGloves && [Quality] == set // Magnus' Skin
 // [Name] == BattleBelt && [Quality] == set // Wilhelm's Pride
@@ -182,12 +182,12 @@
 // [Name] == SwirlingCrystal && [Quality] == set # [skillfiremastery]+[skilllightningmastery]+[skillcoldmastery] == 6 # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
 // [Name] == DeathMask && [Quality] == set # # [MaxQuantity] == 1 // Tal Rasha's Horadric Crest
 // [Name] == DeathMask && [Quality] == set # [Defense] == 131 # [MaxQuantity] == 1 // Tal Rasha's Horadric Crest
-[Name] == LacqueredPlate && [Quality] == set # [Defense] >= 833 // Tal Rasha's Guardianship
+// [Name] == LacqueredPlate && [Quality] == set # [Defense] >= 833 // Tal Rasha's Guardianship
 [Name] == LacqueredPlate && [Quality] == set # [Defense] == 941 // Tal Rasha's Guardianship perf def
 [Type] == amulet && [Quality] == set # [SorceressSkills] == 2 // Tal Rasha's Adjucation
 // [Name] == MeshBelt && [Quality] == set # [ItemMagicBonus] >= 10 # [MaxQuantity] == 1 // Tal Rasha's Fine-Spun Cloth
-// [Name] == MeshBelt && [Quality] == set # [ItemMagicBonus] == 15 # [MaxQuantity] == 1 // Tal Rasha's Fine-Spun Cloth
-// [Name] == MeshBelt && [Quality] == set # [ItemMagicBonus] == 15 && [Defense] == 100 // Tal Rasha's Fine-Spun Cloth
+[Name] == MeshBelt && [Quality] == set # [ItemMagicBonus] == 15 # [MaxQuantity] == 1 // Tal Rasha's Fine-Spun Cloth
+// [Name] == MeshBelt && [Quality] == set # [ItemMagicBonus] == 15 && [Defense] == 40 // Tal Rasha's Fine-Spun Cloth
 
 // ##### Trang-Oul's Avatar ############
 // [Name] == BoneVisage && [Quality] == set // Trang-Oul's Guise

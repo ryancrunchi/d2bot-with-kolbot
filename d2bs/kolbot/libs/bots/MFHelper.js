@@ -130,9 +130,20 @@ function MFHelper() {
 
 				king = getPresetUnit(me.area, 1, 773);
 				if (king) {
-					var distance = getDistance(me, king);
-					print("Found king at "+distance);
-					if (distance > 80) {
+					var kingUnit = getUnit(1, 773);
+					if (kingUnit) {
+						if (kingUnit.hp*100 / 128 <= 20) {
+							return false;
+						}
+						var distance = getDistance(me, kingUnit);
+						print("Found king at "+distance);
+						if (distance > 100) {
+							if (!Attack.clear(30)) {
+								return false;
+							}
+						}
+					}
+					else {
 						if (!Attack.clear(30)) {
 							return false;
 						}

@@ -30,7 +30,7 @@ var AutoBuildTemplate = {
 		//SkillPoints: [-1],								// This doesn't matter. We don't have skill points to spend at lvl 1
 		//StatPoints: [-1, -1, -1, -1, -1],						// This doesn't matter. We don't have stat points to spend at lvl 1
 		Update: function () {
-			Config.LowGold = 1000;
+			Config.LowGold = 10000;
 			Config.StashGold = 200;
 			var item = Item.getEquippedItem(4).item;
 			var attack = 0;
@@ -75,7 +75,7 @@ var AutoBuildTemplate = {
 			Config.PickitFiles.push("autoequip/sorceress.fireorb.nip");
 			Config.PickitFiles.push("autoequip/base.nip");
 
-			Config.Dodge = me.diff > 0 || me.charlvl >= 24; // Move away from monsters that get too close. Don't use with short-ranged attacks like Poison Dagger.
+			Config.Dodge = Config.AutoSmurf.TeamSize > 1 || me.diff > 0 || me.charlvl >= 24; // Move away from monsters that get too close. Don't use with short-ranged attacks like Poison Dagger.
 			//Config.DodgeRange = 8; // Distance to keep from monsters.
 			//Config.DodgeHP = 100; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
 			Config.BossPriority = false; // Set to true to attack Unique/SuperUnique monsters first when clearing
@@ -172,7 +172,7 @@ var AutoBuildTemplate = {
 		SkillPoints: [-1],
 		StatPoints: [3, 3, 3, 3, 0],
 		Update: function () {
-			// Config.LowGold = 5000;
+			Config.LowGold = 15000;
 			Config.StashGold = 1000;
 			Config.HPBuffer = 2; // Number of healing potions to keep in inventory.
 			Config.RejuvBuffer = 2; // Number of rejuvenation potions to keep in inventory.
@@ -241,9 +241,9 @@ var AutoBuildTemplate = {
 		SkillPoints: [47,54,55], // fireball, teleport, glacial spike
 		StatPoints: [3, 3, 3, 3, 0],
 		Update: function () {
-			Config.ClearType = 0x7; // Monster spectype to kill in level clear scripts (ie. Mausoleum). 0xF = skip normal, 0x7 = champions/bosses, 0 = all
+			// Config.ClearType = 0x7; // Monster spectype to kill in level clear scripts (ie. Mausoleum). 0xF = skip normal, 0x7 = champions/bosses, 0 = all
 			//Scripts.Andariel = true;
-			Scripts.Countess = true;
+			// Scripts.Countess = true;
 		}
 	},
 
@@ -294,7 +294,7 @@ var AutoBuildTemplate = {
 		Update: function () {
 			Config.AttackSkill = [59,59,47,59,47,-1,-1];
 			Config.LowManaSkill = [-1, -1];
-			Config.ClearType = 0xF; // Monster spectype to kill in level clear scripts (ie. Mausoleum). 0xF = skip normal, 0x7 = champions/bosses, 0 = all
+			// Config.ClearType = 0xF; // Monster spectype to kill in level clear scripts (ie. Mausoleum). 0xF = skip normal, 0x7 = champions/bosses, 0 = all
 		}
 	},
 
@@ -343,7 +343,7 @@ var AutoBuildTemplate = {
 		StatPoints: [1, 1, 1, 1, 1],
 		Update: function () {
 			Config.AttackSkill = [64,64,47,64,47,64,-1];
-			// Config.LowGold = 20000;
+			// Config.LowGold = 70000;
 			/*Scripts.Mephisto = true;
 				Config.Mephisto.MoatTrick = true;
 				Config.Mephisto.KillCouncil = true;

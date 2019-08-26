@@ -8,9 +8,9 @@ var stopLvl = 99;
 
 function Wakka() {
 	var i, safeTP, portal, vizClear, seisClear, infClear, tick, diablo,
-		timeout = 30, // seconds
-		minDist = 40,
-		maxDist = 60,
+		timeout = 180, // seconds
+		minDist = 30,
+		maxDist = 70,
 		leaderUnit = null,
 		leaderPartyUnit = null,
 		leader = "";

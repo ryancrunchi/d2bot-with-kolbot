@@ -134,6 +134,10 @@ function Diablo() {
 	this.chaosPreattack = function (name, amount) {
 		var i, n, target, positions;
 
+		if (amount <= 0) {
+			return;
+		}
+
 		switch (me.classid) {
 		case 0:
 			break;
@@ -150,7 +154,7 @@ function Diablo() {
 
 			positions = [[6, 11], [0, 8], [8, -1], [-9, 2], [0, -11], [8, -8]];
 
-			for (i = 0; i < positions.length; i += 1) {
+			for (i = 0; i < positions.length && target.mode != 0 && target.mode != 12; i += 1) {
 				if (Attack.validSpot(target.x + positions[i][0], target.y + positions[i][1])) { // check if we can move there
 					Pather.moveTo(target.x + positions[i][0], target.y + positions[i][1]);
 					Skill.setSkill(Config.AttackSkill[2], 0);
@@ -176,12 +180,13 @@ function Diablo() {
 	this.getBoss = function (name) {
 		var i, boss,
 			glow = getUnit(2, 131);
+		var playerCount = Misc.getPlayerCount();
 
 		for (i = 0; i < 16; i += 1) {
 			boss = getUnit(1, name);
 
 			if (boss) {
-				this.chaosPreattack(name, 8);
+				this.chaosPreattack(name, 6);
 
 				return Attack.clear(40, 0, name, this.sort);
 			}
@@ -474,7 +479,7 @@ function Diablo() {
 
 	switch (me.classid) {
 	case 1:
-		Pather.moveTo(7792, 5294);
+		Pather.moveTo(7792, 5298);
 
 		break;
 	default:

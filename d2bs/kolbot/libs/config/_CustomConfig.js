@@ -12,5 +12,6 @@ var CustomConfig = {
 	"Sorceress.RusherHelper": ["RusherHelper"],
 	"Sorceress": ["manualSorc"],
 	"Paladin": ["manualPala", "manualPala2"],
-	"Paladin.Follow": ["PalaFollow"]
+	"Paladin.Follow": ["PalaFollow"],
+	"IPHunter": ["IPHunter"]
 };

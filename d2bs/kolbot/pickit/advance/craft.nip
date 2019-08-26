@@ -112,6 +112,8 @@
 // max ll = 9 (13 blood)
 // max ml = 9
 // CASTER
+[Type] == amulet && [Quality] == crafted # [itemaddpaladinskills] == 2 && ([FireResist]+[LightResist]+[ColdResist] >= 40)
+[Type] == amulet && [Quality] == crafted # [itemaddsorceressskills] == 2 && ([FireResist]+[LightResist]+[ColdResist] >= 40)
 [Type] == amulet && [Quality] == crafted # [FCR] >= 15 && [itemaddsorceressskills] == 2 && ([FireResist] >= 33 || [LightResist] >= 33 || [ColdResist] >= 33 || [PoisonResist] >= 33) && [MaxMana] > 42 && [MaxHP] > 50
 [Type] == amulet && [Quality] == crafted # [FCR] == 20 && [ItemAddClassSkills] == 2 && [FireResist]+[LightResist]+[ColdResist]+[PoisonResist] >= 60 && ([MaxMana] >= 100 || [MaxHP] >= 40 || [Strength] >= 20 || [Dexterity] >= 15)
 //BLOOD

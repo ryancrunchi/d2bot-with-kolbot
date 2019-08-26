@@ -245,7 +245,7 @@ function LoadConfig() {
 	Config.MercWatch = false; // Instant merc revive during battle.
 
 	// Potion settings
-	Config.UseHP = 60; // Drink a healing potion if life is under designated percent.
+	Config.UseHP = 70; // Drink a healing potion if life is under designated percent.
 	Config.UseRejuvHP = 40;  // Drink a rejuvenation potion if life is under designated percent.
 	Config.UseMP = 15; // Drink a mana potion if mana is under designated percent.
 	Config.UseRejuvMP = -1; // Drink a rejuvenation potion if mana is under designated percent.
@@ -492,9 +492,9 @@ function LoadConfig() {
 	 * Skills MUST be POSITIVE numbers. For reference see http://pastebin.com/baShRwWM
 	 */
 	Config.AttackSkill[0] = -1; // Preattack skill.
-	Config.AttackSkill[1] = -1; // Primary skill to bosses.
+	Config.AttackSkill[1] = 0; // Primary skill to bosses.
 	Config.AttackSkill[2] = -1; // Primary aura to bosses
-	Config.AttackSkill[3] = -1; // Primary skill to others.
+	Config.AttackSkill[3] = 0; // Primary skill to others.
 	Config.AttackSkill[4] = -1; // Primary aura to others.
 	Config.AttackSkill[5] = -1; // Secondary skill if monster is immune to primary.
 	Config.AttackSkill[6] = -1; // Secondary aura.

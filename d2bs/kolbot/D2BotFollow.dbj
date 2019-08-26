@@ -29,8 +29,9 @@ var StarterConfig = {
 */
 
 var JoinSettings = {
-	"ManualLeader": ["PalaFollow"],
+	"ManualLeader": ["PalaFollow", "Follower"],
 	"DiaBaalRun": ["PalaFollow"],
+	// "MF-Sorc": ["MF-Pala"],
 	"MF-Pala": ["MF-Sorc"]
 };
 
