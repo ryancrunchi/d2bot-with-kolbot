@@ -169,7 +169,7 @@
 // ##### Bows ##########################
 // [Name] == WardBow && [Quality] == unique # [EnhancedDamage] >= 150 && [PlusSkillGuidedArrow] == 5         // Widowmaker
 [Name] == WardBow && [Quality] == unique # [EnhancedDamage] == 200 && [PlusSkillGuidedArrow] == 5         // Widowmaker
-[Name] == HydraBow && [Quality] == unique # [ManaLeech] == 8                    // Windforce
+// [Name] == HydraBow && [Quality] == unique # [ManaLeech] == 8                    // Windforce
 
 
 // ##### Daggers #######################

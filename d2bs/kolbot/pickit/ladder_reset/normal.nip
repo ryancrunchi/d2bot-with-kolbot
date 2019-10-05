@@ -91,8 +91,8 @@
 // [Type] == Polearm && [Quality] <= superior # [Sockets] == 4 # [MaxQuantity] == 1
 // [Name] == Partizan && [Quality] <= superior # [Sockets] == 4 # [MaxQuantity] == 1
 // [Type] == Polearm && [Class] == elite && [Quality] <= superior && [Flag] == ethereal # [Sockets] == 4 # [MaxQuantity] == 1
-([Name] == ColossusVoulge || [Name] == CrypticAxe || [Name] == GreatPoleaxe) && [Quality] == normal && [Flag] == ethereal # [Sockets] == 0
-([Name] == ColossusVoulge || [Name] == CrypticAxe || [Name] == GreatPoleaxe) && ([Quality] == normal || [Quality] == superior) && [Flag] == ethereal # [Sockets] == 4
+// ([Name] == ColossusVoulge || [Name] == CrypticAxe || [Name] == GreatPoleaxe) && [Quality] == normal && [Flag] == ethereal # [Sockets] == 0
+// ([Name] == ColossusVoulge || [Name] == CrypticAxe || [Name] == GreatPoleaxe) && ([Quality] == normal || [Quality] == superior) && [Flag] == ethereal # [Sockets] == 4
 ([Name] == ColossusVoulge || [Name] == CrypticAxe || [Name] == GreatPoleaxe) && [Flag] == ethereal # [Sockets] == 4 && [EnhancedDamage] == 15
 
 

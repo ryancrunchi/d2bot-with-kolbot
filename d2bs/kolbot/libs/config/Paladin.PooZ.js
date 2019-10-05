@@ -447,7 +447,7 @@ function LoadConfig() {
 
 	// Config.Recipes.push([Recipe.Caster.Boots, "Leather Boots"]); // Craft Caster Leather Boots
 	Config.Recipes.push([Recipe.Caster.Boots, "Demonhide Boots"]); // Craft Caster Demonhide Boots
-	Config.Recipes.push([Recipe.Caster.Boots, "Wyrmhide Boots"]); // Craft Caster Wyrmhide Boots
+	// Config.Recipes.push([Recipe.Caster.Boots, "Wyrmhide Boots"]); // Craft Caster Wyrmhide Boots
 
 	// The gems not used by other recipes will be used for magic item rerolling.
 
