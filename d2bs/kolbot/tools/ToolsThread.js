@@ -34,6 +34,7 @@ function main() {
 		debugInfo = {area: 0, currScript: "no entry"},
 		pingTimer = [],
 		quitFlag = false,
+		quitListDelayTime,
 		cloneWalked = false,
 		canQuit = true,
 		timerLastDrink = [],
@@ -473,6 +474,13 @@ function main() {
 					(Config.QuitList instanceof Array && Config.QuitList.indexOf(name1) > -1)) {
 				print(name1 + (mode === 0 ? " timed out" : " left"));
 
+				if (typeof Config.QuitListDelay !== "undefined" && typeof quitListDelayTime === "undefined" && Config.QuitListDelay.length > 0) {
+					Config.QuitListDelay.sort(function(a, b){return a-b});
+					quitListDelayTime = getTickCount() + rand(Config.QuitListDelay[0] * 1e3, Config.QuitListDelay[1] * 1e3);
+				} else {
+					quitListDelayTime = getTickCount();
+				}
+
 				quitFlag = true;
 			}
 
@@ -696,7 +704,7 @@ function main() {
 			quitFlag = true;
 		}
 
-		if (quitFlag && canQuit) {
+		if (quitFlag && canQuit && (typeof quitListDelayTime === "undefined" || getTickCount() >= quitListDelayTime)) {
 			print(ColorCodes.ORANGE + "Run duration " + ColorCodes.NEON_GREEN + ((getTickCount() - me.gamestarttime) / 1000));
 
 			if (Config.LogExperience) {
