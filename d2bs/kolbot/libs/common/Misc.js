@@ -49,14 +49,13 @@ var Skill = {
 			return 3;
 		case 146: // Battle Cry
 		case 154: // War Cry
+		case 38: // Charged Bolt
 			return 4;
 		case 44: // Frost Nova
 		case 240: // Twister
 		case 245: // Tornado
 		case 500: // Summoner
 			return 5;
-		case 38: // Charged Bolt
-			return 6;
 		case 48: // Nova
 		case 151: // Whirlwind
 			return 7;
@@ -1008,7 +1007,7 @@ var Item = {
 						gid = item.gid;
 
 						if (this.equipMerc(item, bodyLoc[j])) {
-							Misc.logItem("Merc Equipped", copyUnit(item));
+							Misc.logItem("Merc Equipped", item);
 						}
 						else {
 							// Unable to equip merc
@@ -2115,6 +2114,9 @@ MainLoop:
 	},*/
 
 	fileAction: function (path, mode, msg) {
+		/*if (!FileTools.exists(path)) {
+			return false;
+		}*/
 		var i,
 			contents = "";
 
@@ -2131,6 +2133,9 @@ MainLoop:
 
 					break MainLoop;
 				case 2: // append
+					if (!FileTools.exists(path)) {
+						return false;//this.fileAction(path, 1, msg);
+					}
 					FileTools.appendText(path, msg);
 
 					break MainLoop;

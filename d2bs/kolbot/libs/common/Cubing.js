@@ -153,7 +153,12 @@ var Cubing = {
 
 		var i, cube, chest;
 
-		Pather.useWaypoint(57, true);
+		try {
+			Pather.useWaypoint(57, true);
+		}
+		catch (e) {
+			return false;
+		}
 		Precast.doPrecast(true);
 
 		if (Pather.moveToExit(60, true) && Pather.moveToPreset(me.area, 2, 354)) {
@@ -913,7 +918,7 @@ IngredientLoop:
 			return false;
 		}
 
-		if (!me.getItem(549) && !this.getCube()) {
+		if (!me.getItem(549)/* && !this.getCube()*/) {
 			return false;
 		}
 

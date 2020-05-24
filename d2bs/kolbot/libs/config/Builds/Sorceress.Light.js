@@ -25,66 +25,68 @@ if (!isIncluded("common/Misc.js")) { include("common/Misc.js"); }
 var AutoBuildTemplate = {
 
 	1:	{
-			//SkillPoints: [-1],								// This doesn't matter. We don't have skill points to spend at lvl 1
-			//StatPoints: [-1, -1, -1, -1, -1],						// This doesn't matter. We don't have stat points to spend at lvl 1
-			Update: function () {
-				Config.LowGold = 1000;
-                Config.StashGold = 200;
-                var item = Item.getEquippedItem(4).item;
-                var attack = 0;
-                if (item && item.itemType == 26) {
-                	attack = 36; // At level 1 we start with a +1 Fire Bolt staff
-                }
-                Config.AttackSkill = [-1, attack, -1, attack, -1, 0, -1];
-                Config.LowManaSkill = [0, -1];
-				Config.BeltColumn = ["hp", "hp", "mp", "mp"];
-                Config.MinColumn = [1, 1, 1, 1];
-
-                Config.HealHP = 99; // Go to a healer if under designated percent of life.
-				Config.HealMP = 99; // Go to a healer if under designated percent of mana.
-				Config.HealStatus = true; // Go to a healer if poisoned or cursed
-
-				// Potion settings
-				Config.UseHP = 45; // Drink a healing potion if life is under designated percent.
-				Config.UseRejuvHP = 35;  // Drink a rejuvenation potion if life is under designated percent.
-				Config.UseMP = 25; // Drink a mana potion if mana is under designated percent.
-				Config.UseRejuvMP = 0; // Drink a rejuvenation potion if mana is under designated percent.
-				Config.UseMercHP = -1; // Give a healing potion to your merc if his/her life is under designated percent.
-				Config.UseMercRejuv = -1; // Give a rejuvenation potion to your merc if his/her life is under designated percent.
-				Config.HPBuffer = 4; // Number of healing potions to keep in inventory.
-				Config.MPBuffer = 4; // Number of mana potions to keep in inventory.
-				Config.RejuvBuffer = 4; // Number of rejuvenation potions to keep in inventory.
-
-				// Chicken settings
-				Config.LifeChicken = 20; // Exit game if life is less or equal to designated percent.
-				Config.ManaChicken = -1; // Exit game if mana is less or equal to designated percent.
-				Config.MercChicken = -1; // Exit game if merc's life is less or equal to designated percent.
-				Config.TownHP = 0; // Go to town if life is under designated percent.
-				Config.TownMP = 0; // Go to town if mana is under designated percent.
-				
-				Config.ClearAnyArea.AreaList = [2,8]; // List of area ids to clear. See sdk/areas.txt
-
-				Config.PickitFiles.push("autoequip/sorceress.light.nip");
-				Config.PickitFiles.push("autoequip/base.nip");
-
-				Config.Dodge = me.diff > 0; // Move away from monsters that get too close. Don't use with short-ranged attacks like Poison Dagger.
-				Config.DodgeRange = 8; // Distance to keep from monsters.
-				Config.DodgeHP = 100; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
-				Config.BossPriority = false; // Set to true to attack Unique/SuperUnique monsters first when clearing
-
-				Config.FastPick = false; // Check and pick items between attacks
-
-				Config.UseMerc = me.getQuest(2, 0) || me.diff > 0;
-
-				/*Scripts.Andariel = me.getQuest(7, 0) && Config.AutoSmurf.TeamSize < 2;
-				Scripts.Countess = me.getQuest(7, 0) && Config.AutoSmurf.TeamSize < 2;
-				Scripts.Duriel = me.getQuest(15, 0) && Config.AutoSmurf.TeamSize < 2;
-				Scripts.Mephisto = me.getQuest(23, 0) && Config.AutoSmurf.TeamSize < 2;
-					Config.Mephisto.MoatTrick = false;
-					Config.Mephisto.KillCouncil = true;
-					Config.Mephisto.TakeRedPortal = true;*/
+		//SkillPoints: [-1],								// This doesn't matter. We don't have skill points to spend at lvl 1
+		//StatPoints: [-1, -1, -1, -1, -1],						// This doesn't matter. We don't have stat points to spend at lvl 1
+		Update: function () {
+			Config.LowGold = 1000;
+			Config.StashGold = 1000;
+			var item = Item.getEquippedItem(4).item;
+			var attack = 0;
+			if (item && item.itemType == 26) {
+				attack = 36; // At level 1 we start with a +1 Fire Bolt staff
 			}
-		},
+			Config.AttackSkill = [-1, attack, -1, attack, -1, 0, -1];
+			Config.LowManaSkill = [0, -1];
+			Config.BeltColumn = ["hp", "mp", "mp", "mp"];
+			Config.MinColumn = [1, 1, 1, 1];
+
+			Config.HealHP = 99; // Go to a healer if under designated percent of life.
+			Config.HealMP = 99; // Go to a healer if under designated percent of mana.
+			Config.HealStatus = true; // Go to a healer if poisoned or cursed
+
+			// Potion settings
+			Config.UseHP = 60; // Drink a healing potion if life is under designated percent.
+			Config.UseRejuvHP = 40;  // Drink a rejuvenation potion if life is under designated percent.
+			Config.UseMP = 25; // Drink a mana potion if mana is under designated percent.
+			Config.UseRejuvMP = 0; // Drink a rejuvenation potion if mana is under designated percent.
+			Config.UseMercHP = -1; // Give a healing potion to your merc if his/her life is under designated percent.
+			Config.UseMercRejuv = -1; // Give a rejuvenation potion to your merc if his/her life is under designated percent.
+			Config.HPBuffer = 4; // Number of healing potions to keep in inventory.
+			Config.MPBuffer = 6; // Number of mana potions to keep in inventory.
+			Config.RejuvBuffer = 4; // Number of rejuvenation potions to keep in inventory.
+
+			// Chicken settings
+			Config.LifeChicken = 25; // Exit game if life is less or equal to designated percent.
+			Config.ManaChicken = -1; // Exit game if mana is less or equal to designated percent.
+			Config.MercChicken = -1; // Exit game if merc's life is less or equal to designated percent.
+			Config.TownHP = 0; // Go to town if life is under designated percent.
+			Config.TownMP = 0; // Go to town if mana is under designated percent.
+			
+			Config.ClearAnyArea.AreaList = [2,8]; // List of area ids to clear. See sdk/areas.txt
+
+			Config.PickitFiles.push("autoequip/sorceress.light.nip");
+			Config.PickitFiles.push("autoequip/base.nip");
+
+			Config.Dodge = me.diff > 0; // Move away from monsters that get too close. Don't use with short-ranged attacks like Poison Dagger.
+			Config.DodgeRange = 8; // Distance to keep from monsters.
+			Config.DodgeHP = 100; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
+			Config.BossPriority = false; // Set to true to attack Unique/SuperUnique monsters first when clearing
+			Config.ClearPath = 0;
+			Config.ClearType = 0;
+
+			Config.FastPick = false; // Check and pick items between attacks
+
+			Config.UseMerc = me.getQuest(2, 0) || me.diff > 0;
+
+			/*Scripts.Andariel = me.getQuest(7, 0) && Config.AutoSmurf.TeamSize < 2;
+			Scripts.Countess = me.getQuest(7, 0) && Config.AutoSmurf.TeamSize < 2;
+			Scripts.Duriel = me.getQuest(15, 0) && Config.AutoSmurf.TeamSize < 2;
+			Scripts.Mephisto = me.getQuest(23, 0) && Config.AutoSmurf.TeamSize < 2;
+				Config.Mephisto.MoatTrick = false;
+				Config.Mephisto.KillCouncil = true;
+				Config.Mephisto.TakeRedPortal = true;*/
+		}
+	},
 
 	2:	{
 			SkillPoints: [38], // lightning bolt
@@ -123,8 +125,6 @@ var AutoBuildTemplate = {
 			StatPoints: [1, 1, 1, 1, 1],
 			Update: function () {
 				Config.CastStatic = 50; // Cast static until the target is at designated life percent. 100 = disabled.
-				Config.StaticList.push(365); // static griswold
-				Config.StaticList.push("Bloodraven"); // static Bloodraven
                 Config.TownCheck = true; // Go to town if out of potions
 			}
 		},
@@ -149,9 +149,9 @@ var AutoBuildTemplate = {
 			SkillPoints: [38],
 			StatPoints: [3, 3, 3, 3, 3],
 			Update: function () {
-				Config.LifeChicken = 25; // Exit game if life is less or equal to designated percent.
-				Config.UseHP = 45; // Drink a healing potion if life is under designated percent.
-				Config.UseRejuvHP = 35;  // Drink a rejuvenation potion if life is under designated percent.
+				Config.LifeChicken = 30; // Exit game if life is less or equal to designated percent.
+				Config.UseHP = 60; // Drink a healing potion if life is under designated percent.
+				Config.UseRejuvHP = 40;  // Drink a rejuvenation potion if life is under designated percent.
 			}
 		},
 
@@ -160,7 +160,7 @@ var AutoBuildTemplate = {
 			StatPoints: [3, 3, 3, 3, 3],
 			Update: function () {
 				// Config.LowGold = 5000;
-				Config.StashGold = 1000;
+				Config.StashGold = 5000;
 				Config.HPBuffer = 2; // Number of healing potions to keep in inventory.
 				Config.RejuvBuffer = 2; // Number of rejuvenation potions to keep in inventory.
 			}
@@ -196,7 +196,7 @@ var AutoBuildTemplate = {
 			SkillPoints: [49],
 			StatPoints: [1, 0, 3, 3, 3],
 			Update: function () {
-				Config.StashGold = 3000;
+				Config.StashGold = 8000;
 			}
 		},
 
@@ -228,7 +228,8 @@ var AutoBuildTemplate = {
 			SkillPoints: [43,54], // telekinesis, teleport (there should be act 1 skill quest (den))
 			StatPoints: [1, 0, 3, 3, 3],
 			Update: function () {
-				
+				Config.ClearPath = undefined;
+				Scripts.Countess = true;
 			}
 		},
 
@@ -245,7 +246,7 @@ var AutoBuildTemplate = {
 			StatPoints: [1, 0, 3, 3, 3],
 			Update: function () {
 				// Config.LowGold = 10000;
-                Config.StashGold = 5000;
+                Config.StashGold = 10000;
 			}
 		},
 
@@ -277,12 +278,12 @@ var AutoBuildTemplate = {
 			SkillPoints: [49],
 			StatPoints: [1, 0, 3, 3, 3],
 			Update: function () {
-				
+				Config.Dodge = true;
 			}
 		},
 
 	25:	{
-			SkillPoints: [49],
+			SkillPoints: [49, 49], // radament
 			StatPoints: [1, 0, 3, 3, 3],
 			Update: function () {
 
@@ -290,7 +291,7 @@ var AutoBuildTemplate = {
 		},
 
 	26:	{
-			SkillPoints: [49],
+			SkillPoints: [49, 49, 49], // izual
 			StatPoints: [3, 3, 3, 3, 3],
 			Update: function () {
 
@@ -326,11 +327,12 @@ var AutoBuildTemplate = {
 			StatPoints: [3, 3, 3, 3, 3],
 			Update: function () {
 				// Config.LowGold = 20000;
+				Scripts.Countess = false;
 			}
 		},
 
 	31:	{
-			SkillPoints: [49],
+			SkillPoints: [63],
 			StatPoints: [3, 3, 3, 3, 3],
 			Update: function () {
 
@@ -338,7 +340,7 @@ var AutoBuildTemplate = {
 		},
 
 	32:	{
-			SkillPoints: [49],
+			SkillPoints: [63],
 			StatPoints: [3, 3, 3, 3, 3],
 			Update: function () {
 
@@ -346,7 +348,7 @@ var AutoBuildTemplate = {
 		},
 
 	33:	{
-			SkillPoints: [49],
+			SkillPoints: [63],
 			StatPoints: [3, 3, 3, 3, 3],
 			Update: function () {
 
@@ -482,7 +484,7 @@ var AutoBuildTemplate = {
 		},
 
 	50:	{
-			SkillPoints: [63],
+			SkillPoints: [48],
 			StatPoints: [3, 3, 3, 3, 3],
 			Update: function () {
 
@@ -490,7 +492,7 @@ var AutoBuildTemplate = {
 		},
 
 	51:	{
-			SkillPoints: [63],
+			SkillPoints: [48],
 			StatPoints: [3, 3, 3, 3, 3],
 			Update: function () {
 
@@ -498,7 +500,7 @@ var AutoBuildTemplate = {
 		},
 
 	52:	{
-			SkillPoints: [63],
+			SkillPoints: [48],
 			StatPoints: [3, 3, 3, 3, 3],
 			Update: function () {
 

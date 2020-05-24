@@ -78,12 +78,12 @@ var Town = {
 
 		this.heal();
 		this.identify();
-		this.fillTome(518);
-
-		if (Config.FieldID) {
-			this.fillTome(519);
-		}
+		
 		this.buyPotions();
+
+		this.fillTome(518);
+		this.fillTome(519);
+
 		this.buyKeys();
 
 		this.repair(repair);
@@ -159,6 +159,10 @@ var Town = {
 		print("initNPC: " + reason);
 
 		var npc = getInteractedNPC();
+
+		if (me.act == 2 && task == "Shop" && reason == "stackPotions") {
+			task = "Key"; // go to Lysander for stack potions
+		}
 
 		if (npc && npc.name.toLowerCase() !== this.tasks[me.act - 1][task]) {
 			print("Bad npc for "+task+" "+reason);
@@ -244,10 +248,6 @@ var Town = {
 	},
 
 	buyPotions: function () {
-		if (me.gold < 1000) { // Ain't got money fo' dat shyt
-			return false;
-		}
-
 		var i, j, npc, useShift, col, beltSize, pot,
 			needPots = false,
 			needBuffer = true,
@@ -256,29 +256,17 @@ var Town = {
 				mp: 0
 			};
 
+		this.clearBelt();
+
 		beltSize = Storage.BeltSize();
 		col = this.checkColumns(beltSize);
 
 		// HP/MP Buffer
 		if (Config.HPBuffer > 0 || Config.MPBuffer > 0) {
-			pot = me.getItem(-1, 0);
-
-			if (pot) {
-				do {
-					if (pot.location === 3) {
-						switch (pot.itemType) {
-						case 76:
-							buffer.hp += 1;
-
-							break;
-						case 77:
-							buffer.mp += 1;
-
-							break;
-						}
-					}
-				} while (pot.getNext());
-			}
+			const inInventory = me.getItemsEx()
+				.filter(i => i.mode == sdk.itemmode.inStorage && i.location == sdk.storage.Inventory);
+			buffer.hp = inInventory.filter(i => i.itemType == sdk.itemtype.hppot).length;
+			buffer.mp = inInventory.filter(i => i.itemType == sdk.itemtype.mppot).length;
 		}
 
 		// Check if we need to buy potions based on Config.MinColumn
@@ -311,15 +299,7 @@ var Town = {
 		}
 
 		if (me.diff === 0) {
-			if (Pather.accessToAct(4) && me.act < 4) {
-				this.goToTown(4);
-			}
-			else if (Pather.accessToAct(3) && me.act < 3) {
-				this.goToTown(3);
-			}
-			else if (Pather.accessToAct(2) && me.act < 2) {
-				this.goToTown(2);
-			}
+			Town.goToTown(me.highestAct);
 		}
 
 		npc = this.initNPC("Shop", "buyPotions");
@@ -340,9 +320,9 @@ var Town = {
 					if (useShift) {
 						pot.buy(true);
 					} else {
-						for (j = 0; j < col[i]; j += 1) {
+						while (col[i] > 0) {
 							pot.buy(false);
-							delay(800);
+							col = this.checkColumns(beltSize); // Re-initialize columns (needed because 1 shift-buy can fill multiple columns)
 						}
 					}
 				}
@@ -352,25 +332,68 @@ var Town = {
 		}
 
 		if (needBuffer && buffer.hp < Config.HPBuffer) {
-			for (i = 0; i < Config.HPBuffer - buffer.hp; i += 1) {
+			while (buffer.hp < Config.HPBuffer) {
 				pot = this.getPotion(npc, "hp");
 
-				if (Storage.Inventory.CanFit(pot)) {
-					pot.buy(false);
+				if (Storage.Inventory.CanFit(pot) && pot.buy(false)) {
+					buffer.hp = me.getItemsEx()
+						.filter(i => i.mode == sdk.itemmode.inStorage && i.location == sdk.storage.Inventory)
+						.filter(i => i.itemType == sdk.itemtype.hppot).length;
+				}
+				else {
+					break;
 				}
 			}
 		}
 
 		if (needBuffer && buffer.mp < Config.MPBuffer) {
-			for (i = 0; i < Config.MPBuffer - buffer.mp; i += 1) {
+			while (buffer.mp < Config.MPBuffer) {
 				pot = this.getPotion(npc, "mp");
 
-				if (Storage.Inventory.CanFit(pot)) {
-					pot.buy(false);
+				if (Storage.Inventory.CanFit(pot) && pot.buy(false)) {
+					buffer.mp = me.getItemsEx()
+						.filter(i => i.mode == sdk.itemmode.inStorage && i.location == sdk.storage.Inventory)
+						.filter(i => i.itemType == sdk.itemtype.mppot).length;
+				}
+				else {
+					break;
 				}
 			}
 		}
 
+		return true;
+	},
+
+	// Purchases and drinks potions in town.
+	stackPotions: function(type, amount) {
+		if (!amount) amount = 4; // TODO: Calculate monster effort and correlate it to the number of potions to stack.
+		if (me.gold < amount * 25) {
+			print('stackPotions: Not enough gold for ' + amount + ' potions');
+			return false;
+		}
+		const npc = this.initNPC("Shop", "stackPotions");
+		const npcPotion = this.getPotion(npc, type);
+		if (!npcPotion) {
+			return false;
+		}
+
+		const myPotions = (classid) => {
+			return me.getItemsEx().filter(potion => (potion.classid == classid && (potion.mode === sdk.itemmode.inBelt || potion.location === sdk.storage.Inventory)));
+		}
+
+		while (myPotions(npcPotion.classid).length < amount) {
+			if (!npcPotion.buy(false)) {
+				return false;
+			}
+			delay(1);
+		}
+		myPotions(npcPotion.classid)
+			.doForEach((potion, index) => {
+				if (index < amount) {
+					me.overhead('Stacking potion (' + (index + 1) + '/' + amount + ')');
+					potion.interact();
+				}
+			});
 		return true;
 	},
 
@@ -450,6 +473,15 @@ var Town = {
 				}
 			}
 		}
+		else if ( type === "yps" || type === "vps" || type === "wms") {
+			for (i = 5; i > 0; i -= 1) {
+				result = npc.getItem(type);
+
+				if (result) {
+					return result;
+				}
+			}
+		}
 
 		return false;
 	},
@@ -472,8 +504,8 @@ var Town = {
 
 		delay(500);
 
-		if (code === 518 && !me.findItem(518, 0, 3)) {
-			tome = npc.getItem(518);
+		if (!me.findItem(code, 0, 3)) {
+			tome = npc.getItem(code);
 
 			if (tome && Storage.Inventory.CanFit(tome)) {
 				try {
@@ -489,7 +521,7 @@ var Town = {
 			}
 		}
 
-		scroll = npc.getItem(code === 518 ? 529 : 530);
+		scroll = npc.getItem(code+11);
 
 		if (!scroll) {
 			return false;
@@ -594,7 +626,6 @@ MainLoop:
 										tpTomePos = {x: tpTome.x, y: tpTome.y};
 
 										tpTome.sell();
-										delay(500);
 									}
 								}
 
@@ -669,12 +700,6 @@ MainLoop:
 							Misc.logItem("------ Sold", item);
 						}
 						item.sell();
-
-						timer = getTickCount() - this.sellTimer; // shop speedup test
-
-						if (timer > 0 && timer < 500) {
-							delay(timer);
-						}
 
 						break;
 					}
@@ -883,8 +908,6 @@ CursorLoop:
 			return false;
 		}
 
-		delay(270);
-
 		for (i = 0; i < 3; i += 1) {
 			if (getCursorType() === 6) {
 				clickItem(0, unit);
@@ -901,8 +924,6 @@ CursorLoop:
 
 				delay(10);
 			}
-
-			delay(300);
 		}
 
 		return false;
@@ -1795,7 +1816,7 @@ MainLoop:
 		while (!me.gameReady) {
 			delay(100);
 		}
-
+/*
 		var item = me.getItem(-1, 2),
 			clearList = [];
 
@@ -1828,26 +1849,69 @@ MainLoop:
 				delay(200);
 			}
 		}
+*/
+		me.getItemsEx()
+			.filter(p => p.location == sdk.storage.Belt && [sdk.itemtype.hppot, sdk.itemtype.mppot, sdk.itemtype.rvpot].indexOf(p.itemType) > -1 && !p.code.startsWith(Config.BeltColumn[p.x % 4]))
+			.forEach((p, _) => {
+				var countInInventory = me.getItemsEx()
+					.filter(pp => pp.location == sdk.storage.Inventory && pp.itemType == p.itemType)
+					.length;
 
+				let beltSize = Storage.BeltSize();
+				var moved = false;
+				for (var i = 0; i < 4 && !moved; i += 1) {
+					let freeSpace = Town.checkColumns(beltSize);
+					if (p.code.indexOf(Config.BeltColumn[i]) > -1 && freeSpace[i] > 0) {
+						// Pick up the potion and put it in the good column
+						if (p.toCursor()) {
+							clickItem(sdk.clicktypes.click.Left, i, 0, sdk.storage.Belt);
+						}
+						delay(me.ping + 200);
+						if (p.code.startsWith(Config.BeltColumn[p.x % 4])) {
+							moved = true;
+						}
+					}
+				}
+
+				if (!moved) {
+					switch(p.itemType) {
+						case sdk.itemtype.hppot:
+							if (countInInventory >= Config.HPBuffer || !Storage.Inventory.MoveTo(p)) {
+								print("Unable to move potion");
+								p.sellOrDrop();
+							}
+							break;
+
+						case sdk.itemtype.mppot:
+							if (countInInventory >= Config.MPBuffer || !Storage.Inventory.MoveTo(p)) {
+								print("Unable to move potion");
+								p.sellOrDrop();
+							}
+							break;
+
+						case sdk.itemtype.rvpot:
+							if (countInInventory >= Config.RejuvBuffer || !Storage.Inventory.MoveTo(p)) {
+								print("Unable to move potion");
+								p.sellOrDrop();
+							}
+							break;
+					}
+				}
+			});
 		return true;
 	},
 
 	clearScrolls: function () {
-		var i,
-			items = me.getItems();
-
-		for (i = 0; !!items && i < items.length; i += 1) {
-			if (items[i].location === 3 && items[i].mode === 0 && items[i].itemType === 22) {
-				if (getUIFlag(0xC) || (Config.PacketShopping && getInteractedNPC() && getInteractedNPC().itemcount > 0)) { // Might as well sell the item if already in shop
-					print("clearInventory sell " + items[i].name);
-					Misc.itemLogger("Sold", items[i]);
-					items[i].sell();
-				} else {
-					Misc.itemLogger("Dropped", items[i], "clearScrolls");
-					items[i].drop();
-				}
-			}
-		}
+		me.getItemsEx()
+			.filter(i => 
+				i.location === sdk.storage.Inventory &&
+				i.mode === sdk.itemmode.inStorage &&
+				i.itemType === sdk.itemtype.scroll &&
+				Pickit.checkItem(i).result == 0
+			)
+			.forEach(s => {
+				s.sellOrDrop();
+			});
 
 		return true;
 	},

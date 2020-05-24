@@ -10,7 +10,7 @@
 function AutoBaal() {
 	// editable variables
 	var i, baalCheck, throneCheck, hotCheck, leader, suspect, solofail, portal, baal,
-		timeout = 180, // seconds
+		timeout = 90, // seconds
 		// internal variables
 		safeMsg = ["safe", "throne clear", "leechers can come", "tp is up", "1 clear"], // safe message - casing doesn't matter
 		baalMsg = ["baal"], // baal message - casing doesn't matter
@@ -188,6 +188,13 @@ function AutoBaal() {
 		hotCheck = true;
 	}
 
+	Town.move("portalspot");
+	let owner;
+	let go = false;
+	let first = true;
+	var firstPortal = Pather.getPortal(131, null);
+	var time = getTickCount();
+	let waitTime = 20000;
 	Town.doChores();
 	Town.move("portalspot");
 
@@ -220,10 +227,29 @@ function AutoBaal() {
 				hotCheck = false;
 			}
 
-			if (me.area === 109 && Pather.getPortal(131, null)) { // wait for throne signal - leader's safe message
-				delay(6000);
-				if (Pather.usePortal(131, null)) {
-					delay(10000);
+			if (me.area === 109) { // wait for throne signal - leader's safe message
+				let portal;
+				if (firstPortal) {
+					owner = firstPortal.getParent() || owner;
+					if (!firstPortal.getParent()) {
+						// portal has changed
+						portal = Pather.getPortal(131, owner);
+					}
+					if (first) {
+						waitTime = 5000;
+					}
+				}
+				else {
+					firstPortal = Pather.getPortal(131, null);
+					time = getTickCount();
+				}
+
+				if (portal || getTickCount()-time >= waitTime) {
+					go = true;
+				}
+
+				if (go && Pather.usePortal(131, null, portal)) {
+					Pickit.pickItems();
 					print(ColorCodes.DARK_GOLD + "AutoBaal: " + ColorCodes.WHITE + "Trying to take TP to throne.");
 					Pather.moveTo(Config.AutoBaal.LeechSpot[0], Config.AutoBaal.LeechSpot[1]); // move to a safe spot
 					Precast.doPrecast(true);
@@ -231,8 +257,28 @@ function AutoBaal() {
 				}
 			}
 
-			if (me.area === 131 && Config.AutoBaal.LongRangeSupport) {
-				this.longRangeSupport();
+			if (me.area === 131) {
+				var player = getParty(); // get party object (players in game)
+				var aloneInArea = true;
+				do {
+					if (player.area == me.area) { // player is in area
+						aloneInArea = false;
+					}
+				} while (player.getNext());
+
+				if (aloneInArea) {
+					Pather.usePortal(109, null) || Town.goToTown();
+					go = false;
+					continue;
+				}
+
+				if (Config.AutoBaal.LongRangeSupport) {
+					this.longRangeSupport();
+				}
+				else {
+					Pickit.pickItems();
+					Pather.moveTo(Config.AutoBaal.LeechSpot[0], Config.AutoBaal.LeechSpot[1]); // move to a safe spot
+				}
 			}
 
 			if (me.area === 131 && !getUnit(1, 543)) { // wait for baal signal - leader's baal message
@@ -240,16 +286,16 @@ function AutoBaal() {
 				Precast.doPrecast(false);
 
 				while (getUnit(1, 543)) { // wait for baal to go through the portal
-					delay(500);
+					delay(40);
 				}
 
 				portal = getUnit(2, 563);
 
-				delay(500); // wait for others to enter first - helps  with curses and tentacles from spawning around you
+				delay(40);
 				print(ColorCodes.DARK_GOLD + "AutoBaal: " + ColorCodes.WHITE + "Entering chamber.");
 
 				if (Pather.usePortal(null, null, portal)) { // enter chamber
-					Pather.moveTo(15166, 5903); // go to a safe position
+					Pather.moveTo(15166, 5919); // go to a safe position
 				}
 
 				Town.getCorpse(); // check for corpse - happens if you die and reenter
@@ -274,7 +320,8 @@ function AutoBaal() {
 				me.revive(); // revive if dead
 			}
 
-			delay(500);
+			delay(40);
+			first = false;
 		}
 	} else {
 		throw new Error("Empty game.");

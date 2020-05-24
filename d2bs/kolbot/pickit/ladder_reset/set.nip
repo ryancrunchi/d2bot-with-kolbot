@@ -93,7 +93,7 @@
 
 // ##### Aldur's Watchtower ############
 // [Name] == Hunter'sGuise && [Quality] == set // Aldur's Stony Gaze
-// [Name] == BattleBoots && [Quality] == set // Aldur's Advance
+[Name] == BattleBoots && [Quality] == set // Aldur's Advance
 // [Name] == ShadowPlate && [Quality] == set // Aldur's Deception
 // [Name] == JaggedStar && [Quality] == set // Aldur's Rhythm
 
@@ -175,19 +175,19 @@
 // [Name] == BalrogSkin && [Quality] == set // Sazabi's Ghost Liberator
 
 // ##### Tal Rasha's Wrappings #########
-// [Name] == SwirlingCrystal && [Quality] == set # # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
-// [Name] == SwirlingCrystal && [Quality] == set # [skilllightningmastery] == 2 # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
-// [Name] == SwirlingCrystal && [Quality] == set # [skillfiremastery] == 2 # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
-// [Name] == SwirlingCrystal && [Quality] == set # [skillcoldmastery] == 2 # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
-// [Name] == SwirlingCrystal && [Quality] == set # [skillfiremastery]+[skilllightningmastery]+[skillcoldmastery] == 6 # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
-// [Name] == DeathMask && [Quality] == set # # [MaxQuantity] == 1 // Tal Rasha's Horadric Crest
-// [Name] == DeathMask && [Quality] == set # [Defense] == 131 # [MaxQuantity] == 1 // Tal Rasha's Horadric Crest
-// [Name] == LacqueredPlate && [Quality] == set # [Defense] >= 833 // Tal Rasha's Guardianship
+[Name] == SwirlingCrystal && [Quality] == set # # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
+[Name] == SwirlingCrystal && [Quality] == set # [skilllightningmastery] == 2 # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
+[Name] == SwirlingCrystal && [Quality] == set # [skillfiremastery] == 2 # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
+[Name] == SwirlingCrystal && [Quality] == set # [skillcoldmastery] == 2 # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
+[Name] == SwirlingCrystal && [Quality] == set # [skillfiremastery]+[skilllightningmastery]+[skillcoldmastery] == 6 # [MaxQuantity] == 1 // Tal Rasha's Lidless Eye
+[Name] == DeathMask && [Quality] == set # # [MaxQuantity] == 1 // Tal Rasha's Horadric Crest
+[Name] == DeathMask && [Quality] == set # [Defense] == 131 # [MaxQuantity] == 1 // Tal Rasha's Horadric Crest
+[Name] == LacqueredPlate && [Quality] == set # [Defense] >= 833 // Tal Rasha's Guardianship
 [Name] == LacqueredPlate && [Quality] == set # [Defense] == 941 // Tal Rasha's Guardianship perf def
 [Type] == amulet && [Quality] == set # [SorceressSkills] == 2 // Tal Rasha's Adjucation
-// [Name] == MeshBelt && [Quality] == set # [ItemMagicBonus] >= 10 # [MaxQuantity] == 1 // Tal Rasha's Fine-Spun Cloth
+[Name] == MeshBelt && [Quality] == set # [ItemMagicBonus] >= 10 # [MaxQuantity] == 1 // Tal Rasha's Fine-Spun Cloth
 [Name] == MeshBelt && [Quality] == set # [ItemMagicBonus] == 15 # [MaxQuantity] == 1 // Tal Rasha's Fine-Spun Cloth
-// [Name] == MeshBelt && [Quality] == set # [ItemMagicBonus] == 15 && [Defense] == 40 // Tal Rasha's Fine-Spun Cloth
+[Name] == MeshBelt && [Quality] == set # [ItemMagicBonus] == 15 && [Defense] == 40 // Tal Rasha's Fine-Spun Cloth
 
 // ##### Trang-Oul's Avatar ############
 // [Name] == BoneVisage && [Quality] == set // Trang-Oul's Guise

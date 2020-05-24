@@ -3,6 +3,8 @@ include("json2.js");
 include("common/attack.js");
 include("common/pather.js");
 include("common/Enums.js");
+include("common/Prototypes.js");
+include("sdk.js");
 
 var Hooks = {
 	monsters: {
@@ -117,6 +119,130 @@ var Hooks = {
 		}
 	},
 
+	missiles: {
+		hooks: [],
+		enabled: true,
+
+		check: function () {
+			if (!this.enabled) {
+				this.flush();
+
+				return;
+			}
+
+			var i;
+
+			for (i = 0; i < this.hooks.length; i += 1) {
+				if (!copyUnit(this.hooks[i].unit).x) {
+					for (var hook of this.hooks[i].hook) {
+						hook.remove();
+					}
+					this.hooks.splice(i, 1);
+
+					i -= 1;
+				}
+			}
+
+			getMissiles().forEach(m => {
+				if (!this.getHook(m)) {
+					this.add(m);
+				} else {
+					this.updateCoords(m);
+				}
+			});
+		},
+
+		newHook: function (unit) {
+			var arr = [];
+
+			var originX = unit.x;
+			var originY = unit.y;
+			let skill = getBaseStat("missiles", unit.classid, "Skill") || 0;
+
+			if (skill && unit.ownerUnit) {
+				originX = unit.ownerUnit.x;
+				originY = unit.ownerUnit.y;
+			}
+
+			let range = getBaseStat("missiles", unit.classid, "Range") || 0;
+			let speed = unit.velocityUnitPerFrame;
+			range *= speed;
+
+			let vx = unit.targetx - originX;
+			let vy = unit.targety - originY;
+
+			let norm = Math.sqrt(vx*vx+vy*vy);
+
+			let normx = vx / norm;
+			let normy = vy / norm;
+
+			let targetx = (originX + range*normx) | 0;
+			let targety = (originY + range*normy) | 0;
+			
+			arr.push(new Line(originX, originY, targetx, targety, 0x82, true));
+
+			return arr;
+		},
+
+		add: function (unit) {
+			this.hooks.push({
+				unit: copyUnit(unit),
+				hook: this.newHook(unit)
+			});
+		},
+
+		updateCoords: function (unit) {
+			/*var hook = this.getHook(unit);
+
+			if (!hook) {
+				return false;
+			}
+
+			hook[0].x2 = unit.targetx;
+			hook[0].y2 = unit.targety;*/
+
+			return true;
+		},
+
+		getHook: function (unit) {
+			var i;
+
+			for (i = 0; i < this.hooks.length; i += 1) {
+				if (this.hooks[i].unit.gid === unit.gid) {
+					return this.hooks[i].hook;
+				}
+			}
+
+			return false;
+		},
+
+		remove: function (unit) {
+			var i;
+
+			for (i = 0; i < this.hooks.length; i += 1) {
+				if (this.hooks[i].unit.gid === unit.gid) {
+					for (var hook of this.hooks[i].hook) {
+						hook.remove();
+					}
+					this.hooks.splice(i, 1);
+
+					return true;
+				}
+			}
+
+			return false;
+		},
+
+		flush: function () {
+			while (this.hooks.length) {
+				for (var hook of this.hooks[i].hook) {
+					hook.remove();
+				}
+				this.hooks.shift();
+			}
+		}
+	},
+
 	text: {
 		hooks: [],
 		enabled: true,
@@ -130,6 +256,10 @@ var Hooks = {
 
 			if (!this.getHook("monsterStatus")) {
 				this.add("monsterStatus");
+			}
+
+			if (!this.getHook("missileStatus")) {
+				this.add("missileStatus");
 			}
 
 			if (!this.getHook("vectorStatus")) {
@@ -180,6 +310,13 @@ var Hooks = {
 				this.hooks.push({
 					name: "monsterStatus",
 					hook: new Text("Num 7: Disable Monsters", 525, 515)
+				});
+
+				break;
+			case "missileStatus":
+				this.hooks.push({
+					name: "missileStatus",
+					hook: new Text("Num .: Disable Missiles", 525, 535)
 				});
 
 				break;
@@ -705,6 +842,7 @@ var Hooks = {
 		}
 
 		this.monsters.check();
+		this.missiles.check();
 		this.text.check();
 		this.vector.check();
 		this.tele.check();
@@ -758,6 +896,39 @@ function main() {
 			}
 
 			break;
+		case 110: // Numpad point
+			if (Hooks.missiles.enabled) {
+				Hooks.missiles.enabled = false;
+				Hooks.text.getHook("missileStatus").hook.text = "Num .: Enable Missiles";
+			} else {
+				Hooks.missiles.enabled = true;
+				Hooks.text.getHook("missileStatus").hook.text = "Num .: Disable Missiles";
+			}
+
+			break;
+		}
+	};
+
+	this.test = function() {
+		let missiles = getMyMissiles();
+		let monsters = getUnits(sdk.unittype.Monsters).filter(m => m.attackable);
+		let hostile = getUnits(sdk.unittype.Player).filter(p => p.isHostile).first();
+		if (hostile) {
+			print(JSON.stringify(hostile));
+		}
+		if (hostile && missiles.length) {
+			missiles.forEach(m => {
+
+				/*monsters.forEach(mon => {
+					let coll = m.collisionWith(mon);
+					if (coll) {
+						print(m.size);
+						print(m.velocity);
+						print(m.velocityUnitPerFrame);
+						print(JSON.stringify(coll));
+					}
+				});*/
+			});
 		}
 	};
 
@@ -770,6 +941,8 @@ function main() {
 		while (!me.area || !me.gameReady) {
 			delay(100);
 		}
+
+		this.test();
 
 		this.revealArea(me.area);
 

@@ -28,6 +28,7 @@ include("common/Runewords.js");
 include("common/Storage.js");
 include("common/Town.js");
 include("common/Enums.js");
+include("sdk.js ");
 
 function main() {
 	var i, mercHP, ironGolem, tick, merc,
@@ -431,9 +432,9 @@ function main() {
 			Misc.spy(me.name);
 
 			break;
-		case 110: // decimal point
+		/*case 110: // decimal point
 			say("/fps");
-			break;
+			break;*/
 
 		case 35: // end
 			print("debugging preset units...");

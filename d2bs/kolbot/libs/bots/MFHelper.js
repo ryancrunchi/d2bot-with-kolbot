@@ -311,6 +311,27 @@ MainLoop:
 					}
 
 					this.afterCommand();
+				} else if (command.indexOf("cows") > -1) {
+					print(ColorCodes.DARK_GOLD + "MFHelper" + ColorCodes.WHITE + ": Clear Cows");
+
+					if (me.area != 39) {
+						// taking leader's portal fails if we did not kill baal, try to use red portal.
+						for (i = 0; i < 5; i += 1) {	
+							if (Town.goToTown(1) && Pather.usePortal(39)) {	
+								break;	
+							}
+							delay(1000);
+						}
+					}
+
+					if (me.area == 39) {
+						this.clearCowLevel();
+						
+						this.afterCommand();
+					}
+					else {
+						print("Failed to clear cows.");
+					}
 				} else {
 					print("Failed to use portal.");
 				}

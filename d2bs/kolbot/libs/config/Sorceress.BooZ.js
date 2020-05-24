@@ -25,7 +25,7 @@ function LoadConfig() {
 		Config.BattleOrders.Getters = []; // List of players to wait for before casting Battle Orders (mode 0). All players must be in the same area as the BOer.
 
 	// Team MF system
-	Config.MFLeader = false; // Set to true if you have one or more MFHelpers. Opens TP and gives commands when doing normal MF runs.
+	Config.MFLeader = true; // Set to true if you have one or more MFHelpers. Opens TP and gives commands when doing normal MF runs.
 
 	// Boss/area scripts
 
@@ -47,9 +47,9 @@ function LoadConfig() {
 	Scripts.Treehead = false;
 	Scripts.Smith = false;
 	Scripts.BoneAsh = false;
-	Scripts.Countess = false;
+	Scripts.Countess = true;
 		Config.Countess.KillGhosts = false;
-	Scripts.Andariel = false;
+	Scripts.Andariel = true;
 	Scripts.Cows = false;
 
 	// *** act 2 ***
@@ -63,16 +63,16 @@ function LoadConfig() {
 	Scripts.Summoner = false;
 		Config.Summoner.FireEye = false;
 	Scripts.Tombs = false;
-	Scripts.Duriel = false;
+	Scripts.Duriel = true;
 
 	// *** act 3 ***
 	Scripts.Stormtree = false;
 	Scripts.KurastTemples = false;
 	Scripts.Icehawk = false;
 	Scripts.Endugu = false;
-	Scripts.Travincal = false;
+	Scripts.Travincal = true;
 		Config.Travincal.PortalLeech = false; // Set to true to open a portal for leechers.
-	Scripts.Mephisto = false;
+	Scripts.Mephisto = true;
 		Config.Mephisto.MoatTrick = false;
 		Config.Mephisto.KillCouncil = false;
 		Config.Mephisto.TakeRedPortal = true;
@@ -82,7 +82,6 @@ function LoadConfig() {
 	Scripts.Izual = false;
 	Scripts.Hephasto = false;
 	Scripts.Vizier = false; // Intended for classic sorc, kills Vizier only.
-	Scripts.FastDiablo = false;
 	Scripts.SealLeader = false; // Clear a safe spot around seals and invite leechers in. Leechers should run SealLeecher script. Don't run with Diablo or FastDiablo.
 
 	// *** act 5 ***
@@ -109,6 +108,7 @@ function LoadConfig() {
 	Scripts.Worldstone = false;
 
 	
+	Scripts.FastDiablo = true;
 	Scripts.Diablo = false;
 		Config.Diablo.WalkClear = false; // Disable teleport while clearing to protect leechers
 		Config.Diablo.Entrance = false; // Start from entrance
@@ -118,7 +118,7 @@ function LoadConfig() {
 		Config.Diablo.DiabloMsg = "";
 
 	
-	Scripts.Baal = false;
+	Scripts.Baal = true;
 		Config.Baal.HotTPMessage = "";
 		Config.Baal.SafeTPMessage = "";
 		Config.Baal.BaalMessage = "";
@@ -131,8 +131,8 @@ function LoadConfig() {
 	* Don't use more scripts of the same type! (Run AutoBaal OR BaalHelper, not both)
 	*/
 
-	Config.Leader = "PooZ"; // Leader's ingame character name. Leave blank to try auto-detection (works in AutoBaal, Wakka, MFHelper)
-	Config.QuitList = ["MF-Pala"]; // List of character names to quit with. Example: Config.QuitList = ["MySorc", "MyDin"];
+	Config.Leader = ""; // Leader's ingame character name. Leave blank to try auto-detection (works in AutoBaal, Wakka, MFHelper)
+	Config.QuitList = []; // List of character names to quit with. Example: Config.QuitList = ["MySorc", "MyDin"];
 	Config.QuitListMode = 1; // 0 = use character names; 1 = use profile names (all profiles must run on the same computer).
 
 	Scripts.ChestMania = false; // Open chests in configured areas. See sdk/areas.txt
@@ -148,20 +148,20 @@ function LoadConfig() {
 	Scripts.TristramLeech = false; // Enters Tristram, attempts to stay close to the leader and will try and help kill.
 	Scripts.TravincalLeech = false; // Enters portal at back of Travincal.
 		Config.TravincalLeech.Helper = true; // If set to true the character will teleport to the stairs and help attack.
-	Scripts.MFHelper = true; // Run the same MF run as the MFLeader. Leader must have Config.MFLeader = true
+	Scripts.MFHelper = false; // Run the same MF run as the MFLeader. Leader must have Config.MFLeader = true
 		Config.MFHelper.HealBetweenCommands = true; // If set to true, the helper will heal (if needed based on Config.HealHP and Config.HealMP) to NPC between leader's commands.
 	Scripts.Wakka = false; // Walking chaos leecher with auto leader assignment, stays at safe distance from the leader
 	Scripts.SealLeecher = false; // Enter safe portals to Chaos. Leader should run SealLeader.
-	Scripts.DiabloHelper = true; // Chaos helper, kills monsters and doesn't open seals on its own.
+	Scripts.DiabloHelper = false; // Chaos helper, kills monsters and doesn't open seals on its own.
 		Config.DiabloHelper.Wait = 120; // Seconds to wait for a runner to be in Chaos. If Config.Leader is set, it will wait only for the leader.
 		Config.DiabloHelper.Entrance = false; // Start from entrance. Set to false to start from star.
 		Config.DiabloHelper.SkipTP = false; // Don't wait for town portal and directly head to chaos. It will clear monsters around chaos entrance and wait for the runner.
 		Config.DiabloHelper.SkipIfBaal = true; // End script if there are party members in a Baal run.
 	Scripts.AutoBaal = false; // Baal leecher with auto leader assignment
 		Config.AutoBaal.FindShrine = false; // false = disabled, 1 = search after hot tp message, 2 = search as soon as leader is found
-		Config.AutoBaal.LeechSpot = [15115, 5050]; // X, Y coords of Throne Room leech spot
+		Config.AutoBaal.LeechSpot = [15112, 5044]; // X, Y coords of Throne Room leech spot
 		Config.AutoBaal.LongRangeSupport = false; // Cast long distance skills from a safe spot
-	Scripts.BaalHelper = true;
+	Scripts.BaalHelper = false;
 		Config.BaalHelper.Wait = 120; // Seconds to wait for a runner to be in Throne
 		Config.BaalHelper.KillNihlathak = false; // Kill Nihlathak before going to Throne
 		Config.BaalHelper.FastChaos = false; // Kill Diablo before going to Throne
@@ -266,10 +266,10 @@ function LoadConfig() {
 	 * 1 = item is unlocked and will be dropped, stashed or sold.
 	 * If you don't change the default values, the bot won't stash items.
 	 */
-	Config.Inventory[0] = [1,1,1,1,1,1,0,0,0,0];
-	Config.Inventory[1] = [1,1,1,1,1,1,0,0,0,0];
-	Config.Inventory[2] = [1,1,1,1,1,1,0,0,0,0];
-	Config.Inventory[3] = [1,1,1,1,1,1,0,0,0,0];
+	Config.Inventory[0] = [1,1,1,1,1,1,1,1,1,0];
+	Config.Inventory[1] = [1,1,1,1,1,1,1,1,1,0];
+	Config.Inventory[2] = [1,1,1,1,1,1,1,1,1,0];
+	Config.Inventory[3] = [1,1,1,1,1,1,1,1,1,0];
 
 	Config.StashGold = 100000; // Minimum amount of gold to stash.
 
@@ -279,7 +279,7 @@ function LoadConfig() {
 	 */
 	Config.BeltColumn[0] = "hp";
 	Config.BeltColumn[1] = "mp";
-	Config.BeltColumn[2] = "rv";
+	Config.BeltColumn[2] = "mp";
 	Config.BeltColumn[3] = "rv";
 
 	/* Minimum amount of potions. If we have less, go to vendor to purchase more.
@@ -287,7 +287,7 @@ function LoadConfig() {
 	 */
 	Config.MinColumn[0] = 2;
 	Config.MinColumn[1] = 2;
-	Config.MinColumn[2] = 0;
+	Config.MinColumn[2] = 2;
 	Config.MinColumn[3] = 0;
 
 	// Pickit config. Default folder is kolbot/pickit.
@@ -315,8 +315,8 @@ function LoadConfig() {
 	Config.FastPick = true; // Check and pick items between attacks
 
 	// Additional item info log settings. All info goes to \logs\ItemLog.txt
-	// Config.ItemInfo = true; // Log kept items.
-	// Config.ItemInfoQuality = [1, 2, 3, 4, 5, 6, 7, 8]; // The quality of kept items to log. See NTItemAlias.dbl for values. Example: Config.ItemInfoQuality = [6, 7, 8];
+	Config.ItemInfo = true; // Log kept items.
+	Config.ItemInfoQuality = [1, 2, 3, 4, 5, 6, 7, 8]; // The quality of kept items to log. See NTItemAlias.dbl for values. Example: Config.ItemInfoQuality = [6, 7, 8];
 
 	// Log item sold
 	Config.SoldItemInfo = true;
@@ -324,8 +324,8 @@ function LoadConfig() {
 
 	// Item identification settings
 	Config.CainID.Enable = false; // Identify items at Cain
-	Config.CainID.MinGold = 2500000; // Minimum gold (stash + character) to have in order to use Cain.
-	Config.CainID.MinUnids = 3; // Minimum number of unid items in order to use Cain.
+	Config.CainID.MinGold = 0; // Minimum gold (stash + character) to have in order to use Cain.
+	Config.CainID.MinUnids = 1; // Minimum number of unid items in order to use Cain.
 	Config.FieldID = false; // Identify items in the field instead of going to town.
 	Config.DroppedItemsAnnounce.Enable = false;	// Announce Dropped Items to in-game newbs
 	Config.DroppedItemsAnnounce.Quality = []; // Quality of item to announce. See NTItemAlias.dbl for values. Example: Config.DroppedItemsAnnounce.Quality = [6, 7, 8];
@@ -403,24 +403,24 @@ function LoadConfig() {
 	// Config.Recipes.push([Recipe.Rune, "Ort Rune"]); // Upgrade Ort to Amn
 	// Config.Recipes.push([Recipe.Rune, "Amn Rune"]); // Upgrade Amn to Sol
 	// Config.Recipes.push([Recipe.Rune, "Lem Rune"]); // Upgrade Lem to Pul
-	Config.Recipes.push([Recipe.Rune, "Pul Rune"]); // Upgrade Pul to Um
-	Config.Recipes.push([Recipe.Rune, "Um Rune"]); // Upgrade Um to Mal
-	Config.Recipes.push([Recipe.Rune, "Mal Rune"]); // Upgrade Mal to Ist
+	// Config.Recipes.push([Recipe.Rune, "Pul Rune"]); // Upgrade Pul to Um
+	// Config.Recipes.push([Recipe.Rune, "Um Rune"]); // Upgrade Um to Mal
+	// Config.Recipes.push([Recipe.Rune, "Mal Rune"]); // Upgrade Mal to Ist
 	//Config.Recipes.push([Recipe.Rune, "Ist Rune"]); // Upgrade Ist to Gul
 	Config.Recipes.push([Recipe.Rune, "Gul Rune"]); // Upgrade Gul to Vex
-	Config.Recipes.push([Recipe.Rune, "Sur Rune"]); // Upgrade Sur to Ber
+	// Config.Recipes.push([Recipe.Rune, "Sur Rune"]); // Upgrade Sur to Ber
 
 	// Config.Recipes.push([Recipe.Blood.Amulet]); // Craft Blood Amulet
 	// Config.Recipes.push([Recipe.Caster.Amulet]); // Craft Caster Amulet
 
 	// Config.Recipes.push([Recipe.Blood.Ring]); // Craft Blood Ring
-	Config.Recipes.push([Recipe.Caster.Ring]); // Craft Caster Ring
+	// Config.Recipes.push([Recipe.Caster.Ring]); // Craft Caster Ring
 
 	//Config.Recipes.push([Recipe.Blood.Helm, "Armet"]); // Craft Blood Armet
 
 	// Config.Recipes.push([Recipe.Blood.Gloves, "Heavy Gloves"]); // Craft Blood Heavy Gloves
-	Config.Recipes.push([Recipe.Blood.Gloves, "Sharkskin Gloves"]); // Craft Blood Sharkskin Gloves
-	Config.Recipes.push([Recipe.Blood.Gloves, "Vampirebone Gloves"]); // Craft Blood Vampirebone Gloves
+	// Config.Recipes.push([Recipe.Blood.Gloves, "Sharkskin Gloves"]); // Craft Blood Sharkskin Gloves
+	// Config.Recipes.push([Recipe.Blood.Gloves, "Vampirebone Gloves"]); // Craft Blood Vampirebone Gloves
 	//Config.Recipes.push([Recipe.HitPower.Gloves, "Vambraces"]); // Craft Hit Power Vambraces
 
 	// Config.Recipes.push([Recipe.Blood.Belt, "Mesh Belt"]); // Craft Blood Mesh Belt
@@ -542,8 +542,8 @@ function LoadConfig() {
 	Config.Runewords.push([Runeword.Insight, "Colossus Voulge", Roll.Eth]);
 	Config.Runewords.push([Runeword.Insight, "Thresher", Roll.Eth]); // Make Insight Thresher
 	Config.Runewords.push([Runeword.Insight, "Cryptic Axe", Roll.Eth]); // Make Insight Cryptic Axe
-		// Config.KeepRunewords.push("[type] == polearm # [meditationaura] >= 12");
-		Config.KeepRunewords.push("[type] == polearm # [meditationaura] == 17");
+		Config.KeepRunewords.push("[type] == polearm # [meditationaura] >= 12");
+		// Config.KeepRunewords.push("[type] == polearm # [meditationaura] == 17");
 		// Config.KeepRunewords.push("[type] == polearm # [meditationaura] == 17 && [enhanceddamage] == 260 && [itemtohitpercent] == 250");
 
 	// Config.Runewords.push([Runeword.Grief, "Phase Blade", Roll.NonEth]);
@@ -595,7 +595,7 @@ function LoadConfig() {
 	// General config
 	Config.AutoMap = true; // Set to true to open automap at the beginning of the game.
 	Config.LastMessage = ""; // Message or array of messages to say at the end of the run. Use $nextgame to say next game - "Next game: $nextgame" (works with lead entry point)
-	Config.MinGameTime = 180; // Min game time in seconds. Bot will TP to town and stay in game if the run is completed before.
+	Config.MinGameTime = 60; // Min game time in seconds. Bot will TP to town and stay in game if the run is completed before.
 	Config.MaxGameTime = 1800; // Maximum game time in seconds. Quit game when limit is reached.
 	Config.TeleSwitch = false; // Switch to slot II when teleporting more than 1 node.
 	Config.OpenChests = true; // Open chests. Controls key buying.
@@ -635,8 +635,8 @@ function LoadConfig() {
 
 	// Speedup config. Full packet casting is not recommended for melee skills.
 	Config.FCR = 0;//200; // 0 - disable, 1 to 255 - set value of Faster Cast Rate.
-	Config.FHR = 255;//142; // 0 - disable, 1 to 255 - set value of Faster Hit Recovery.
-	Config.FBR = 255;//200; // 0 - disable, 1 to 255 - set value of Faster Block Recovery.
+	Config.FHR = 0;//142; // 0 - disable, 1 to 255 - set value of Faster Hit Recovery.
+	Config.FBR = 0;//200; // 0 - disable, 1 to 255 - set value of Faster Block Recovery.
 	Config.IAS = 0;//255; // 0 - disable, 1 to 255 - set value of Increased Attack Speed.
 	Config.PacketCasting = 0; // 0 = disable, 1 = packet teleport, 2 = full packet casting.
 	Config.WaypointMenu = true; // Set to true for Single and private realms
@@ -657,7 +657,7 @@ function LoadConfig() {
 	// Monster skip config
 	// Skip immune monsters. Possible options: "fire", "cold", "lightning", "poison", "physical", "magic".
 	// You can combine multiple resists with "and", for example - "fire and cold", "physical and cold and poison"
-	Config.SkipImmune = ["physical and lightning"];
+	Config.SkipImmune = ["fire and cold"];
 	// Skip enchanted monsters. Possible options: "extra strong", "extra fast", "cursed", "magic resistant", "fire enchanted", "lightning enchanted", "cold enchanted", "mana burn", "teleportation", "spectral hit", "stone skin", "multiple shots".
 	// You can combine multiple enchantments with "and", for example - "cursed and extra fast", "mana burn and extra strong and lightning enchanted"
 	Config.SkipEnchant = [];
@@ -670,13 +670,13 @@ function LoadConfig() {
 	 * To disable an attack, set it to -1
 	 * Skills MUST be POSITIVE numbers. For reference see http://pastebin.com/baShRwWM
 	 */
-	Config.AttackSkill[0] = Skills.NONE; // Preattack skill.
-	Config.AttackSkill[1] = Skills.Sorceress.LIGHTNING; // Primary skill to bosses.
-	Config.AttackSkill[2] = Skills.NONE; // Primary untimed skill to bosses. Keep at -1 if Config.AttackSkill[1] is untimed skill.
-	Config.AttackSkill[3] = Skills.Sorceress.CHAIN_LIGHTNING; // Primary skill to others.
-	Config.AttackSkill[4] = Skills.NONE; // Primary untimed skill to others. Keep at -1 if Config.AttackSkill[3] is untimed skill.
-	Config.AttackSkill[5] = Skills.NONE; // Secondary skill if monster is immune to primary.
-	Config.AttackSkill[6] = Skills.NONE; // Secondary untimed skill if monster is immune to primary untimed.
+	Config.AttackSkill[0] = Skills.Sorceress.METEOR; // Preattack skill.
+	Config.AttackSkill[1] = Skills.Sorceress.FROZEN_ORB; // Primary skill to bosses.
+	Config.AttackSkill[2] = Skills.Sorceress.FIRE_BALL; // Primary untimed skill to bosses. Keep at -1 if Config.AttackSkill[1] is untimed skill.
+	Config.AttackSkill[3] = Skills.Sorceress.FROZEN_ORB; // Primary skill to others.
+	Config.AttackSkill[4] = Skills.Sorceress.FIRE_BALL; // Primary untimed skill to others. Keep at -1 if Config.AttackSkill[3] is untimed skill.
+	Config.AttackSkill[5] = Skills.Sorceress.METEOR; // Secondary skill if monster is immune to primary.
+	Config.AttackSkill[6] = Skills.Sorceress.GLACIAL_SPIKE; // Secondary untimed skill if monster is immune to primary untimed.
 
 	// Low mana skills - these will be used if main skills can't be cast.
 	Config.LowManaSkill[0] = -1; // Timed low mana skill.
@@ -696,7 +696,7 @@ function LoadConfig() {
 	Config.DodgeHP = 100; // Dodge only if HP percent is less than or equal to Config.DodgeHP. 100 = always dodge.
 	Config.BossPriority = true; // Set to true to attack Unique/SuperUnique monsters first when clearing
 	Config.ClearType = 0x7; // Monster spectype to kill in level clear scripts (ie. Mausoleum). 0xF = skip normal, 0x7 = champions/bosses, 0 = all
-	Config.TeleStomp = true; // Use merc to attack bosses if they're immune to attacks, but not to physical damage
+	Config.TeleStomp = false; // Use merc to attack bosses if they're immune to attacks, but not to physical damage
 
 	// Wereform setup. Make sure you read Templates/Attacks.txt for attack skill format.
 	Config.Wereform = false; // 0 / false - don't shapeshift, 1 / "Werewolf" - change to werewolf, 2 / "Werebear" - change to werebear

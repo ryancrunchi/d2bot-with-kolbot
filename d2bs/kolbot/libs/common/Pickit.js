@@ -507,7 +507,7 @@ MainLoop:
 					}
 				} while (tome.getNext());
 			} else {
-				return false; // Don't pick scrolls if there's no tome
+				return true; // pick scrolls if there's no tome
 			}
 
 			break;

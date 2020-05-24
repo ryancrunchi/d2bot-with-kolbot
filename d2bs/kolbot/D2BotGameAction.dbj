@@ -19,6 +19,7 @@ include("GameAction.js");
 include("gambling.js");
 include("common/misc.js");
 include("common/Enums.js");
+include("sdk.js ");
 
 if (!FileTools.exists("data/" + me.profile + ".json")) {
 	DataFile.create();

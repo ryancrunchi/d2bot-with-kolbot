@@ -29,10 +29,10 @@ var StarterConfig = {
 */
 
 var JoinSettings = {
-	"ManualLeader": ["PalaFollow", "Follower"],
-	"DiaBaalRun": ["PalaFollow"],
-	// "MF-Sorc": ["MF-Pala"],
-	"MF-Pala": ["MF-Sorc"]
+	"ManualLeader": ["Follower"],
+	"DiaBaalRun": ["DiaBaalLeech"],
+	"MF-NM": ["MF-Pala"],
+	// "MF-Pala": ["MF-Sorc"]
 };
 
 // Advanced config - you don't have to edit this unless you need some of the features provided

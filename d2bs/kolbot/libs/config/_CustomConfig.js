@@ -9,9 +9,8 @@ var CustomConfig = {
 	// "Sorceress.Rusher": ["Rusher"],
 	// "Sorceress.Rushee": ["Rushee"],
 	// "Sorceress.Rushee": ["Rushee"],
-	"Sorceress.RusherHelper": ["RusherHelper"],
 	"Sorceress": ["manualSorc"],
-	"Paladin": ["manualPala", "manualPala2"],
-	"Paladin.Follow": ["PalaFollow"],
+	"Paladin": ["manualPala"],
+	"DiaBaalLeech": ["DiaBaalLeech"],
 	"IPHunter": ["IPHunter"]
 };

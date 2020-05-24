@@ -61,6 +61,7 @@ include("gambling.js");
 include("torchsystem.js");
 include("common/misc.js");
 include("common/Enums.js");
+include("sdk.js ");
 
 var gameStart, handle, ingame, firstLogin, useChat,
 	connectFail, chatActionsDone, gameInfo,

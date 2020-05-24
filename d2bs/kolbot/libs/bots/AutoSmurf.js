@@ -1336,16 +1336,12 @@ function AutoSmurf() {
 
 //PATHING
 	this.clearToExit = function (currentarea, targetarea, cleartype) { // SiC-666 TODO: add moving to exit without clearing after XX minutes.
-		print("Start clearToExit");
-
 		print("Currently in: " + Pather.getAreaName(me.area));
 		print("Currentarea arg: " + Pather.getAreaName(me.area));
-
-		delay(250);
 		print("Clearing to: " + Pather.getAreaName(targetarea));
 		while (me.area == currentarea) {
 			try {
-				
+				cleartype = Pather.useTeleport() ? undefined : 0;
 				Pather.moveToExit(targetarea, true, cleartype);
 			} catch (e) {
 				print("Caught Error.");
@@ -2356,14 +2352,14 @@ function AutoSmurf() {
 				this.teamInGame();
 				this.waitForPartyMembers();
 				if(!getWaypoint(1)) {
-					Attack.clearLevel();
+					Attack.clearLevelWalk(0);
 					Precast.doPrecast(true);
 					Pather.moveToExit(3, true, true);
 					this.teamInGame();
 					this.waitForPartyMembers();
 					this.Bo();
 					Pather.getWP(3);
-					Attack.clearLevel();
+					Attack.clearLevelWalk(0);
 				}
 				Pather.moveToExit(2, true, true);
 				Pather.moveToExit(8, true, true);
@@ -2375,7 +2371,7 @@ function AutoSmurf() {
 
 					this.teamInGame();
 
-					Attack.clearLevel();
+					Attack.clearLevelWalk(0);
 
 					sendPacket(1, 0x40); // Refresh quest status
 
@@ -2487,17 +2483,17 @@ function AutoSmurf() {
 
 		Precast.doPrecast(true);
 
-		Pahter.teleport = false;
+		Pather.teleport = false;
 
-		this.clearToExit(3, 9, Config.ClearType);
-
-		this.waitForPartyMembers();
-
-		this.clearToExit(9, 13, Config.ClearType);
+		this.clearToExit(3, 9, 0);
 
 		this.waitForPartyMembers();
 
-		Attack.clearLevel(Config.ClearType);
+		this.clearToExit(9, 13, 0);
+
+		this.waitForPartyMembers();
+
+		Attack.clearLevelWalk(0);
 
 		return true; // Ends in Cave Level 2 because the characters will likely leave the game from there once or twice.
 	};
@@ -2814,7 +2810,7 @@ function AutoSmurf() {
 		}
 		Precast.doPrecast(true);
 		this.Bo();
-		Attack.clearLevel(0);				
+		Attack.clearLevelWalk(0);				
 		return true;
 	};
 
@@ -3285,7 +3281,7 @@ function AutoSmurf() {
 	};
 
 	this.tombs = function() { // Teleporting Sorc shares Canyon of The Magi waypoint with the others and they each clear to the chest in all of the tombs.
-		var i, j, chest;
+		var i, j;
 
 		print("cleaning tombs");
 		Town.doChores();
@@ -3347,7 +3343,7 @@ function AutoSmurf() {
 		this.Bo();
 		Precast.doPrecast(true);
 
-		for (i = 66; i <= 72; i += 1) {
+		for (i = 66; i <= 72 && !this.partyLevel(tombsLvl); i += 1) {
 			if (i !== getRoom().correcttomb) {
 				this.teamInGame();
 
@@ -3361,43 +3357,7 @@ function AutoSmurf() {
 
 				this.waitForPartyMembers();
 				this.Bo();
-				Attack.clearLevel(0);
-				
-				chest = getPresetUnit(me.area, 2, 397);
-
-				for (j = 0 ; j < 5 ; j += 1) {
-					chest = getPresetUnit(me.area, 2, 397);
-
-					if (chest) {
-						break;
-					}
-
-					delay(me.ping * 2 + 250);
-				}
-
-				if (chest) {
-					while (getDistance(me.x, me.y, chest.roomx * 5 + chest.x, chest.roomy * 5 + chest.y) > 10) {
-						try {
-							Pather.moveToPreset(me.area, 2, 397, 0, 0, Config.ClearType, false);
-						} catch (e) {
-							print("Caught Error.");
-
-							print(e);
-						}
-
-						delay(me.ping * 2 + 250);
-
-						Packet.flash(me.gid);
-					}
-
-					chest = getUnit(2, "chest");
-
-					Misc.openChest(chest);
-
-					Pickit.pickItems();
-
-				//	Attack.clear(40);
-				}
+				Attack.clearLevelWalk(0);
 
 				if (Misc.getNearbyPlayerCount() > 1) { // There are other characters nearby.
 					delay(rand(2,10) * 500); // Delay 1-5 seconds to increase the chances of taking someone else's portal.
@@ -3407,9 +3367,7 @@ function AutoSmurf() {
 					Town.goToTown();
 				}
 
-				delay(me.ping * 2 + 250);
-
-				if (!Pather.usePortal(46, null)) {
+				if (!this.partyLevel(tombsLvl) && !Pather.usePortal(46, null)) {
 					Town.move("waypoint");
 
 					Pather.useWaypoint(46);
@@ -3547,6 +3505,7 @@ function AutoSmurf() {
 		if (!this.teamQuest(14, 1) && !this.teamQuest(14, 3) && !this.teamQuest(14, 4)) {
 			if(!me.inTown){
 				Town.goToTown();
+				Town.stackPotions("wms");
 			}
 
 			if (teleportingSorc) {
@@ -3576,10 +3535,6 @@ function AutoSmurf() {
 
 						print(e);
 					}
-				}
-
-				if (me.diff === 0) {
-					Pather.teleport = false;
 				}
 
 				Pather.makePortal();
@@ -3675,6 +3630,10 @@ function AutoSmurf() {
 
 					j += 1;
 				}
+			}
+
+			if (me.diff === 0) {
+				Pather.teleport = false;
 			}
 
 			this.teamInGame();
@@ -4168,10 +4127,6 @@ function AutoSmurf() {
 			}
 		}
 
-		if (me.diff === 0) { // All characters don't teleport during the fight in normal.
-			Pather.teleport = false;
-		}
-
 		Attack.clearList(this.buildList(0)); // Kill the High Council
 
 		Pickit.pickItems();
@@ -4241,6 +4196,71 @@ function AutoSmurf() {
 			takeRedPortalOnly = false;
 		}
 
+		const moat = function () {
+			var count, distance, mephisto;
+	
+			count = 0;
+			Pather.moveTo(17588, 8069);
+
+			// Get meph's attention
+			delay(300);
+	
+			mephisto = getUnit(1, 242);
+	
+			if (!mephisto) {
+				return false;
+			}
+
+			Pather.moveTo(17566, 8069);
+			delay(500);
+			// Move away more
+			Pather.moveTo(17584, 8082);
+			delay(500);
+			
+			Pather.teleportTo(17584, 8080); // my merc can attack meph, we want him near me
+
+			while (getDistance(me, mephisto) > 20) {
+				if (getDistance(me, mephisto) >= 30) {
+					Pather.moveTo(17584, 8082);
+					delay(500);
+					Pather.teleportTo(17584, 8080); // my merc can attack meph, we want him near me
+				}
+				delay(30);
+			}
+	
+			//Relay
+			Pather.moveTo(17597, 8090);
+			while (getDistance(me, mephisto) > 20) {
+				if (getDistance(me, mephisto) >= 30) {
+					Pather.moveTo(17584, 8080);
+					delay(500);
+					Pather.teleportTo(17597, 8090); // my merc can attack meph, we want him near me
+				}
+				delay(30);
+			}
+	
+			// Move to the actual kill position
+			Pather.moveTo(17608, 8094);
+			/*var previousDodge = Config.Dodge;
+			var previousStaticList = Config.StaticList;
+			Config.Dodge = false;
+			Skill.usePvpRange = true;
+			const index = Config.StaticList.indexOf("Mephisto");
+			if (index > -1) {
+				Config.StaticList.splice(index, 1);
+			}*/
+			while(!mephisto.dead) {
+				const skill = Config.AttackSkill[1] > -1 ? Config.AttackSkill[1] : Config.AttackSkill[2];
+				Skill.cast(skill, Skill.getHand(skill), mephisto);
+			}
+			Attack.kill(242); // Mephisto
+			/*Skill.usePvpRange = false;
+			Config.Dodge = previousDodge;
+			Config.StaticList = previousStaticList;*/
+	
+			return true;
+		};
+
 		var cain;
 
 		print("mephisto");
@@ -4288,8 +4308,12 @@ function AutoSmurf() {
 		this.teamInGame();
 
 		if (!takeRedPortalOnly) {
-			if (!Attack.kill(242)) {
-				Attack.clear(20);
+			if (me.diff == 0 && Config.AutoSmurf.TeamSize == 1) {
+				moat();
+			} else {
+				if (!Attack.kill(242)) {
+					Attack.clear(20);
+				}
 			}
 
 			Pickit.pickItems();
@@ -4323,6 +4347,9 @@ function AutoSmurf() {
 
 				Pather.usePortal(null, null, redPortal); // Go to Act 4.
 			}
+
+			Town.goToTown();
+			Town.doChores();
 		} else {
 			Town.goToTown();
 
@@ -4367,10 +4394,6 @@ function AutoSmurf() {
 				}
 
 				Pather.moveTo(presetUnit.roomx * 5 + presetUnit.x, presetUnit.roomy * 5 + presetUnit.y, 15, false);
-
-				if (me.diff === 0) { // Don't Teleport while killing Izual in Normal Difficulty.
-					Pather.teleport = false;
-				}
 
 				Pather.makePortal();
 			} else {
@@ -5716,7 +5739,14 @@ function AutoSmurf() {
 	//addEventListener("copydata", ReceiveCopyData);
 	//addEventListener("chatmsg", chatEvent);
 	addEventListener("copydata", (id, data) => {
-		let { msg, nick } = JSON.parse(data);
+		let msg, nick;
+		try {
+			({msg, nick} = JSON.parse(data));
+		}
+		catch (e) {
+			print(e);
+			return;
+		}
 // Here is modified by Dark-f 2018-2-21
 		if ( iAmReady && Config.AutoSmurf.TeamSize === 1 ) {
 			teamIsReady = true;
@@ -5954,10 +5984,10 @@ function AutoSmurf() {
 				/* When the partyLevel is less than the tristLvl, the game must quit.
 				I think that the party should Lv up going to Dark Wood and so on.
 				*/
-				if(!this.partyLevel(tristLvl)) {
+				/*if(!this.partyLevel(tristLvl)) {
 					
 					this.tristAfter();
-				}
+				}*/
             }
         }
 		
@@ -5994,6 +6024,10 @@ function AutoSmurf() {
 				this.amulet();
 			}
 
+			if (!me.getItem(92) && !me.getItem(91) && !this.teamQuest(10, 0)) { // No Staff of Kings nor Horadric Staff and Horadric Staff quest (staff placed in orifice) not complete.
+				this.staff();
+			}
+
 			if (!this.teamQuest(13, 0) && this.teamQuest(11 , 0) || !Pather.useWaypoint(46, true)) { // Summoner quest incomplete but The Tainted Sun is complete.
 				this.travel(4); // Travel to all waypoints up to and including Arcane Sanctuary if I don't have them.
 				
@@ -6006,11 +6040,6 @@ function AutoSmurf() {
 				this.travel(5); // Travel to all waypoints up to and including Canyon Of The Magi if I don't have them.				
 				Messaging.sendToList(Config.AutoSmurf.AllTeamProfiles, "tombs");
 				this.tombs(); // Clears to the chest in all of Tal Rashas Tomb's (except for the one with the Orifice). Will quit() at the end if the team hasn't reached tombsLvl requirement.
-			}
-
-			if (!me.getItem(92) && !me.getItem(91) && !this.teamQuest(10, 0)) { // No Staff of Kings nor Horadric Staff and Horadric Staff quest (staff placed in orifice) not complete.
-				
-				this.staff();
 			}
 
 			if (me.getItem(92) && me.getItem(521) && me.getItem(549)) { // Have The Staff of Kings, The Viper Amulet, and The Horadric Cube.

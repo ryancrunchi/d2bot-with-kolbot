@@ -204,8 +204,7 @@ function main() {
 					maxPartyMembers = countInParty;
 				}
 			}
-
-			var player = getParty();
+			
 			while (player.getNext()) {
 				let playerPartyId = player.partyid;
 				let playerIsInParty = playerPartyId != partyIdNotInParty;

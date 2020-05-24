@@ -27,6 +27,53 @@ Array.prototype.shuffle = function () {
 	return this;
 };
 
+// https://tc39.github.io/ecma262/#sec-array.prototype.findindex
+if (!Array.prototype.findIndex) {
+	Object.defineProperty(Array.prototype, 'findIndex', {
+		value: function (predicate) {
+			// 1. Let O be ? ToObject(this value).
+			if (this == null) {
+				throw new TypeError('"this" is null or not defined');
+			}
+
+			var o = Object(this);
+
+			// 2. Let len be ? ToLength(? Get(O, "length")).
+			var len = o.length >>> 0;
+
+			// 3. If IsCallable(predicate) is false, throw a TypeError exception.
+			if (typeof predicate !== 'function') {
+				throw new TypeError('predicate must be a function');
+			}
+
+			// 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+			var thisArg = arguments[1];
+
+			// 5. Let k be 0.
+			var k = 0;
+
+			// 6. Repeat, while k < len
+			while (k < len) {
+				// a. Let Pk be ! ToString(k).
+				// b. Let kValue be ? Get(O, Pk).
+				// c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+				// d. If testResult is true, return k.
+				var kValue = o[k];
+				if (predicate.call(thisArg, kValue, k, o)) {
+					return k;
+				}
+				// e. Increase k by 1.
+				k++;
+			}
+
+			// 7. Return -1.
+			return -1;
+		},
+		configurable: true,
+		writable: true
+	});
+}
+
 // Trim String
 String.prototype.trim = function () {
 	return this.replace(/^\s+|\s+$/g, "");
@@ -128,9 +175,9 @@ Unit.prototype.openMenu = function (addDelay) {
 		}
 
 		sendPacket(1, 0x2f, 4, 1, 4, this.gid);
-		delay(me.ping * 2);
+		delay((me.ping || 0.5) * 2);
 		sendPacket(1, 0x30, 4, 1, 4, this.gid);
-		delay(me.ping * 2);
+		delay((me.ping || 0.5) * 2);
 		Packet.flash(me.gid);
 	}
 
@@ -1384,3 +1431,502 @@ Unit.prototype.castChargedSkill = function (...args) {
 
 	return false;
 };
+
+/**
+* @description Return the items of a player, or an empty array
+* @param args
+* @returns Unit[]
+*/
+Unit.prototype.getItemsEx = function (...args) {
+   let item = this.getItem.apply(this, args), items = [];
+
+   if (item) {
+	   do {
+		   items.push(copyUnit(item));
+	   } while (item.getNext());
+	   return items;
+   }
+
+   return [];
+};
+
+Unit.prototype.sellOrDrop = function (log = false) {
+	if (getUIFlag(0xC) || (Config.PacketShopping && getInteractedNPC() && getInteractedNPC().itemcount > 0)) {
+		log && Misc.itemLogger("Sold", this);
+		this.sell();
+	} else {
+		log && Misc.itemLogger("Dropped", this);
+		this.drop();
+	}
+};
+
+Object.defineProperties(me, {
+	sizeX: {
+		value: 2,
+		enumerable: true,
+		writable: false,
+		configurable: false
+	},
+	sizeY: {
+		value: 2,
+		enumerable: true,
+		writable: false,
+		configurable: false
+	},
+	highestAct: {
+		get: function () {
+			return [true, me.getQuest(7, 0), me.getQuest(15, 0), me.getQuest(23, 0), me.getQuest(28, 0)]
+				.findIndex(i => !i);
+		}
+	},
+	lowGold: {
+		get: function () {
+			var low = false;
+			var total = 0;
+
+			// TODO: take lower merchant prices stat into account, sdk.stats.Goldbonus
+			const TPTomePrice = 450;
+			const IDTomePrice = 280;
+			const TPScrollPrice = 100;
+			const IDScrollPrice = 80;
+
+			var tomes = [
+				{id: sdk.items.tptome, price: TPTomePrice, scrollPrice: TPScrollPrice, defaultQuantity: 4},
+				{id: sdk.items.idtome, price: IDTomePrice, scrollPrice: IDScrollPrice, defaultQuantity: 2}
+			];
+
+			// you are low in gold if you don't have and can't buy tome or can't refill it
+			for (var tome of tomes) {
+				//TODO : maybe we have tome elsewhere, should we use it ? what if we are doing cow level with tp tome ?
+				var have = me.findItem(tome.id, sdk.itemmode.inStorage, sdk.storage.Inventory);
+				let missing = have ? 20-have.getStat(sdk.stats.Quantity) : tome.defaultQuantity;
+				let price = missing*tome.scrollPrice + (have ? 0 : tome.price);
+				total += price;
+				if (me.gold < price) {
+					low = true;
+				}
+			}
+
+
+			
+			// you are low in gold if you can't buy potions you need to fill belt and buffer
+			let missingPotsInBelt = Town.checkColumns(Storage.BeltSize()).reduce((acc, c) => acc+c, 0);
+			//TODO: get price of each pot type that should go in belt, for now easy calculation
+			let price = missingPotsInBelt*450; // price of greater mana potion
+			total += price;
+			if (me.gold < price) {
+				low = true;
+			}
+
+
+			// you are low in gold if you can't repair
+			var repairCost = me.getRepairCost();
+			total += repairCost;
+			if (me.gold < repairCost) {
+				low = true;
+			}
+
+			// you are low in gold if you can't revive merc
+			var mercCost = me.mercrevivecost;
+			total += mercCost;
+			if (me.gold < mercCost) {
+				low = true;
+			}
+			return low;
+		}
+	}
+});
+
+// Filter null or undefined objects in array
+Array.prototype.filterNull = function () {
+	return this.filter(x => x);
+};
+
+// Map the objects with the callback function and filter null values after mapping.
+Array.prototype.compactMap = function (callback) {
+	return this.map((x, i, array) => {
+		if (x == null) {
+			return null;
+		}
+		return callback(x, i, array);
+	})
+	.filterNull();
+};
+
+// Returns a random object in array
+Array.prototype.random = function () {
+	return this[Math.floor((Math.random() * this.length))];
+};
+
+Array.prototype.includes = function (e) {
+	return this.indexOf(e) > -1;
+};
+
+Array.prototype.contains = Array.prototype.includes;
+
+Array.prototype.intersection = function (other) {
+	return this.filter(e => other.includes(e))
+};
+
+Array.prototype.difference = function (other) {
+	return this.filter(e => !other.includes(e))
+};
+
+Array.prototype.symmetricDifference = function (other) {
+	return this
+		.filter(e => !other.includes(e))
+		.concat(other.filter(e => !this.includes(e)))
+};
+
+Array.prototype.doForEach = function (callback) {
+	this.forEach(callback);
+	return this;
+};
+
+function getUnits(type, nameOrItemCodeOrClassId = null, mode = null, globalId = null) {
+	let units = [], unit = getUnit(type, nameOrItemCodeOrClassId, mode, globalId);
+
+	if (!unit) {
+		return [];
+	}
+	do {
+		units.push(copyUnit(unit));
+	} while (unit.getNext());
+	return units;
+};
+
+/**
+ * {
+"type":3,
+"classid":90, // missile id, see missiles.txt
+"mode":3,
+"name":"Unknown",
+"act":1,
+"gid":256,
+"x":4449,
+"y":5730,
+"targetx":4454,
+"targety":5701,
+"area":2,
+"hp":0,
+"hpmax":0,
+"mp":0,
+"mpmax":0,
+"stamina":0,
+"staminamax":0,
+"charlvl":0,
+"owner":1, // gid of owner unit
+"ownertype":0,
+"direction":41,
+"uniqueid":-1}
+ */
+function getMissiles() {
+	return getUnits(sdk.unittype.Missiles);
+};
+
+function getMyMissiles() {
+	return getMissiles().filter(m => {
+		let owner = m.ownerUnit;
+		return owner && owner == me;
+	});
+};
+
+function getMonsterMissiles() {
+	return getMissiles().filter(m => m.ownertype == sdk.unittype.Monsters);
+};
+
+function getHostileMissiles() {
+	return getMissiles().filter(m => {
+		let owner = m.ownerUnit;
+		return m.ownertype == sdk.unittype.Player && owner && owner.isHostile;
+	});
+};
+
+Object.defineProperty(Unit.prototype, "ownerUnit", {
+	get: function() {
+		if (this.owner == undefined || this.ownertype == undefined) {
+			return undefined;
+		}
+		return getUnit(this.ownertype, null, null, this.owner);
+	},
+	enumerable: true
+});
+
+Object.defineProperty(Unit.prototype, 'equals', {
+	value: function (other) {
+		if (other == undefined || other == null) {
+			return false;
+		}
+		return other.constructor == this.constructor &&
+			other.type == this.type &&
+			other.classid == this.classid &&
+			other.gid == this.gid;
+	}
+});
+
+function Collision(u1, u2, frames) {
+	this.u1 = u1;
+	this.u2 = u2;
+	this.frames = frames;
+};
+
+function Point(x, y) {
+	this.x = x;
+	this.y = y;
+
+	this.closestPointOnLine = function (a, b) {
+		var da = b.y - a.y;
+		var db = a.x - b.x;
+		var c1 = da * a.x + db * a.y;
+		var c2 = -db * this.x + da * this.y;
+		var det = da * da + db * db;
+		var cx = 0;
+		var cy = 0;
+
+		if (det != 0) {
+			cx = (da * c1 - db * c2) / det;
+			cy = (da * c2 + db * c1) / det;
+		} else {
+			// I'm already on line
+			cx = this.x;
+			cy = this.y;
+		}
+
+		return new Point(cx, cy);
+	};
+
+	this.manhattanDistanceTo = function (other) {
+		let x = Math.abs(other.x - this.x);
+		let y =  Math.abs(other.y - this.y);
+		return x+y;
+	};
+
+	this.distance2To = function (other) {
+		let x = other.x - this.x;
+		let y = other.y - this.y;
+		return (x * x) + (y * y);
+	};
+
+	this.distanceTo = function (other) {
+		return Math.sqrt(this.distance2To(other));
+	};
+};
+
+Object.defineProperty(Unit.prototype, 'collisionWith', {
+	value: function (other) {
+		if (this.type != sdk.unittype.Missiles) {
+			return null;
+		}
+		if (other.constructor != Unit) {
+			return null;
+		}
+		// manhattan distance
+		var dist = this.manhattanDistanceTo(other);
+
+		var size = this.size;
+		var otherSize = other.size;
+		var sr = size + otherSize;
+
+		if (dist < sr) {
+			// units are already colliding
+			return new Collision(this, other, 0);
+		}
+
+		// optimizing: unit with same velocity will never collide
+		// TODO: velocity of missile
+		/*if (this.velocityYPFx == other.velocityYPFx && this.velocityYPFy == other.velocityYPFy) {
+			return null;
+		}*/
+
+		// We change the reference coordinates for "other" unit to be at origin (0,0)
+		// That way, "other" is not moving
+		var x = this.x - other.x;
+		var y = this.y - other.y;
+		var myp = new Point(x, y);
+		// TODO: velocities
+		var velocityX = (this.targetx - this.x) * this.velocityUnitPerFrame;
+		var velocityY = (this.targety - this.y) * this.velocityUnitPerFrame;
+
+		var otherVelocityX = (other.targetx - other.x) * other.velocityUnitPerFrame;
+		var otherVelocityY = (other.targety - other.y) * other.velocityUnitPerFrame;
+		
+		var vx = velocityX - otherVelocityX;
+		var vy = velocityY - otherVelocityY;
+		var up = new Point(0, 0)
+
+		// Searching the closest point to "other" (0,0) on the line given by our velocity vector
+		var p = up.closestPointOnLine(myp, new Point(x + vx, y + vy));
+
+		// squared distance between "other" and the closest point on line
+		var pdist = up.distance2To(p);
+
+		// squared distance between "this" and the closed point on line
+		var mypdist = myp.distance2To(p);
+
+		// If distance between "other" and this line is lower than radii sum, there may be a collision
+		if (pdist < sr) {
+			// our speed on the line
+			var length = Math.sqrt(vx * vx + vy * vy);
+
+			// we move the point on the line to find the impact point
+			var backdist = Math.sqrt(sr - pdist);
+			p.x = p.x - backdist * (vx / length);
+			p.y = p.y - backdist * (vy / length);
+
+			// If the point is further than previously, our speed is not in the right direction
+			if (myp.distance2To(p) > mypdist) {
+				return null;
+			}
+
+			pdist = p.distanceTo(myp);
+
+			// impact point is further than what we can move in a frame time
+			if (pdist > length) {
+				return null;
+			}
+
+			// Needed frames to reach impact point
+			var t = pdist / length;
+
+			return new Collision(this, other, t);
+		}
+
+		return null;
+	}
+});
+
+Object.defineProperty(Unit.prototype, 'isHostile', {
+	get: function () {
+		if (this.gid == undefined || this.gid == null) return false;
+		return getPlayerFlag(me.gid, this.gid, sdk.partyFlags.Hostile);
+	},
+	enumerable: true
+});
+
+Object.defineProperty(Unit.prototype, 'distance2To', {
+	value: function (other) {
+		if (other.constructor != Unit) {
+			return Infinity;
+		}
+		let x = other.x - this.x;
+		let y = other.y - this.y;
+		return (x * x) + (y * y);
+	}
+});
+
+Object.defineProperty(Unit.prototype, 'distanceTo', {
+	value: function (other) {
+		return Math.sqrt(this.distance2To(other));
+	}
+});
+
+Object.defineProperty(Unit.prototype, 'manhattanDistanceTo', {
+	value: function (other) {
+		let x = Math.abs(other.x - this.x);
+		let y =  Math.abs(other.y - this.y);
+		return x+y;
+	}
+});
+
+Object.defineProperty(Unit.prototype, 'sizeX', {
+	get: function () {
+		if (this.type == sdk.unittype.Monsters) {
+			let baseId = getBaseStat("monstats", this.classid, "baseid");
+			return getBaseStat("monstats2", baseId, "SizeX");
+		}
+		return this.sizex;
+	},
+	enumerable: true,
+	configurable: false
+});
+
+Object.defineProperty(Unit.prototype, 'sizeY', {
+	get: function () {
+		if (this.type == sdk.unittype.Monsters) {
+			let baseId = getBaseStat("monstats", this.classid, "baseid");
+			return getBaseStat("monstats2", baseId, "SizeY");
+		}
+		return this.sizey;
+	},
+	enumerable: true,
+	configurable: false
+});
+
+Object.defineProperty(Unit.prototype, 'size', {
+	get: function () {
+		if (this.type == sdk.unittype.Missiles) {
+			return getBaseStat("missiles", this.classid, "Size");
+		}
+		return this.sizeX;
+	},
+	enumerable: true,
+	configurable: false
+});
+
+Object.defineProperty(Unit.prototype, 'velocity', { // units/sec
+	get: function () {
+		if (this.type == sdk.unittype.Missiles) {
+			return getBaseStat("missiles", this.classid, "Vel");
+		}
+		if (this.type == sdk.unittype.Monsters) {
+			return getBaseStat("monstats", this.classid, (this.running ? "Run" : "Velocity"));
+		}
+		if (this.type == sdk.unittype.Player) {
+			return this.running ? 9 : 6; //TODO: frw
+		}
+		return undefined;
+	},
+	enumerable: true,
+	configurable: false
+});
+
+Object.defineProperty(Unit.prototype, 'velocityUnitPerFrame', {
+	get: function () {
+		if (this.velocity != undefined) {
+			return this.velocity * 0.04; // units/s to unit/frame
+		}
+		return undefined;
+	},
+	enumerable: true,
+	configurable: false
+});
+
+Object.defineProperty(Unit.prototype, 'running', {
+	get: function () {
+		const runningTypes = [sdk.unittype.Player, sdk.unittype.Monsters, sdk.unittype.Missiles];
+		return runningTypes.indexOf(this.type) > -1 ? this.mode == sdk.unitmode.Running : false;
+	},
+	enumerable: true,
+	configurable: false
+});
+
+Object.defineProperty(Unit.prototype, 'attackable', {
+	get: function () {
+		if (this.type === 0 && this.mode !== 17 && this.mode !== 0) { //ToDo: build in here a check if player is hostiled
+			return true;
+		}
+		if (this.hp === 0 || this.mode === 0 || this.mode === 12) { // Dead monster
+			return false;
+		}
+		if (this.getStat(172) === 2) {	// Friendly monster/NPC
+			return false;
+		}
+		if (this.charlvl < 1) { // catapults were returning a level of 0 and hanging up clear scripts
+			return false;
+		}
+		if (getBaseStat("monstats", this.classid, "neverCount")) { // neverCount base stat - hydras, traps etc.
+			return false;
+		}
+		// Monsters that are in flight
+		if ([110, 111, 112, 113, 144, 608].indexOf(this.classid) > -1 && this.mode === 8) {
+			return false;
+		}
+		// Monsters that are Burrowed/Submerged
+		if ([68, 69, 70, 71, 72, 258, 258, 259, 260, 261, 262, 263].indexOf(this.classid) > -1 && this.mode === 14) {
+			return false;
+		}
+		return [sdk.monsters.ThroneBaal].indexOf(this.classid) <= -1;
+	},
+	enumerable: true,
+	configurable: false
+});

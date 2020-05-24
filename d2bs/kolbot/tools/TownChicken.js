@@ -10,6 +10,7 @@ include("json2.js");
 include("NTItemParser.dbl");
 include("OOG.js");
 include("Gambling.js");
+include("sdk.js");
 include("CraftingSystem.js");
 include("common/Attack.js");
 include("common/Cubing.js");

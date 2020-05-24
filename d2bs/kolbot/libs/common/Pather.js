@@ -548,31 +548,13 @@ ModeLoop:
 		clearPath - kill monsters while moving
 		pop - remove last node
 	*/
-	moveToPreset: function (area, unitType, unitId, offX, offY, clearPath, pop) {
-		if (area === undefined || unitType === undefined || unitId === undefined) {
-			throw new Error("moveToPreset: Invalid parameters.");
-		}
-
-		if (offX === undefined) {
-			offX = 0;
-		}
-
-		if (offY === undefined) {
-			offY = 0;
-		}
-
-		if (clearPath === undefined) {
-			clearPath = false;
-		}
-
-		if (pop === undefined) {
-			pop = false;
-		}
-
-		var presetUnit = getPresetUnit(area, unitType, unitId);
+	moveToPreset: function (area, unitType, unitId, offX = 0, offY = 0, clearPath = false, pop = false) {
+		if (area === undefined || unitType === undefined || unitId === undefined) return false;
+		if (me.area !== area) this.journeyTo(area, clearPath);
+		let presetUnit = getPresetUnit(area, unitType, unitId);
 
 		if (!presetUnit) {
-			throw new Error("moveToPreset: Couldn't find preset unit - id " + unitId);
+			return false;
 		}
 
 		return this.moveTo(presetUnit.roomx * 5 + presetUnit.x + offX, presetUnit.roomy * 5 + presetUnit.y + offY, 3, clearPath, pop);
@@ -1349,11 +1331,16 @@ MainLoop:
 			wpIDs = [119, 145, 156, 157, 237, 238, 288, 323, 324, 398, 402, 429, 494, 496, 511, 539];
 
 		if (area !== me.area) {
-			this.journeyTo(area);
+			this.journeyTo(area, clearPath);
 		}
 
 		for (i = 0; i < wpIDs.length; i += 1) {
-			preset = getPresetUnit(area, 2, wpIDs[i]);
+			try {
+				preset = getPresetUnit(area, 2, wpIDs[i]);
+			}
+			catch (e) {
+				return false;
+			}
 
 			if (preset) {
 				this.moveToUnit(preset, 0, 0, clearPath);
@@ -1385,7 +1372,7 @@ MainLoop:
 		Pather.journeyTo(area);
 		area - the id of area to move to
 	*/
-	journeyTo: function (area) {
+	journeyTo: function (area, clearPath) {
 		var i, special, unit, tick, target;
 
 		target = this.plotCourse(area, me.area);
@@ -1421,14 +1408,14 @@ MainLoop:
 			}
 
 			if (this.wpAreas.indexOf(me.area) > -1 && !getWaypoint(this.wpAreas.indexOf(me.area))) {
-				this.getWP(me.area);
+				this.getWP(me.area, clearPath);
 			}
 
 			if (me.inTown && this.wpAreas.indexOf(target.course[0]) > -1 && getWaypoint(this.wpAreas.indexOf(target.course[0]))) {
 				this.useWaypoint(target.course[0], !this.plotCourse_openedWpMenu);
 				Precast.doPrecast(false);
 			} else if (me.area === 109 && target.course[0] === 110) { // Harrogath -> Bloody Foothills
-				this.moveTo(5026, 5095);
+				this.moveTo(5026, 5095, undefined, clearPath);
 
 				unit = getUnit(2, 449); // Gate
 
@@ -1455,9 +1442,9 @@ MainLoop:
 					}
 				}
 
-				this.moveToExit(target.course[0], true);
+				this.moveToExit(target.course[0], true, clearPath);
 			} else if (me.area === 4 && target.course[0] === 38) { // Stony Field -> Tristram
-				this.moveToPreset(me.area, 1, 737, 0, 0, false, true);
+				this.moveToPreset(me.area, 1, 737, 0, 0, clearPath, true);
 
 				for (i = 0; i < 5; i += 1) {
 					if (this.usePortal(38)) {
@@ -1467,10 +1454,10 @@ MainLoop:
 					delay(1000);
 				}
 			} else if (me.area === 40 && target.course[0] === 47) { // Lut Gholein -> Sewers Level 1 (use Trapdoor)
-				this.moveToPreset(me.area, 5, 19);
+				this.moveToPreset(me.area, 5, 19, 0, 0, clearPath);
 				this.useUnit(2, 74, 47);
 			} else if (me.area === 74 && target.course[0] === 46) { // Arcane Sanctuary -> Canyon of the Magi
-				this.moveToPreset(me.area, 2, 357);
+				this.moveToPreset(me.area, 2, 357, 0, 0, clearPath);
 
 				for (i = 0; i < 5; i += 1) {
 					unit = getUnit(2, 357);
@@ -1484,22 +1471,22 @@ MainLoop:
 					}
 				}
 			} else if (me.area === 54 && target.course[0] === 74) { // Palace -> Arcane
-				this.moveTo(10073, 8670);
+				this.moveTo(10073, 8670, undefined, clearPath);
 				this.usePortal(null);
 			} else if (me.area === 109 && target.course[0] === 121) { // Harrogath -> Nihlathak's Temple
 				Town.move(NPC.Anya);
 				this.usePortal(121);
 			} else if (me.area === 111 && target.course[0] === 125) { // Abaddon
-				this.moveToPreset(111, 2, 60);
+				this.moveToPreset(111, 2, 60, 0, 0, clearPath);
 				this.usePortal(125);
 			} else if (me.area === 112 && target.course[0] === 126) { // Pits of Archeon
-				this.moveToPreset(112, 2, 60);
+				this.moveToPreset(112, 2, 60, 0, 0, clearPath);
 				this.usePortal(126);
 			} else if (me.area === 117 && target.course[0] === 127) { // Infernal Pit
-				this.moveToPreset(117, 2, 60);
+				this.moveToPreset(117, 2, 60, 0, 0, clearPath);
 				this.usePortal(127);
 			} else {
-				this.moveToExit(target.course[0], true);
+				this.moveToExit(target.course[0], true, clearPath);
 			}
 
 			target.course.shift();

@@ -10,6 +10,8 @@ var StarterConfig = {
 	WaitInLineTimeout: 60 // Seconds to wait before cancelling the 'Waiting in Line...' screen
 };
 
+include("sdk.js ");
+
 
 var master, gameInfo, connectFail, makeAcc, joinInfo,
 	muleMode, muleFilename, muleObj, handle, maxCharCount,

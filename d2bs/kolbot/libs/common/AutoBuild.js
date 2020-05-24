@@ -18,6 +18,7 @@ js_strict(true);
 if (!isIncluded("common/Cubing.js")) { include("common/Cubing.js"); };
 if (!isIncluded("common/Prototypes.js")) { include("common/Prototypes.js"); };
 if (!isIncluded("common/Runewords.js")) { include("common/Runewords.js"); };
+if (!isIncluded("common/Misc.js")) { include("common/Misc.js"); };
 
 var AutoBuild = new function AutoBuild () {
 
@@ -58,7 +59,10 @@ var AutoBuild = new function AutoBuild () {
 	function getLogFilename () {
 		var d = new Date();
 		var dateString = d.getMonth()+"_"+d.getDate()+"_"+d.getFullYear();
-		return "logs/AutoBuild."+me.realm+"."+me.charname+"."+dateString+".log";
+		let dir = "logs";
+		let fname = "AutoBuild."+me.realm+"."+me.charname+"."+dateString+".log";
+		let path = [dir, fname].join("/");
+		return path;
 	};
 
 
@@ -102,7 +106,11 @@ var AutoBuild = new function AutoBuild () {
 	};
 
 
-	function log (message) { FileTools.appendText(getLogFilename(), message+"\n"); };
+	function log (message) {
+		let path = getLogFilename();
+		let mode = FileTools.exists(path) ? 2 : 1;
+		Misc.fileAction(path, mode, message+"\n");
+	};
 
 
 	// Only print to console from autobuildthread.js,

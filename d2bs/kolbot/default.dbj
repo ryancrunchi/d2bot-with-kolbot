@@ -24,6 +24,7 @@ include("common/Runewords.js");
 include("common/Storage.js");
 include("common/Town.js");
 include("common/Enums.js");
+include("sdk.js ");
 
 function main() {
 	D2Bot.init(); // Get D2Bot# handle

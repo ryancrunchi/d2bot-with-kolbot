@@ -4,6 +4,8 @@
 *	@desc		handle player attacks
 */
 
+if (!isIncluded("common/Graph.js")) include("common/Graph.js");
+
 var Attack = {
 	classes: ["Amazon", "Sorceress", "Necromancer", "Paladin", "Barbarian", "Druid", "Assassin"],
 	infinity: false,
@@ -922,6 +924,14 @@ var Attack = {
 		//this.storeStatistics(Pather.getAreaName(me.area));
 
 		return true;
+	},
+
+	clearLevelWalk: function(spectype, stop) {
+		let graph = new Graph();
+		Graph.nearestNeighbourSearch(graph, room => {
+			Pather.moveTo(room.walkableX, room.walkableY, 3, spectype || 0);
+			Attack.clear(room.xsize*0.707, spectype || 0);
+		}, stop);
 	},
 
 	// Sort monsters based on distance, spectype and classId (summoners are attacked first)

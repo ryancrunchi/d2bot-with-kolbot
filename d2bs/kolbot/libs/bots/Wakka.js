@@ -376,7 +376,7 @@ AreaInfoLoop:
 						break;
 					}
 
-					if (tick && getTickCount() - tick >= 7000) {
+					if (tick && getTickCount() - tick >= 5000) {
 						seisClear = true;
 						tick = false;
 						Precast.doPrecast();
@@ -437,6 +437,7 @@ AreaInfoLoop:
 						Pather.moveTo(7767, 5263);
 					}
 					if (diablo.mode === 0 || diablo.mode === 12) {
+						Pather.moveTo(diablo.x, diablo.y);
 						Pickit.pickItems();
 						return true;
 					}

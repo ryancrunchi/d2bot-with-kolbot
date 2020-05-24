@@ -107,11 +107,11 @@ var Precast = new function () {
 		if (item) {
 			do {
 				if (item.bodylocation === 4 || item.bodylocation === 5) {
-					sumCurr += (item.getStat(127) + item.getStat(83, classid) + item.getStat(188, skillTab) + item.getStat(107, skillId) + item.getStat(97, skillId));
+					sumCurr += (item.getStat(127) + item.getStat(83, classid) + item.getStat(Stats.ITEM_ADDSKILL_TAB, skillTab) + item.getStat(107, skillId) + item.getStat(97, skillId));
 				}
 
 				if (item.bodylocation === 11 || item.bodylocation === 12) {
-					sumSwap += (item.getStat(127) + item.getStat(83, classid) + item.getStat(188, skillTab) + item.getStat(107, skillId) + item.getStat(97, skillId));
+					sumSwap += (item.getStat(127) + item.getStat(83, classid) + item.getStat(Stats.ITEM_ADDSKILL_TAB, skillTab) + item.getStat(107, skillId) + item.getStat(97, skillId));
 				}
 			} while (item.getNext());
 		}

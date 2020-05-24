@@ -75,7 +75,7 @@ var ClassAttack = {
 					Pather.moveToUnit(unit);
 				}
 
-				print("doCast aura "+aura);
+				aura = aura || Config.AttackSkill[6];
 				this.doCast(unit, attackSkill, aura);
 			}
 
